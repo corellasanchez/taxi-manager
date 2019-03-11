@@ -1,0 +1,6 @@
+{
+  "appId": "com.taximanage.taximanager",
+  "appName": "taxi-manager",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}

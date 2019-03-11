@@ -1,0 +1,31 @@
+/**
+ * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
+ *
+ * Copyright © 2019-present Enappd. All rights reserved.
+ *
+ * This source code is licensed as per the terms found in the
+ * LICENSE.md file in the root directory of this source tree.
+ */
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { utilService } from '../services/util/util.service';
+import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class GuardsService implements CanActivate {
+
+  constructor(private authServ: AuthenticationService, private util: utilService) { }
+
+  canActivate(route: ActivatedRouteSnapshot):any {
+    return this.authServ.checkAuth().then(user =>{
+      if(user){
+        return true
+      }
+      else{
+        this.util.navigate('login',true);
+      }
+    })
+  }
+}
