@@ -11,7 +11,7 @@ import { FAQDto } from '../models/faq.model';
 import { UUID } from 'angular2-uuid';
 import { FAQDataService } from '../services/data-services/faq-data.service';
 import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
-import { utilService } from '../services/util/util.service';
+import { UtilService } from '../services/util/util.service';
 import { MenuController, IonContent } from '@ionic/angular';
 import { FirestoreService } from '../services/firestore/firestore.service';
 
@@ -33,7 +33,7 @@ export class HomePage {
   constructor(private faqDataServ: FAQDataService,
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
-    private util: utilService,
+    private util: UtilService,
     private menuCtrl: MenuController) {
     this.newFaq = this.newQuestion();
     this.util.userid.subscribe(data => {

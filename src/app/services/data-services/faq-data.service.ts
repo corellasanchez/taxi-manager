@@ -11,12 +11,12 @@ import { Observable } from 'rxjs';
 import { BaseDataService } from "./base-data.service";
 import{FAQDto} from '../../models/faq.model';
 import { FirestoreService } from "../firestore/firestore.service";
-import { utilService } from '../util/util.service';
+import { UtilService } from '../util/util.service';
 
 
 @Injectable()
 export class FAQDataService extends BaseDataService<FAQDto> {
-    constructor(private firestore: FirestoreService, private util: utilService) {
+    constructor(private firestore: FirestoreService, private util: UtilService) {
         super('faq');
     }
 

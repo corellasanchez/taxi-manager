@@ -11,14 +11,14 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from '@angular/fire/auth';
-import { utilService } from '../util/util.service';
+import { UtilService } from '../util/util.service';
 import { map } from 'rxjs/operators'
 
 @Injectable()
 export class FirestoreService {
     userid: any;
 
-    constructor(public store: AngularFirestore,private fireAuth: AngularFireAuth, private util: utilService) {
+    constructor(public store: AngularFirestore,private fireAuth: AngularFireAuth, private util: UtilService) {
         this.util.userid.subscribe(res => {
             this.userid = res;
         })

@@ -1,79 +1,72 @@
-/**
- * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
- *
- * Copyright © 2019-present Enappd. All rights reserved.
- *
- * This source code is licensed as per the terms found in the
- * LICENSE.md file in the root directory of this source tree.
- */
- .main{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-ion-card{
-    --background: rgba(0, 0, 0, 0);
-    box-shadow: none;
-    -webkit-box-shadow:none;
+ion-card {
+  --background: rgba(0, 0, 0, 0);
+  box-shadow: none;
+  -webkit-box-shadow: none;
 }
 .input {
-    background-color: rgb(240, 240, 240);
-    border: 1px solid rgb(210, 210, 210);
-    border-radius: 9px;
-    font-size: .9em !important;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(210, 210, 210);
+  border-radius: 9px;
+  font-size: 0.9em !important;
 }
-.white{
-    color: white;
+.white {
+  color: white;
 }
 
 .small {
-    font-size: 13px;
-    a{
-        text-decoration: unset !important;
-    }
+  font-size: 13px;
+  a {
+    text-decoration: unset !important;
+  }
 }
 .button-color {
-    background-color : var(--ion-color-mytheme);
+  background-color: var(--ion-color-mytheme);
 }
 .logo {
-    width: 1.25em !important;
+  width: 1.25em !important;
 }
-.grid{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.grid {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.row{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-.img-logo{
-    height: auto;
-    width: 60%;
-    margin: auto;
+.img-logo {
+  height: auto;
+  width: 60%;
+  margin: auto;
 }
-.fire-logo{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.fire-logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.btn-transition{
-    background: linear-gradient(to right, #f57c00 14%, #ffca00 96%);
+.btn-transition {
+  background: linear-gradient(to right, #f57c00 14%, #ffca00 96%);
 }
-.btn-color{
-    color:#FFA000;
+.btn-color {
+  color: #ffa000;
 }
-.bg-image {
-    background: url('../../assets/imgs/bg.png') no-repeat center center fixed;
-    background-size: cover;
-  }
-  .no-scroll .scroll-content {
-    overflow: hidden;
-  }
+.no-scroll .scroll-content {
+  overflow: hidden;
+}
 
-  .card-content-md h2{
-      color: white;
-  }
+.card-content-md h2, h6 {
+  color: white;
+}
+
+.card-content-md h2{
+  margin-bottom: 10px;
+}
+

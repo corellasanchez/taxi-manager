@@ -8,7 +8,7 @@
  */
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
-import { utilService } from '../services/util/util.service';
+import { UtilService } from '../services/util/util.service';
 import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ import { AuthenticationService } from '../services/firestore/firebase-authentica
 })
 export class GuardsService implements CanActivate {
 
-  constructor(private authServ: AuthenticationService, private util: utilService) { }
+  constructor(private authServ: AuthenticationService, private util: UtilService) { }
 
   canActivate(route: ActivatedRouteSnapshot):any {
     return this.authServ.checkAuth().then(user =>{

@@ -12,7 +12,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/firestore/firebase-authentication.service';
-import { utilService } from './services/util/util.service';
+import { UtilService } from './services/util/util.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +28,7 @@ export class AppComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private util: utilService,
+    private util: UtilService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar

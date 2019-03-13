@@ -1,13 +1,5 @@
-/**
- * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
- *
- * Copyright © 2019-present Enappd. All rights reserved.
- *
- * This source code is licensed as per the terms found in the
- * LICENSE.md file in the root directory of this source tree.
- */
 import { Component, OnInit } from '@angular/core';
-import { utilService } from '../services/util/util.service';
+import { UtilService } from '../services/util/util.service';
 import { MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
 
@@ -23,35 +15,53 @@ export class SignupPage implements OnInit {
   email = '';
   password = '';
 
-  constructor(public util:utilService, private menuCtrl: MenuController, private authServ: AuthenticationService) { 
+  constructor(
+    public util: UtilService,
+    private menuCtrl: MenuController,
+    private authServ: AuthenticationService) {
   }
 
   ngOnInit() {
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.menuCtrl.enable(false, 'start');
     this.menuCtrl.enable(false, 'end');
   }
 
-  signup(){
-    if(this.first_name != '' && this.last_name != '' && this.email != '' && this.password != '' && this.util.validateEmail(this.email)){
+  signup() {
+    if (this.first_name !== '' &&
+      this.last_name !== '' &&
+      this.email !== '' &&
+      this.password !== '' &&
+      this.util.validateEmail(this.email)) {
       this.authServ.createAccount(this.email, this.password).then(
         userData => {
-          this.util.presentToast('Thanks for Signup', true, 'bottom', 2100);
-         
-          this.util.navigate('',false);
+          this.util.presentToast('Gracias por preferirnos.', true, 'bottom', 2100);
+
+          this.util.navigate('', false);
         }
       ).catch(err => {
-        if (err){
-          this.util.presentToast(`${err}`, true, 'bottom', 2100);
-         
+        if (err) {
+
+          switch (err) {
+            case 'creation failed Error: Password should be at least 6 characters': {
+              this.util.presentToast('La contraseña debe tener al menos 6 letras o números', true, 'bottom', 5100);
+              break;
+            }
+            case 'creation failed Error: The email address is already in use by another account.': {
+              this.util.presentToast('Este correo ya esta registrado, intente con otro.', true, 'bottom', 5100);
+              break;
+            }
+            default: {
+              this.util.presentToast(`${err}`, true, 'bottom', 5100);
+              break;
+            }
+          }
         }
-       
-      })
-    }
-    else {
-      this.util.presentToast('Wrong Input/Invalid Details', true, 'bottom', 2100);
+      });
+    } else {
+      this.util.presentToast('Revise sus datos.', true, 'bottom', 2100);
     }
   }
 

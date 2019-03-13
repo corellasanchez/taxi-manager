@@ -8,7 +8,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Platform, ActionSheetController, MenuController, AlertController } from '@ionic/angular';
-import { utilService } from '../services/util/util.service';
+import { UtilService } from '../services/util/util.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { StorageService } from '../services/firestore/filestorage.service';
 import { FirestoreService } from '../services/firestore/firestore.service';
@@ -25,7 +25,7 @@ export class ImageUploadPage implements OnInit {
   public imageList: any;
   public isUpdate: any;
 
-  constructor(private firestoreServ:FirestoreService,private alertCtrl: AlertController,private menuCtrl:MenuController ,private authService:AuthenticationService , public util: utilService, public actionCtrl: ActionSheetController, public camera: Camera, private storageServ:StorageService ) {
+  constructor(private firestoreServ:FirestoreService,private alertCtrl: AlertController,private menuCtrl:MenuController ,private authService:AuthenticationService , public util: UtilService, public actionCtrl: ActionSheetController, public camera: Camera, private storageServ:StorageService ) {
   }
   ionViewDidEnter(){
     this.menuCtrl.enable(true, 'start');
