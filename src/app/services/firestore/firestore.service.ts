@@ -6,22 +6,31 @@
  * This source code is licensed as per the terms found in the
  * LICENSE.md file in the root directory of this source tree.
  */
-import { BaseDatabaseModel } from "src/app/models/base-dto.model";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { Injectable } from "@angular/core";
+
+export interface FirestoreQuery {
+    field: string;
+    operation: firebase.firestore.WhereFilterOp;
+    searchKey: string;
+}
+
+import { BaseDatabaseModel } from 'src/app/models/base-dto.model';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UtilService } from '../util/util.service';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
+
+
 
 @Injectable()
 export class FirestoreService {
     userid: any;
 
-    constructor(public store: AngularFirestore,private fireAuth: AngularFireAuth, private util: UtilService) {
+    constructor(public store: AngularFirestore, private fireAuth: AngularFireAuth, private util: UtilService) {
         this.util.userid.subscribe(res => {
             this.userid = res;
-        })
+        });
     }
 
     public create<T extends BaseDatabaseModel>(collection: string, data: T): Promise<void> {
@@ -29,7 +38,7 @@ export class FirestoreService {
     }
 
     public get<T extends BaseDatabaseModel>(collection: string): Observable<T[]> {
-        return this.store.collection<T>(collection, ref => ref.where("uid", "==", `${this.userid}`)).valueChanges();
+        return this.store.collection<T>(collection, ref => ref.where('uid', '==', `${this.userid}`)).valueChanges();
     }
 
     public getOne<T extends BaseDatabaseModel>(collection: string, id: string): Observable<T> {
@@ -48,22 +57,19 @@ export class FirestoreService {
         return this.store.doc<T>(`${collection}/${id}`).delete();
     }
 
-    public uploadFile(folderName: string,downloadUrl: string, fileName: string): Promise<any> {
+    public uploadFile(folderName: string, downloadUrl: string, fileName: string): Promise<any> {
+        // tslint:disable-next-line:max-line-length
         return this.store.collection<{ downloadUrl: string, fileName: string, uid: string }>(`fileReferences`).add({ downloadUrl: downloadUrl, fileName: fileName, uid: this.userid });
     }
     public getImages(): Observable<any> {
-        return this.store.collection("fileReferences", ref => ref.where("uid", "==", `${this.userid}`)).snapshotChanges().pipe(map(actions => {       
+        // tslint:disable-next-line:max-line-length
+        return this.store.collection('fileReferences', ref => ref.where('uid', '==', `${this.userid}`)).snapshotChanges().pipe(map(actions => {
             return actions.map(a => {
-              const data = a.payload.doc.data();
-              data["id"] = a.payload.doc.id;
-              return data;
+                const data = a.payload.doc.data();
+                data['id'] = a.payload.doc.id;
+                return data;
             });
-          }));
+        }));
     }
 }
 
-export interface FirestoreQuery {
-    field: string,
-    operation: firebase.firestore.WhereFilterOp
-    searchKey: string
-}

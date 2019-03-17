@@ -6,6 +6,7 @@ import { UserDataService } from '../data-services/user-data.service';
 import { User } from 'firebase';
 import { resolve } from 'url';
 import { UtilService } from '../util/util.service';
+import { UserModel } from 'src/app/models/user.model';
 
 export class AuthInfo {
     constructor(public $uid: string) { }
@@ -30,6 +31,7 @@ export class AuthenticationService {
             }
         });
     }
+
     public forgotPassoword(email: string) {
         this.fireAuth.auth.sendPasswordResetEmail(email).then(() => {
             this.util.presentToast('Revisa tu correo.', true, 'bottom', 2100);
@@ -53,23 +55,23 @@ export class AuthenticationService {
 
     }
 
-    public createAccount(email: string, password: string): Promise<any> {
+    public createAccount(user: any): Promise<any> {
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise<any>((resolve, reject) => {
-            this.fireAuth.auth.createUserWithEmailAndPassword(email, password)
+            this.fireAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
                 .then(res => {
                     if (res.user) {
                         this.authInfo$.next(new AuthInfo(res.user.uid));
                         this.userDataServ.create({
-                            email: email,
+                            email: user.email,
                             id: res.user.uid,
-                            username: res.user.displayName
+                            name: user.name,
+                            last_name: user.last_name
                         });
                         resolve(res.user);
                     }
                 })
                 .catch(err => {
-
                     this.authInfo$.next(AuthenticationService.UNKNOWN_USER);
                     reject(`creation failed ${err}`);
                 });

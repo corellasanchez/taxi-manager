@@ -7,23 +7,23 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input type="text" placeholder="Nombre" [(ngModel)]="first_name" class="input" padding-horizontal>
+            <ion-input type="text" placeholder="Nombre" [(ngModel)]="user.name" class="input" padding-horizontal>
             </ion-input>
           </ion-col>
           <ion-col>
-            <ion-input type="text" placeholder="Apellidos" [(ngModel)]="last_name" class="input" padding-horizontal>
-            </ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="email" class="input" padding-horizontal>
+            <ion-input type="text" placeholder="Apellidos" [(ngModel)]="user.last_name" class="input" padding-horizontal>
             </ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input clearInput type="password" placeholder="Contraseña" [(ngModel)]="password" class="input"
+            <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="user.email" class="input" padding-horizontal>
+            </ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input clearInput type="password" placeholder="Contraseña" [(ngModel)]="user.password" class="input"
               padding-horizontal></ion-input>
           </ion-col>
         </ion-row>

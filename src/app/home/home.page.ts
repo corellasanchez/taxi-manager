@@ -1,15 +1,7 @@
-/**
- * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
- *
- * Copyright © 2019-present Enappd. All rights reserved.
- *
- * This source code is licensed as per the terms found in the
- * LICENSE.md file in the root directory of this source tree.
- */
 import { Component, ViewChild } from '@angular/core';
 import { FAQDto } from '../models/faq.model';
 import { UUID } from 'angular2-uuid';
-import { FAQDataService } from '../services/data-services/faq-data.service';
+import { CarService } from '../services/data-services/car.service';
 import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
 import { UtilService } from '../services/util/util.service';
 import { MenuController, IonContent } from '@ionic/angular';
@@ -30,7 +22,7 @@ export class HomePage {
   customAlertOptions: any = {
     header: 'Filter',
   };
-  constructor(private faqDataServ: FAQDataService,
+  constructor(private faqDataServ: CarService,
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
     private util: UtilService,
@@ -55,22 +47,22 @@ export class HomePage {
   scroll() {
     this.content.scrollToTop(300);
   }
-  addQuestionToDB() {
-    this.newFaq.uid = this.uid;
-    if (this.newFaq.question.trim().length && this.newFaq.answer.trim().length && this.newFaq.tag.trim().length) {
-      this.faqDataServ.create(this.newFaq).then(
-        _ => {
-          this.newFaq = this.newQuestion()
-          this.util.presentToast('question Added', true, 'bottom', 2100);
-        }
-      ).catch(err => {
+  // addQuestionToDB() {
+  //   this.newFaq.uid = this.uid;
+  //   if (this.newFaq.question.trim().length && this.newFaq.answer.trim().length && this.newFaq.tag.trim().length) {
+  //     this.faqDataServ.create(this.newFaq).then(
+  //       _ => {
+  //         this.newFaq = this.newQuestion()
+  //         this.util.presentToast('question Added', true, 'bottom', 2100);
+  //       }
+  //     ).catch(err => {
 
 
-      });
-    } else {
-      this.util.presentToast('Please Fill Fields', true, 'bottom', 2100);
-    }
-  }
+  //     });
+  //   } else {
+  //     this.util.presentToast('Please Fill Fields', true, 'bottom', 2100);
+  //   }
+  // }
   newQuestion() {
     this.isUpdate = false;
     return {
@@ -81,14 +73,14 @@ export class HomePage {
       tag: ''
     };
   }
-  editQuestion(questionId: string) {
-    this.faqDataServ.getOne(questionId).subscribe(
-      questionData => {
-        this.newFaq = questionData;
-        this.isUpdate = true;
-      }
-    );
-  }
+  // editQuestion(questionId: string) {
+  //   this.faqDataServ.getOne(questionId).subscribe(
+  //     questionData => {
+  //       this.newFaq = questionData;
+  //       this.isUpdate = true;
+  //     }
+  //   );
+  // }
   updateQuestion() {
     if (this.newFaq.question.trim().length && this.newFaq.answer.trim().length && this.newFaq.tag.trim().length) {
       this.faqDataServ.update(this.newFaq).then(

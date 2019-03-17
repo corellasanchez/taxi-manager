@@ -1,13 +1,3 @@
-/**
- * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
- *
- * Copyright © 2019-present Enappd. All rights reserved.
- *
- * This source code is licensed as per the terms found in the
- * LICENSE.md file in the root directory of this source tree.
- */
-
-
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, NavController, AlertController } from '@ionic/angular';
@@ -34,7 +24,9 @@ export class UtilService {
 
   getUserId() {
     this.fireAuth.auth.onAuthStateChanged(user => {
-      this.userid.next(user.uid);
+      if (user) {
+        this.userid.next(user.uid);
+      }
     });
   }
 
@@ -47,6 +39,7 @@ export class UtilService {
   }
 
   validateEmail(email) {
+    // tslint:disable-next-line:max-line-length
     const re = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
@@ -64,14 +57,14 @@ export class UtilService {
   }
 
 
-  removeConform(): Promise<any> {
+  removeConform(id?: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
-        header: 'Confirm!',
-        message: 'Are you sure you want to remove this item',
+        header: 'Confirmar!',
+        message: 'Estas seguro que deseas eliminar este elemento. <br><strong>' + id + '</strong>',
         buttons: [
           {
-            text: 'Cancel',
+            text: 'Cancelar',
             role: 'cancel',
             cssClass: 'secondary',
             handler: (cancel) => {
@@ -79,7 +72,7 @@ export class UtilService {
               resolve('cancel');
             }
           }, {
-            text: 'Okay',
+            text: 'Sí',
             handler: (ok) => {
 
               resolve('ok');
@@ -143,7 +136,7 @@ export class UtilService {
           reject({ message: 'El archivo no existe.' });
         });
       }, (err) => {
-        console.log('Error', err );
+        console.log('Error', err);
       });
     });
   }

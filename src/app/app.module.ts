@@ -24,12 +24,14 @@ import { AuthenticationService } from './services/firestore/firebase-authenticat
 import { UserDataService } from './services/data-services/user-data.service';
 
 import { FirestoreService } from './services/firestore/firestore.service';
-import { FAQDataService } from './services/data-services/faq-data.service';
+import { CarService } from './services/data-services/car.service';
 import { StorageService } from './services/firestore/filestorage.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { UppercaseDirective } from './directives/uppercase.directive';
+
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, UppercaseDirective],
   entryComponents: [],
   imports: [BrowserModule,
     IonicModule.forRoot(),
@@ -43,7 +45,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     UserDataService,
-    FAQDataService,
+    CarService,
     AuthenticationService,
     FirestoreService,
     StorageService,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UtilService } from '../services/util/util.service';
 import { MenuController } from '@ionic/angular';
 import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
+import { UserModel } from '../models/user.model';
 
 @Component({
   selector: 'app-signup',
@@ -10,10 +11,7 @@ import { AuthenticationService } from '../services/firestore/firebase-authentica
 })
 export class SignupPage implements OnInit {
 
-  first_name = '';
-  last_name = '';
-  email = '';
-  password = '';
+  user: UserModel;
 
   constructor(
     public util: UtilService,
@@ -22,6 +20,7 @@ export class SignupPage implements OnInit {
   }
 
   ngOnInit() {
+    this.user = new UserModel(null, '', '', '');
   }
 
   ionViewDidEnter() {
@@ -30,12 +29,12 @@ export class SignupPage implements OnInit {
   }
 
   signup() {
-    if (this.first_name !== '' &&
-      this.last_name !== '' &&
-      this.email !== '' &&
-      this.password !== '' &&
-      this.util.validateEmail(this.email)) {
-      this.authServ.createAccount(this.email, this.password).then(
+    if (this.user.name !== '' &&
+      this.user.last_name !== '' &&
+      this.user.email !== '' &&
+      this.user.password !== '' &&
+      this.util.validateEmail(this.user.email)) {
+      this.authServ.createAccount(this.user).then(
         userData => {
           this.util.presentToast('Gracias por preferirnos.', true, 'bottom', 2100);
 

@@ -11,10 +11,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { GuardsService } from './guards/guards.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'cars', pathMatch: 'full' },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' , canActivate: [GuardsService] },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+  { path: 'cars', loadChildren: './cars/cars.module#CarsComponentModule' },
   { path: 'images', loadChildren: './image-upload/image-upload.module#ImageUploadPageModule' }
 ];
 

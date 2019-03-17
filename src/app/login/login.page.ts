@@ -48,7 +48,7 @@ export class LoginPage implements OnInit {
       this.util.openLoader();
       this.authServ.login(this.email, this.password).then(
         userData => {
-          this.util.navigate('home', false);
+          this.util.navigate('cars', false);
           this.email = '';
           this.password = '';
         }

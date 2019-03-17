@@ -22,7 +22,7 @@ import { UtilService } from './services/util/util.service';
 export class AppComponent {
 
   public appMenu = [
-    { title: 'Data operation', url: '/home', icon: 'help' },
+    { title: 'Vehículos', url: '/cars', icon: 'car' },
     { title: 'Storage', url: '/images', icon: 'images' },
   ];
 
