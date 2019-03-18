@@ -24,9 +24,7 @@ export class UtilService {
 
   getUserId() {
     this.fireAuth.auth.onAuthStateChanged(user => {
-      if (user) {
         this.userid.next(user.uid);
-      }
     });
   }
 
@@ -57,11 +55,11 @@ export class UtilService {
   }
 
 
-  removeConform(id?: string): Promise<any> {
+  removeConform(id?: string, showId?: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
         header: 'Confirmar!',
-        message: 'Estas seguro que deseas eliminar este elemento. <br><strong>' + id + '</strong>',
+        message: 'Estas seguro que deseas eliminar este elemento. <br><strong>' + (showId ? showId : id) + '</strong>',
         buttons: [
           {
             text: 'Cancelar',

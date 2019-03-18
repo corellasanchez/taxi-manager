@@ -1,37 +1,19 @@
-import { Directive, EventEmitter, HostListener, Output, ElementRef } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, ElementRef, OnChanges } from '@angular/core';
 
 @Directive({
-  selector: '[appUppercase]'
+    selector: '[appUppercase]'
 })
-export class UppercaseDirective {
-  private regex: RegExp = this.regex = new RegExp(/^[a-zA-Z0-9]*$/);
+export class UppercaseDirective implements OnChanges {
+    private regex: RegExp = this.regex = new RegExp(/^[a-zA-Z0-9]*$/);
 
-  private specialKeys: Array<string> = [ 'Backspace', 'Tab', 'End', 'Home'];
+    @Input() public number: any;
+    @Input() public input: any;
 
-  constructor(private el: ElementRef) { }
+    constructor(private el: ElementRef) { }
 
-  @Output() ngModelChange: EventEmitter<any> = new EventEmitter();
-  value: any;
-
-  @HostListener('input', ['$event']) onInputChange($event) {
-    this.value = $event.target.value.toUpperCase();
-    this.ngModelChange.emit(this.value);
-  }
-
-
-  @HostListener('keydown', [ '$event' ])
-  onKeyDown(event: KeyboardEvent) {
-
-    // Allow Backspace, tab, end, and home keys
-    if (this.specialKeys.indexOf(event.key) !== -1) {
-      return;
+    @HostListener('input', ['$event']) ngOnChanges(event: any) {
+            this.el.nativeElement.value = this.el.nativeElement.value.toUpperCase();
+            this.el.nativeElement.value = this.el.nativeElement.value.replace(/[^a-zA-Z0-9-]/g, '');
+            event.preventDefault();
     }
-
-    const current: string = this.el.nativeElement.value;
-    const next: string = current.concat(event.key);
-
-    if (next && !String(next).match(this.regex)) {
-      event.preventDefault();
-    }
-  }
 }

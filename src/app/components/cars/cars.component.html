@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content padding #content>
-  
+
   <div class="form-container">
     <ion-text color="medium">
       <h1> Registrar un nuevo vehículo.</h1>
@@ -18,8 +18,11 @@
       <ion-item lines="none" class="item-1" margin-bottom>
         <ion-label position="stacked" class="label"> <strong class="align">* Placa : </strong></ion-label>
         <ion-input (ionFocus)="scroll()" [(ngModel)]="car.id" name="id" placeholder="Placa del vehículo" class="input"
-          clear-input="true" maxlength="15"></ion-input>
+          clear-input="true" maxlength="15" appUppercase name="id"></ion-input>
       </ion-item>
+      <br>
+      <ion-label class="label"> <strong class="align">* Marca : </strong></ion-label>
+      <br>
       <ion-item class="item-3" lines="none" margin-bottom>
         <ion-label class="lableTag">* Marca
         </ion-label>
@@ -30,8 +33,11 @@
       <ion-item lines="none" class="item-1" margin-bottom>
         <ion-label position="stacked" class="label"> <strong class="align">* Modelo: </strong></ion-label>
         <ion-input (ionFocus)="scroll()" [(ngModel)]="car.model" name="model" placeholder="Modelo del vehículo"
-          class="input" clear-input="true"></ion-input>
+          class="input" clear-input="true" id="model" appUppercase></ion-input>
       </ion-item>
+      <br>
+      <ion-label class="label"> <strong class="align">* Año: </strong></ion-label>
+      <br>
       <ion-item class="item-3" lines="none" margin-bottom>
         <ion-label>Año</ion-label>
         <ion-select placeholder="Año" okText="Seleccionar" cancelText="Cerrar" name="year" [(ngModel)]="car.year">
@@ -59,41 +65,41 @@
     </form>
   </div>
   <div *ngIf="!carList?.length > 0">
-      <h1>No tienes vehículos disponibles. </h1>
-    </div>
-    <div *ngIf="carList?.length > 0" class="spinner">
-      <h1>Vehículos disponibles. </h1>
-    </div>
-    <div class="scroll borderb" scrolly="true" margin-top>
-      <ion-grid class="scrollContent">
-        <ion-row>
-          <ion-card class="card" no-margin>
-            <ion-card-content no-padding>
-              <ion-grid no-padding>
-                <ion-row *ngFor="let i of carList">
-                  <ion-col size="8">
-                    <ion-item lines="none" class="item-2">
-                      <div>
-                        <ion-label class="label-2">
-                          <h3>{{i.id}}</h3>
-                        </ion-label>
-                        <ion-label class="label-2">
-                          <div class="small-color" [ngStyle]="{'background-color': i.color }"></div>
-                          <p>{{i.brand}} - {{i.model}}</p>
-                        </ion-label>
-                      </div>
-                    </ion-item>
-                  </ion-col>
-                  <ion-col size="4" class="edit">
-                    <ion-button color="danger" (click)="deleteCar(i.id)">
-                      <ion-icon name="trash"></ion-icon>
-                    </ion-button>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-            </ion-card-content>
-          </ion-card>
-        </ion-row>
-      </ion-grid>
-    </div>
+    <h1>No tienes vehículos disponibles. </h1>
+  </div>
+  <div *ngIf="carList?.length > 0" class="spinner">
+    <h1>Vehículos disponibles. </h1>
+  </div>
+  <div class="scroll borderb" scrolly="true" margin-top>
+    <ion-grid class="scrollContent">
+      <ion-row>
+        <ion-card class="card" no-margin>
+          <ion-card-content no-padding>
+            <ion-grid no-padding>
+              <ion-row *ngFor="let i of carList">
+                <ion-col size="8">
+                  <ion-item lines="none" class="item-2">
+                    <div>
+                      <ion-label class="label-2">
+                        <h2>{{i.id}}</h2>
+                      </ion-label>
+                      <ion-label class="label-2">
+                        <div class="small-color" [ngStyle]="{'background-color': i.color }"></div>
+                        <p>{{i.brand}} - {{i.model}}</p>
+                      </ion-label>
+                    </div>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="4" class="edit">
+                  <ion-button color="danger" (click)="deleteCar(i.id)">
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

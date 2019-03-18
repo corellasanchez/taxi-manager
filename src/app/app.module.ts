@@ -25,13 +25,13 @@ import { UserDataService } from './services/data-services/user-data.service';
 
 import { FirestoreService } from './services/firestore/firestore.service';
 import { CarService } from './services/data-services/car.service';
+import { DriverService } from './services/data-services/driver.service';
 import { StorageService } from './services/firestore/filestorage.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { UppercaseDirective } from './directives/uppercase.directive';
 
 
 @NgModule({
-  declarations: [AppComponent, UppercaseDirective],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule,
     IonicModule.forRoot(),
@@ -46,6 +46,7 @@ import { UppercaseDirective } from './directives/uppercase.directive';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     UserDataService,
     CarService,
+    DriverService,
     AuthenticationService,
     FirestoreService,
     StorageService,

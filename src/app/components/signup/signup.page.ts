@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UtilService } from '../services/util/util.service';
+import { UtilService } from '../../services/util/util.service';
 import { MenuController } from '@ionic/angular';
-import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
-import { UserModel } from '../models/user.model';
+import { AuthenticationService } from '../../services/firestore/firebase-authentication.service';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-signup',

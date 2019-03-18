@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { Car } from '../models/car.model';
+import { Car } from '../../models/car.model';
 import { UUID } from 'angular2-uuid';
-import { CarService } from '../services/data-services/car.service';
-import { AuthenticationService } from '../services/firestore/firebase-authentication.service';
-import { UtilService } from '../services/util/util.service';
+import { CarService } from '../../services/data-services/car.service';
+import { AuthenticationService } from '../../services/firestore/firebase-authentication.service';
+import { UtilService } from '../../services/util/util.service';
 import { MenuController, IonContent } from '@ionic/angular';
-import { FirestoreService } from '../services/firestore/firestore.service';
+import { FirestoreService } from '../../services/firestore/firestore.service';
 import * as moment from 'moment';
 
 

@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
-
 import { CarsComponent } from './cars.component';
+import { UppercaseDirective } from '../../directives/uppercase.directive';
 
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CarsComponent]
+  declarations: [CarsComponent, UppercaseDirective]
 })
 export class CarsComponentModule {}
 
