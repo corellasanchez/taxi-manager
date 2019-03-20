@@ -15,7 +15,7 @@ export class AppComponent {
 
   public appMenu = [
     { title: 'Vehículos', url: '/cars', icon: 'car' },
-    { title: 'Choferes', url: '/drivers', icon: 'contacts' },
+    { title: 'Conductores', url: '/drivers', icon: 'contacts' },
   ];
 
   constructor(

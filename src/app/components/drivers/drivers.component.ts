@@ -7,6 +7,8 @@ import { UtilService } from '../../services/util/util.service';
 import { MenuController, IonContent } from '@ionic/angular';
 import { FirestoreService } from '../../services/firestore/firestore.service';
 import * as moment from 'moment';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-drivers',
@@ -21,6 +23,7 @@ export class DriversComponent {
   public uid: string;
   public filtertag: any;
   private percentages: Array<number>;
+
   customAlertOptions: any = {
     header: 'Filter',
   };
@@ -28,7 +31,8 @@ export class DriversComponent {
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
     private util: UtilService,
-    private menuCtrl: MenuController) {
+    private menuCtrl: MenuController,
+    private fireAuth: AngularFireAuth) {
     this.percentages = Array(100).fill(0).map((x, i) => i);
     this.driver = this.newDriver();
     this.getUID();
@@ -45,12 +49,19 @@ export class DriversComponent {
   }
 
   addDriver() {
-    if (this.driver.id && this.driver.name.trim().length > 0) {
+    if (this.driver.id &&
+      this.driver.name.trim().length > 0 &&
+      this.driver.email !== '' &&
+      this.driver.password !== '' &&
+      this.util.validateEmail(this.driver.email),
+      this.driver.password.length >= 6
+      ) {
       this.driver.uid = this.uid;
       this.driver.name = this.driver.name[0].toUpperCase() + this.driver.name.slice(1);
+      this.driver.last_name = this.driver.last_name[0].toUpperCase() + this.driver.last_name.slice(1);
       this.driverService.create(this.driver).then(
         _ => {
-          this.util.presentToast('Chofer agregado', true, 'bottom', 2100);
+          this.util.presentToast('Chofer asignado a su cuenta', true, 'bottom', 2100);
           this.driver = this.newDriver();
         }
       ).catch(err => {
@@ -69,7 +80,9 @@ export class DriversComponent {
       last_name: '',
       uid: '',
       percentage: 30,
-      phone: ''
+      phone: '',
+      email: '',
+      password: ''
     };
   }
 
@@ -90,7 +103,7 @@ export class DriversComponent {
   getUID() {
     this.util.userid.subscribe(data => {
       this.uid = data;
-      console.log(this.uid );
+      console.log(this.uid);
       this.getDriverList();
     });
   }

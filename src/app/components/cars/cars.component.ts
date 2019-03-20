@@ -55,6 +55,7 @@ export class CarsComponent {
     if (this.car.id.trim().length > 0 && this.car.model.trim().length > 0) {
       this.car.uid = this.uid;
       this.car.id = this.car.id.toUpperCase();
+      this.car.brand = this.car.brand.toUpperCase();
       this.car.model =  this.car.model[0].toUpperCase() + this.car.model.slice(1);
       this.carService.create(this.car).then(
         _ => {

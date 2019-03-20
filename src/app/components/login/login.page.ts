@@ -6,6 +6,7 @@ import { UtilService } from '../../services/util/util.service';
 import { AuthenticationService } from '../../services/firestore/firebase-authentication.service';
 import { IfStmt } from '@angular/compiler';
 import { LoadingController } from '@ionic/angular';
+import { UserDataService } from '../../services/data-services/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +17,15 @@ export class LoginPage implements OnInit {
 
   email = '';
   password = '';
+  uid = '';
 
   constructor(private platform: Platform, public loadingController: LoadingController,
     public alertController: AlertController,
     private splashScreen: SplashScreen,
     public util: UtilService,
     private menuCtrl: MenuController,
-    private authServ: AuthenticationService) {
+    private authServ: AuthenticationService,
+    private userDataService: UserDataService) {
   }
 
   ngOnInit() {
@@ -41,9 +44,9 @@ export class LoginPage implements OnInit {
       this.util.openLoader();
       this.authServ.login(this.email, this.password).then(
         userData => {
-          this.util.navigate('cars', false);
           this.email = '';
           this.password = '';
+          this.util.navigate('cars', false);
         }
       ).catch(err => {
         if (err) {
@@ -55,6 +58,16 @@ export class LoginPage implements OnInit {
     } else {
       this.util.presentToast('Ingrese su email y contraseña', true, 'bottom', 3100);
     }
+  }
+
+  verifyUserRole(uid: string) {
+    this.userDataService.getOne(uid).subscribe(userData => {
+      if (userData) {
+        this.util.navigate('cars', false);
+      } else {
+        this.util.presentToast('Su usuario no es administrador intente ingresar como chofer.', true, 'bottom', 5100);
+      }
+    });
   }
 
   async forgotPassword() {

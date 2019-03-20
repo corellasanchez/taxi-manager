@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { SignupPage } from './signup.page';
 
+import { NumberDirective } from '../../directives/number.directive';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +24,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SignupPage]
+  declarations: [SignupPage, NumberDirective]
 })
 export class SignupPageModule {}

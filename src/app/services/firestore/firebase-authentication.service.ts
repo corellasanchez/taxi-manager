@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserDataService } from '../data-services/user-data.service';
+import { DriverService } from '../data-services/driver.service';
 import { User } from 'firebase';
 import { resolve } from 'url';
 import { UtilService } from '../util/util.service';
@@ -21,7 +22,10 @@ export class AuthenticationService {
     static UNKNOWN_USER = new AuthInfo(null);
     public authInfo$: BehaviorSubject<AuthInfo> = new BehaviorSubject<AuthInfo>(AuthenticationService.UNKNOWN_USER);
 
-    constructor(private fireAuth: AngularFireAuth, private userDataServ: UserDataService, private util: UtilService) {
+    constructor(
+        private fireAuth: AngularFireAuth,
+        private userDataServ: UserDataService,
+        private util: UtilService) {
 
         this.fireAuth.authState.pipe(
             take(1)
@@ -66,7 +70,8 @@ export class AuthenticationService {
                             email: user.email,
                             id: res.user.uid,
                             name: user.name,
-                            last_name: user.last_name
+                            last_name: user.last_name,
+                            phone: user.phone
                         });
                         resolve(res.user);
                     }
@@ -77,6 +82,8 @@ export class AuthenticationService {
                 });
         });
     }
+
+
 
     public login(email: string, password: string): Promise<any> {
         // tslint:disable-next-line:no-shadowed-variable

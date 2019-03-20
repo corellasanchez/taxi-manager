@@ -35,10 +35,28 @@
       </ion-item>
 
       <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Teléfono Célular : </strong></ion-label>
-        <ion-input [(ngModel)]="driver.phone" name="phone" placeholder="Teléfono Célular" class="input"
-          clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
-      </ion-item> <br>
+          <ion-label position="stacked" class="label"> <strong class="align">* Teléfono Célular : </strong></ion-label>
+          <ion-input [(ngModel)]="driver.phone" name="phone" placeholder="Teléfono Célular" class="input"
+            clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
+        </ion-item>
+
+      <ion-item lines="none" class="item-1" margin-bottom>
+          <ion-label position="stacked" class="label"> <strong class="align">* Email : </strong></ion-label>
+          <ion-input [(ngModel)]="driver.email" name="last_name" placeholder="Email" class="input"
+            clear-input="true">
+          </ion-input>
+        </ion-item>
+
+      <ion-item lines="none" class="item-1" margin-bottom>
+            <ion-label position="stacked" class="label"> <strong class="align">* Contraseña : </strong></ion-label>
+            <ion-input [(ngModel)]="driver.password" name="password" placeholder="Contraseña" class="input"
+              clear-input="true">
+            </ion-input>
+      </ion-item>
+      <small> Si el conductor trabaja para otro patrón se mantendrá la contraseña anterior, la contraseña debe tener mas de 6 caracteres.</small>
+      <br>
+      <br>
+     <br>
       <ion-label position="stacked" class="label"> <strong class="align">* Porcentaje de lo recaudado para el chofer :
           {{driver.percentage}}%
         </strong></ion-label>

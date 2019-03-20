@@ -22,6 +22,12 @@
           </ion-col>
         </ion-row>
         <ion-row>
+        <ion-col>
+           <ion-input [(ngModel)]="user.phone" name="phone" placeholder="Teléfono Célular" class="input"
+            clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
+        </ion-col>
+      </ion-row>
+        <ion-row>
           <ion-col>
             <ion-input clearInput type="password" placeholder="Contraseña" [(ngModel)]="user.password" class="input"
               padding-horizontal></ion-input>
