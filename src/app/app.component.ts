@@ -13,10 +13,9 @@ import { UtilService } from './services/util/util.service';
 })
 export class AppComponent {
 
-  public appMenu = [
-    { title: 'Vehículos', url: '/cars', icon: 'car' },
-    { title: 'Conductores', url: '/drivers', icon: 'contacts' },
-  ];
+  public appMenu = [];
+
+  rol: string;
 
   constructor(
     private authService: AuthenticationService,
@@ -28,16 +27,34 @@ export class AppComponent {
     this.initializeApp();
   }
   logout() {
-    console.log('logout item');
     this.authService.logout().then(() => {
       this.util.navigate('login', false);
     });
+  }
+
+  getRol() {
+    this.authService.authInfo$.subscribe(user => {
+      console.log(user);
+      if (user.$uid) {
+        this.appMenu = [
+          { title: 'Vehículos', url: '/cars', icon: 'car' },
+          { title: 'Conductores', url: '/drivers', icon: 'contacts' },
+        ];
+      } else {
+        this.appMenu = [
+          { title: 'Registrar Gasto', url: '/cars', icon: 'car' },
+          { title: 'Cierre de turno', url: '/drivers', icon: 'contacts' },
+        ];
+      }
+    });
+
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.getRol();
     });
   }
 }

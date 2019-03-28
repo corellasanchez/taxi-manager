@@ -11,6 +11,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class UtilService {
   userid: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  rol: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
     public loadingController: LoadingController,
@@ -26,6 +27,10 @@ export class UtilService {
     this.fireAuth.auth.onAuthStateChanged(user => {
         this.userid.next(user.uid);
     });
+  }
+
+  setRol(rol: string) {
+    this.userid.next(rol);
   }
 
   navigate(link, forward?) {

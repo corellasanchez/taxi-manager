@@ -7,8 +7,8 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input clearInput type="email" placeholder="Email" [(ngModel)]="email" class="input" padding-horizontal
-              clear-input="true"></ion-input>
+            <ion-input type="text" [(ngModel)]="ssn" name="ssn"
+            placeholder="Cédula de identidad" class="input" clear-input="true" maxlength="15" appNumberOnly></ion-input>   
           </ion-col>
         </ion-row>
         <ion-row>

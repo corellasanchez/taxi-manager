@@ -51,9 +51,7 @@ export class DriversComponent {
   addDriver() {
     if (this.driver.id &&
       this.driver.name.trim().length > 0 &&
-      this.driver.email !== '' &&
       this.driver.password !== '' &&
-      this.util.validateEmail(this.driver.email),
       this.driver.password.length >= 6
     ) {
       this.driver.uid = this.uid;
@@ -81,7 +79,6 @@ export class DriversComponent {
       uid: '',
       percentage: 30,
       phone: '',
-      email: '',
       password: ''
     };
   }

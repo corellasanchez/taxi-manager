@@ -42,9 +42,9 @@ export class DriverService extends BaseDataService<Driver> {
         return this.firestore.create(this.baseCollection, data);
     }
 
-    public driverLogin(email: string, password: string) {
+    public driverLogin(ssn: string, password: string) {
         return this.firestore.store.collection<Driver>('driver',
-            ref => ref.where('email', '==', email)
+            ref => ref.where('ssn', '==', ssn)
                 .where('password', '==', password)).valueChanges();
     }
 }

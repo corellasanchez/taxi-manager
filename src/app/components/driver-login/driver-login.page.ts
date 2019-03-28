@@ -15,7 +15,7 @@ import { DriverService } from '../../services/data-services/driver.service';
 })
 export class DriverLoginPage implements OnInit {
 
-  email = '';
+  ssn = '';
   password = '';
   uid = '';
 
@@ -40,60 +40,29 @@ export class DriverLoginPage implements OnInit {
   }
 
   signin() {
-    if (this.util.validateEmail(this.email) && this.password !== '') {
+    if (this.ssn !== '' && this.password !== '') {
       this.util.openLoader();
-      this.authServ.anonimousLogin(this.email, this.password).then(
+      this.authServ.anonimousLogin(this.ssn, this.password).then(
         userData => {
           console.log(userData);
-          this.email = '';
+          this.ssn = '';
           this.password = '';
-         // this.util.navigate('cars', false);
-
+          this.util.navigate('driver-lobby', false);
         }
       ).catch(err => {
         if (err) {
           this.util.presentToast(`${err}`, true, 'bottom', 3100);
-
         }
-
       }).then(el => this.util.closeLoading());
     } else {
-      this.util.presentToast('Ingrese su email y contraseña', true, 'bottom', 3100);
+      this.util.presentToast('Ingrese su cédula y contraseña', true, 'bottom', 3100);
     }
   }
 
 
 
   async forgotPassword() {
-    const alert = await this.alertController.create({
-      header: 'Olvide mi contraseña',
-      backdropDismiss: false,
-      inputs: [
-        {
-          name: 'name1',
-          type: 'email',
-          placeholder: 'Ingresa tu email',
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cerrar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (res) => {
-
-          }
-        }, {
-          text: 'Ok',
-          handler: (res) => {
-            const value = this.util.validateEmail(res.name1);
-            this.authServ.forgotPassoword(res.name1);
-            return value;
-          }
-        }
-      ]
-    });
-    await alert.present();
+    this.util.presentToast('Pregunta a tu administrador por tu contraseña.', true, 'bottom', 2100);
   }
 
 }

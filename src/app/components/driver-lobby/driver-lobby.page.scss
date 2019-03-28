@@ -1,0 +1,146 @@
+
+ion-header {
+  --background: linear-gradient(to right, #3a7bd5 14%, #3a7bd5 96%);
+}
+ion-toolbar{
+  --background: linear-gradient(to right, #3a7bd5 14%, #3a7bd5 96%);
+}
+ion-title{
+text-align:center;
+color: White;
+}
+.form-container {
+  text-align: center;
+}
+.btn-menu{
+ 
+  color: White;
+}
+.person-icon{
+ 
+  color: White;
+}
+.scroll{
+  overflow: scroll;
+  height: 54vh;
+  margin-bottom: 16px;
+}
+.label{
+  font-size: 14px;
+  padding: 8px 0px;
+}
+.input {
+      background-color: rgb(240, 240, 240);
+      border: 1px solid rgb(210, 210, 210);
+      border-radius: 5px;
+      font-size: 1.2em !important;
+      --padding-start:8px;
+    
+  }
+.item-1{
+      --padding-start:0px;
+      --padding-end: 0px;
+      --inner-padding-end:0px !important;
+      padding-inline-end: 0px!important;
+      -webkit-padding-end: 0 !important;
+  padding-inline-end: 0 !important;
+     
+}
+.item-3{
+ --background: #f0f0f0;
+ --padding-start:8px;
+ --padding-end: 0px;
+ --inner-padding-end:0px !important;
+ padding-inline-end: 0px!important;
+ -webkit-padding-end: 0 !important;
+padding-inline-end: 0 !important;
+}
+
+.card{
+  width: 100%;
+}
+.lableTag{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.clearFilter{
+  --background:#f0f0f0;
+}
+.hide-filter{
+  display: none;
+}
+.btn-add{
+  background: #ffc422;
+  color: black;
+}
+.add{
+  background: #FFA000;
+  
+}
+.label-2{
+  padding: 4px 0px;
+  width: 40vw;
+  white-space: nowrap; 
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.edit{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.btn-color{
+
+  color: #FFA000
+}
+.btn-light{
+background: #FFCA28;
+color: black;
+}
+.spinner{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+}
+.align{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.required{
+  color: red;
+  font-size: 10px;
+}
+
+ion-icon {
+  font-size: 20px; //Preferred size here
+}
+
+.icon-inner{
+  background-color: red;
+}
+
+.color-square{
+  border: solid thin #ccc;
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.small-color{
+  border: solid thin #ccc;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  margin-top:10px; 
+}
+
+

@@ -27,7 +27,7 @@ export class AuthenticationService {
         private userDataServ: UserDataService,
         private util: UtilService,
         private driverService: DriverService
-        ) {
+    ) {
 
         this.fireAuth.authState.pipe(
             take(1)
@@ -94,6 +94,7 @@ export class AuthenticationService {
                 .then(res => {
                     if (res.user) {
                         this.authInfo$.next(new AuthInfo(res.user.uid));
+                        this.util.setRol('admin');
                         resolve(res.user);
                     }
                 })
@@ -117,21 +118,21 @@ export class AuthenticationService {
         });
     }
 
-    public anonimousLogin(email: string, password: string): Promise<any> {
+    public anonimousLogin(ssn: string, password: string): Promise<any> {
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise<any>((resolve, reject) => {
             this.fireAuth.auth.signInAnonymously()
                 .then(res => {
                     if (res) {
-                        console.log(res.user.uid);
-                       this.driverService.driverLogin(email, password).subscribe(result => {
-                        console.log(result);
-                        resolve(result);
-                      });
+                        this.authInfo$.next(AuthenticationService.UNKNOWN_USER);
+                        this.driverService.driverLogin(ssn, password).subscribe(result => {
+                            this.util.setRol('driver');
+                            resolve(result);
+                        });
                     }
                 })
                 .catch(err => {
-                  console.log(err);
+                    console.log(err);
                     // this.authInfo$.next(AuthenticationService.UNKNOWN_USER);
                     switch (err.code) {
                         case 'auth/wrong-password': {
@@ -156,7 +157,7 @@ export class AuthenticationService {
         return this.fireAuth.auth.signOut();
     }
 
-    public checkAuth() {
+    public checkAuth(): any {
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise(resolve => {
             this.fireAuth.auth.onAuthStateChanged(user => {
