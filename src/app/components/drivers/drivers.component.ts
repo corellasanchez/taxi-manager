@@ -28,7 +28,7 @@ export class DriversComponent {
     header: 'Filter',
   };
   constructor(private driverService: DriverService,
-    private firestoreServ: FirestoreService,
+    private firestoreService: FirestoreService,
     private authService: AuthenticationService,
     private util: UtilService,
     private menuCtrl: MenuController,
@@ -55,7 +55,7 @@ export class DriversComponent {
       this.driver.password !== '' &&
       this.util.validateEmail(this.driver.email),
       this.driver.password.length >= 6
-      ) {
+    ) {
       this.driver.uid = this.uid;
       this.driver.name = this.driver.name[0].toUpperCase() + this.driver.name.slice(1);
       this.driver.last_name = this.driver.last_name[0].toUpperCase() + this.driver.last_name.slice(1);

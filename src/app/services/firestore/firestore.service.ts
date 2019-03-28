@@ -27,7 +27,10 @@ import { map } from 'rxjs/operators';
 export class FirestoreService {
     userid: any;
 
-    constructor(public store: AngularFirestore, private fireAuth: AngularFireAuth, private util: UtilService) {
+    constructor(
+        public store: AngularFirestore,
+        private fireAuth: AngularFireAuth,
+        private util: UtilService) {
         this.util.userid.subscribe(res => {
             this.userid = res;
         });

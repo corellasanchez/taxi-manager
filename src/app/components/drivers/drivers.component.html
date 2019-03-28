@@ -35,28 +35,28 @@
       </ion-item>
 
       <ion-item lines="none" class="item-1" margin-bottom>
-          <ion-label position="stacked" class="label"> <strong class="align">* Teléfono Célular : </strong></ion-label>
-          <ion-input [(ngModel)]="driver.phone" name="phone" placeholder="Teléfono Célular" class="input"
-            clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
-        </ion-item>
-
-      <ion-item lines="none" class="item-1" margin-bottom>
-          <ion-label position="stacked" class="label"> <strong class="align">* Email : </strong></ion-label>
-          <ion-input [(ngModel)]="driver.email" name="last_name" placeholder="Email" class="input"
-            clear-input="true">
-          </ion-input>
-        </ion-item>
-
-      <ion-item lines="none" class="item-1" margin-bottom>
-            <ion-label position="stacked" class="label"> <strong class="align">* Contraseña : </strong></ion-label>
-            <ion-input [(ngModel)]="driver.password" name="password" placeholder="Contraseña" class="input"
-              clear-input="true">
-            </ion-input>
+        <ion-label position="stacked" class="label"> <strong class="align">* Teléfono Célular : </strong></ion-label>
+        <ion-input [(ngModel)]="driver.phone" name="phone" placeholder="Teléfono Célular" class="input"
+          clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
       </ion-item>
-      <small> Si el conductor trabaja para otro patrón se mantendrá la contraseña anterior, la contraseña debe tener mas de 6 caracteres.</small>
+
+      <ion-item lines="none" class="item-1" margin-bottom>
+        <ion-label position="stacked" class="label"> <strong class="align">* Email : </strong></ion-label>
+        <ion-input [(ngModel)]="driver.email" name="last_name" placeholder="Email" class="input" clear-input="true">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="item-1" margin-bottom>
+        <ion-label position="stacked" class="label"> <strong class="align">* Contraseña : </strong></ion-label>
+        <ion-input [(ngModel)]="driver.password" name="password" placeholder="Contraseña" class="input"
+          clear-input="true">
+        </ion-input>
+      </ion-item>
+      <small> Si el conductor trabaja para otro patrón se mantendrá la contraseña anterior, la contraseña debe tener mas
+        de 6 caracteres.</small>
       <br>
       <br>
-     <br>
+      <br>
       <ion-label position="stacked" class="label"> <strong class="align">* Porcentaje de lo recaudado para el chofer :
           {{driver.percentage}}%
         </strong></ion-label>
@@ -79,41 +79,37 @@
   <div *ngIf="!driverList?.length > 0">
     <h1>No tienes Conductores disponibles. </h1>
   </div>
+  <br>
   <div *ngIf="driverList?.length > 0">
     <h1>Conductores disponibles. </h1>
   </div>
-  <div class="scroll borderb" scrolly="true" margin-top>
-    <ion-grid class="scrollContent">
-      <ion-row>
-        <ion-card class="card" no-margin>
-          <ion-card-content no-padding>
-            <ion-grid no-padding>
-              <ion-row *ngFor="let i of driverList">
-                <ion-col size="8">
-                  <ion-item lines="none" class="item-2">
-                    <div>
-                      <ion-label class="label-2">
-                        <h2><strong>{{i.name}} {{i.last_name}}</strong></h2>
-                      </ion-label>
-                      <ion-label class="label-2">
-                        <h3>Cédula: <strong>{{i.ssn}}</strong></h3>
-                      </ion-label>
-                      <ion-label class="label-2">
-                        <h3>Porcentaje: <strong>{{i.percentage}} %</strong></h3>
-                      </ion-label>
-                    </div>
-                  </ion-item>
-                </ion-col>
-                <ion-col size="4" class="edit">
-                  <ion-button color="danger" (click)="deleteDriver(i.id, i.ssn)">
-                    <ion-icon name="trash"></ion-icon>
-                  </ion-button>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </ion-row>
-    </ion-grid>
-  </div>
+
+  <ion-card class="driver" *ngFor="let i of driverList">
+    <ion-item>
+      <ion-card-title>{{i.name}} {{i.last_name}}</ion-card-title>
+      <ion-button color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)">Eliminar</ion-button>
+    </ion-item>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label class="label-2">
+          <h3>Cédula: <strong>{{i.ssn}}</strong></h3>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label class="label-2">
+          <h3>Teléfono: <strong>{{i.phone}} %</strong></h3>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label class="label-2">
+          <h3>Porcentaje: <strong>{{i.percentage}} %</strong></h3>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label class="label-2">
+          <h3>Contraseña: <strong>{{i.password}} </strong></h3>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

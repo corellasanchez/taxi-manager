@@ -15,10 +15,11 @@ export class DriverService extends BaseDataService<Driver> {
     public getDrivers(uid: string): Observable<any> {
         let query: FirestoreQuery;
         query = {
-        'field' : 'uid',
-        'operation' : '==',
-        'searchKey' : uid};
-        return this.firestore.runQuery(this.baseCollection, query );
+            'field': 'uid',
+            'operation': '==',
+            'searchKey': uid
+        };
+        return this.firestore.runQuery(this.baseCollection, query);
     }
 
     public get(): Observable<any> {
@@ -26,7 +27,7 @@ export class DriverService extends BaseDataService<Driver> {
     }
 
     public getOne(id: string): Observable<Driver> {
-        return this.firestore.getOne<Driver> (this.baseCollection, id);
+        return this.firestore.getOne<Driver>(this.baseCollection, id);
     }
 
     public update(data: Partial<Driver>): Promise<void> {
@@ -39,6 +40,12 @@ export class DriverService extends BaseDataService<Driver> {
 
     public create(data: Driver): Promise<void> {
         return this.firestore.create(this.baseCollection, data);
+    }
+
+    public driverLogin(email: string, password: string) {
+        return this.firestore.store.collection<Driver>('driver',
+            ref => ref.where('email', '==', email)
+                .where('password', '==', password)).valueChanges();
     }
 }
 

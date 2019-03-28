@@ -25,7 +25,9 @@ export class AuthenticationService {
     constructor(
         private fireAuth: AngularFireAuth,
         private userDataServ: UserDataService,
-        private util: UtilService) {
+        private util: UtilService,
+        private driverService: DriverService
+        ) {
 
         this.fireAuth.authState.pipe(
             take(1)
@@ -108,6 +110,40 @@ export class AuthenticationService {
                         }
                         default: {
                             reject(`login failed ${err}`);
+                            break;
+                        }
+                    }
+                });
+        });
+    }
+
+    public anonimousLogin(email: string, password: string): Promise<any> {
+        // tslint:disable-next-line:no-shadowed-variable
+        return new Promise<any>((resolve, reject) => {
+            this.fireAuth.auth.signInAnonymously()
+                .then(res => {
+                    if (res) {
+                        console.log(res.user.uid);
+                       this.driverService.driverLogin(email, password).subscribe(result => {
+                        console.log(result);
+                        resolve(result);
+                      });
+                    }
+                })
+                .catch(err => {
+                  console.log(err);
+                    // this.authInfo$.next(AuthenticationService.UNKNOWN_USER);
+                    switch (err.code) {
+                        case 'auth/wrong-password': {
+                            reject('Contraseña Inválida.');
+                            break;
+                        }
+                        case 'auth/user-not-found': {
+                            reject('Este correo no esta registrado.');
+                            break;
+                        }
+                        default: {
+                            reject(`Error al ingresar ${err}`);
                             break;
                         }
                     }
