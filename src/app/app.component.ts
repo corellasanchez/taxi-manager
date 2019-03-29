@@ -34,7 +34,6 @@ export class AppComponent {
 
   getRol() {
     this.authService.authInfo$.subscribe(user => {
-      console.log(user);
       if (user.$uid) {
         this.appMenu = [
           { title: 'Vehículos', url: '/cars', icon: 'car' },
@@ -42,12 +41,11 @@ export class AppComponent {
         ];
       } else {
         this.appMenu = [
-          { title: 'Registrar Gasto', url: '/cars', icon: 'car' },
-          { title: 'Cierre de turno', url: '/drivers', icon: 'contacts' },
+          { title: 'Registrar Gasto', url: '/cars', icon: 'paper' },
+          { title: 'Cierre de turno', url: '/drivers', icon: 'speedometer' },
         ];
       }
     });
-
   }
 
   initializeApp() {
