@@ -11,55 +11,44 @@
 <ion-content padding #content>
 
   <div class="form-container">
-    <ion-text color="medium">
-      <h1> Registrar un nuevo conductor. </h1>
+    <ion-text color="primary">
+      <h2> Registrar un nuevo conductor. </h2>
     </ion-text>
     <form>
-      <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Cédula de identidad : </strong></ion-label>
-        <ion-input (ionFocus)="scroll()" type="text" [(ngModel)]="driver.ssn" name="ssn"
-          placeholder="Cédula de identidad" class="input" clear-input="true" maxlength="15" appNumberOnly></ion-input>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> * Cédula de identidad : </ion-label>
+        <ion-input (ionFocus)="scroll()" type="text" [(ngModel)]="driver.ssn" name="ssn" clear-input="true"
+          maxlength="15" appNumberOnly></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Nombre : </strong></ion-label>
-        <ion-input (ionFocus)="scroll()" [(ngModel)]="driver.name" name="name" placeholder="Nombre" class="input"
-          clear-input="true"></ion-input>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> * Nombre : </ion-label>
+        <ion-input (ionFocus)="scroll()" [(ngModel)]="driver.name" name="name" clear-input="true"></ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Apellidos : </strong></ion-label>
-        <ion-input [(ngModel)]="driver.last_name" name="last_name" placeholder="Apellidos" class="input"
-          clear-input="true">
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> * Apellidos : </ion-label>
+        <ion-input [(ngModel)]="driver.last_name" name="last_name" clear-input="true">
         </ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Teléfono Célular : </strong></ion-label>
-        <ion-input [(ngModel)]="driver.phone" name="phone" placeholder="Teléfono Célular" class="input"
-          clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
-      </ion-item>
-
-      <ion-item lines="none" class="item-1" margin-bottom>
-        <ion-label position="stacked" class="label"> <strong class="align">* Contraseña : </strong></ion-label>
-        <ion-input [(ngModel)]="driver.password" name="password" placeholder="Contraseña" class="input"
-          clear-input="true">
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> * Teléfono Célular : </ion-label>
+        <ion-input [(ngModel)]="driver.phone" name="phone" clear-input="true" maxlength="15" type="text" appNumberOnly>
         </ion-input>
       </ion-item>
-      <small> Si el conductor trabaja para otro patrón se mantendrá la contraseña anterior, la contraseña debe tener mas
-        de 6 caracteres.</small>
-      <br>
-      <br>
-      <br>
-      <ion-label position="stacked" class="label"> <strong class="align">* Porcentaje de lo recaudado para el chofer :
-          {{driver.percentage}}%
-        </strong></ion-label>
-      <br>
-      <ion-item class="item-3" lines="none" margin-bottom>
 
-        <ion-label>Porcentaje para el chofer</ion-label>
-        <ion-select placeholder="Porcentaje para el chofer" okText="Seleccionar" cancelText="Cerrar" name="porcentaje"
-          [(ngModel)]="driver.percentage">
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> * Contraseña : </ion-label>
+        <ion-input [(ngModel)]="driver.password" name="password" clear-input="true" placeholder="Más de 6 caracteres.">
+        </ion-input>
+      </ion-item>
+   
+     
+      <ion-item  margin-bottom>
+
+        <ion-label position="stacked">Porcentaje para el chofer {{driver.percentage}}%</ion-label>
+        <ion-select okText="Seleccionar" cancelText="Cerrar" name="porcentaje" [(ngModel)]="driver.percentage">
           <ion-select-option *ngFor="let percentage of percentages" [value]="percentage">{{percentage}}
           </ion-select-option>
         </ion-select>
@@ -70,38 +59,41 @@
       <ion-button *ngIf="!isUpdate" color="primary" (click)="addDriver()" expand="block">Agregar conductor</ion-button>
     </form>
   </div>
-  <div *ngIf="!driverList?.length > 0">
-    <h1>No tienes Conductores disponibles. </h1>
-  </div>
   <br>
-  <div *ngIf="driverList?.length > 0">
-    <h1>Conductores disponibles. </h1>
-  </div>
 
-  <ion-card class="driver" *ngFor="let i of driverList">
+  <div class="form-container">
+      <ion-text color="danger" *ngIf="!driverList?.length > 0">
+        <h2>No tienes Conductores disponibles. </h2>
+      </ion-text>
+      <ion-text color="primary" *ngIf="driverList?.length > 0">
+        <h2>Conductores disponibles. </h2>
+      </ion-text>
+    </div>
+
+  <ion-card *ngFor="let i of driverList">
     <ion-item>
-      <ion-card-title>{{i.name}} {{i.last_name}}</ion-card-title>
+      <ion-card-subtitle>{{i.name}} {{i.last_name}}</ion-card-subtitle>
       <ion-button color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)">Eliminar</ion-button>
     </ion-item>
     <ion-card-content>
-      <ion-item lines="none">
-        <ion-label class="label-2">
-          <h3>Cédula: <strong>{{i.ssn}}</strong></h3>
+      <ion-item>
+        <ion-label>
+          <h3>Cédula: {{i.ssn}}</h3>
         </ion-label>
       </ion-item>
-      <ion-item lines="none">
-        <ion-label class="label-2">
-          <h3>Teléfono: <strong>{{i.phone}} %</strong></h3>
+      <ion-item>
+        <ion-label>
+          <h3>Teléfono: {{i.phone}} %</h3>
         </ion-label>
       </ion-item>
-      <ion-item lines="none">
-        <ion-label class="label-2">
-          <h3>Porcentaje: <strong>{{i.percentage}} %</strong></h3>
+      <ion-item>
+        <ion-label>
+          <h3>Porcentaje: {{i.percentage}} %</h3>
         </ion-label>
       </ion-item>
-      <ion-item lines="none">
-        <ion-label class="label-2">
-          <h3>Contraseña: <strong>{{i.password}} </strong></h3>
+      <ion-item>
+        <ion-label>
+          <h3>Contraseña: {{i.password}} </h3>
         </ion-label>
       </ion-item>
     </ion-card-content>

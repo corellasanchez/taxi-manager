@@ -14,9 +14,12 @@
   <div class="form-container">
     <ion-text color="medium">
       <h1> Registrar un nuevo vehículo.</h1>
+
     </ion-text>
     <form>
       <ion-item lines="none" class="item-1" margin-bottom>
+
+
         <ion-label position="stacked" class="label"> <strong class="align">* Placa : </strong></ion-label>
         <ion-input (ionFocus)="scroll()" [(ngModel)]="car.id" name="id" placeholder="Placa del vehículo" class="input"
           clear-input="true" maxlength="15" appUppercase name="id"></ion-input>
@@ -25,12 +28,18 @@
       <ion-label class="label"> <strong class="align">* Marca : </strong></ion-label>
       <br>
       <ion-item class="item-3" lines="none" margin-bottom>
-        <ion-label class="lableTag">* Marca
+        <ion-label>* Marca
         </ion-label>
         <ion-select okText="Seleccionar" cancelText="Cerrar" name="brand" (ionFocus)="scroll()" [(ngModel)]="car.brand">
           <ion-select-option *ngFor="let brand of carBrands" [value]="brand">{{brand}}</ion-select-option>
         </ion-select>
       </ion-item>
+
+      <ion-item>
+          <ion-label position="stacked">Stacked Label</ion-label>
+          <ion-input></ion-input>
+      </ion-item>
+
       <ion-item lines="none" class="item-1" margin-bottom>
         <ion-label position="stacked" class="label"> <strong class="align">* Modelo: </strong></ion-label>
         <ion-input [(ngModel)]="car.model" name="model" placeholder="Modelo del vehículo" class="input"
