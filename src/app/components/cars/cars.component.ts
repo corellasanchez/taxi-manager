@@ -26,9 +26,11 @@ export class CarsComponent {
   color: number;
   years: Array<number>;
   private currentYear: number;
+  title: string;
   customAlertOptions: any = {
     header: 'Filter',
   };
+  showAddPannel: boolean;
   constructor(private carService: CarService,
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
@@ -38,6 +40,8 @@ export class CarsComponent {
     this.setColors();
     this.car = this.newCar();
     this.setYears();
+    this.showAddPannel = false;
+    this.title = 'Vehículos Disponibles';
     this.getUID();
   }
 
@@ -56,9 +60,10 @@ export class CarsComponent {
       this.car.uid = this.uid;
       this.car.id = this.car.id.toUpperCase();
       this.car.brand = this.car.brand.toUpperCase();
-      this.car.model =  this.car.model[0].toUpperCase() + this.car.model.slice(1);
+      this.car.model = this.car.model[0].toUpperCase() + this.car.model.slice(1);
       this.carService.create(this.car).then(
         _ => {
+          this.showAddPannel = false;
           this.util.presentToast('Vehículo Agregado', true, 'bottom', 2100);
           this.car = this.newCar();
         }
@@ -66,6 +71,17 @@ export class CarsComponent {
       });
     } else {
       this.util.presentToast('Por favor revise los datos.', true, 'bottom', 2100);
+    }
+  }
+
+  showAdd(show: boolean) {
+    this.showAddPannel = show;
+    if (show) {
+      this.title = 'Registrar vehículo';
+
+    } else {
+      this.title = 'Vehículos disponibles';
+
     }
   }
 
@@ -133,9 +149,11 @@ export class CarsComponent {
   }
 
   getCarList() {
-      this.carService.getCars(this.uid).subscribe(carList => {
-        this.carList = carList;
-      });
+    this.util.openLoader();
+    this.carService.getCars(this.uid).subscribe(carList => {
+      this.carList = carList;
+      this.util.closeLoading();
+    });
   }
 
   getUID() {

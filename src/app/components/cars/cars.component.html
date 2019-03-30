@@ -4,13 +4,22 @@
       <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Vehículos disponibles
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content padding #content>
-  <div class="form-container">
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]='showAddPannel'>
+    <ion-fab-button color="success" (click)=showAdd(true)>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="form-container" [hidden]="!showAddPannel">
 
     <ion-text color="primary">
       <h2> Registrar un nuevo vehículo.</h2>
@@ -53,36 +62,38 @@
         <ion-range min="0" max="16" step="1" snaps="true" [(ngModel)]="color" name="color"
           (ionChange)=changeColor(color)></ion-range>
       </ion-item>
+      <br>
 
-      <ion-button *ngIf="!isUpdate" color="primary" (click)=" addCar()" expand="block">Agregar vehículo</ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
 
-      <ion-row *ngIf="isUpdate">
-        <ion-col>
-          <ion-button color="primary" (click)="updateQuestion()" expand="block">Update</ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button fill="outline" color="primary" (click)="cancelUpdate()" expand="block">cancel</ion-button>
-        </ion-col>
-      </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-button color="success" (click)=" addCar()" expand="block">Agregar</ion-button>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <br>
     </form>
   </div>
   <br>
 
-  <div class="form-container">
+  <div class="form-container" [hidden]="showAddPannel">
     <ion-text color="danger" *ngIf="!carList?.length > 0">
       <h2>No tienes vehículos disponibles. </h2>
     </ion-text>
-    <ion-text color="primary" *ngIf="carList?.length > 0">
-      <h2>Vehículos disponibles. </h2>
-    </ion-text>
   </div>
 
-  <ion-card *ngFor="let i of carList">
-    <ion-card-header>
+  <ion-card *ngFor="let i of carList" [hidden]="showAddPannel">
+    <ion-item>
       <div class="small-color" [ngStyle]="{'background-color': i.color }"></div>
-      <ion-card-subtitle>{{i.id}}</ion-card-subtitle>
-      <ion-button color="danger" slot="end" (click)="deleteCar(i.id)">Eliminar</ion-button>
-    </ion-card-header>
+      <ion-card-title>{{i.id}}</ion-card-title>
+      <ion-icon color="danger"   slot="end" (click)="deleteCar(i.id)"  name="trash"></ion-icon>
+    </ion-item>
+
 
     <ion-card-content>
       <ion-item lines="none">

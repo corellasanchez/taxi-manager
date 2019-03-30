@@ -4,26 +4,30 @@
       <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Conductores disponibles
+      {{title}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content padding #content>
 
-  <div class="form-container">
-    <ion-text color="primary">
-      <h2> Registrar un nuevo conductor. </h2>
-    </ion-text>
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]='showAddPannel'>
+    <ion-fab-button color="success" (click)=showAdd(true)>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="form-container" [hidden]='!showAddPannel'>
     <form>
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Cédula de identidad : </ion-label>
-        <ion-input (ionFocus)="scroll()" type="text" [(ngModel)]="driver.ssn" name="ssn" clear-input="true"
-          maxlength="15" appNumberOnly></ion-input>
+        <ion-input type="text" [(ngModel)]="driver.ssn" name="ssn" clear-input="true" maxlength="15" appNumberOnly>
+        </ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Nombre : </ion-label>
-        <ion-input (ionFocus)="scroll()" [(ngModel)]="driver.name" name="name" clear-input="true"></ion-input>
+        <ion-input [(ngModel)]="driver.name" name="name" clear-input="true"></ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
@@ -43,9 +47,8 @@
         <ion-input [(ngModel)]="driver.password" name="password" clear-input="true" placeholder="Más de 6 caracteres.">
         </ion-input>
       </ion-item>
-   
-     
-      <ion-item  margin-bottom>
+      
+      <ion-item margin-bottom>
 
         <ion-label position="stacked">Porcentaje para el chofer {{driver.percentage}}%</ion-label>
         <ion-select okText="Seleccionar" cancelText="Cerrar" name="porcentaje" [(ngModel)]="driver.percentage">
@@ -56,24 +59,31 @@
       </ion-item>
       <small> Elija 0% si el chofer trabaja por salario</small>
       <br> <br>
-      <ion-button *ngIf="!isUpdate" color="primary" (click)="addDriver()" expand="block">Agregar conductor</ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="success" color="primary" (click)="addDriver()" expand="block">Agregar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <br>
     </form>
   </div>
   <br>
 
-  <div class="form-container">
-      <ion-text color="danger" *ngIf="!driverList?.length > 0">
-        <h2>No tienes Conductores disponibles. </h2>
-      </ion-text>
-      <ion-text color="primary" *ngIf="driverList?.length > 0">
-        <h2>Conductores disponibles. </h2>
-      </ion-text>
-    </div>
+  <div class="form-container" [hidden]='showAddPannel'>
+    <ion-text color="danger" *ngIf="!driverList?.length > 0">
+      <h2>No tienes Conductores disponibles. </h2>
+    </ion-text>
+  </div>
 
-  <ion-card *ngFor="let i of driverList">
+  <ion-card *ngFor="let i of driverList" [hidden]='showAddPannel'>
     <ion-item>
       <ion-card-subtitle>{{i.name}} {{i.last_name}}</ion-card-subtitle>
-      <ion-button color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)">Eliminar</ion-button>
+      <ion-icon color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)" name="trash"></ion-icon>
     </ion-item>
     <ion-card-content>
       <ion-item>

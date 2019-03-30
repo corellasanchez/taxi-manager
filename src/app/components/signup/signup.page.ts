@@ -40,7 +40,7 @@ export class SignupPage implements OnInit {
         userData => {
           this.util.closeLoading();
           this.util.presentToast('Gracias por preferirnos.', true, 'bottom', 2100);
-          this.util.navigate('', false);
+          this.util.navigate('cars', false);
         }
       ).catch(err => {
         if (err) {

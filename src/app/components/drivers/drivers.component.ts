@@ -23,6 +23,8 @@ export class DriversComponent {
   public uid: string;
   public filtertag: any;
   private percentages: Array<number>;
+  showAddPannel: boolean;
+  title: string;
 
   customAlertOptions: any = {
     header: 'Filter',
@@ -36,6 +38,8 @@ export class DriversComponent {
     this.percentages = Array(100).fill(0).map((x, i) => i);
     this.driver = this.newDriver();
     this.getUID();
+    this.showAddPannel = false;
+    this.title = 'Conductores disponibles';
   }
 
   ionViewDidEnter() {
@@ -49,6 +53,7 @@ export class DriversComponent {
   }
 
   addDriver() {
+    this.util.openLoader();
     if (this.driver.id &&
       this.driver.name.trim().length > 0 &&
       this.driver.password !== '' &&
@@ -59,6 +64,8 @@ export class DriversComponent {
       this.driver.last_name = this.driver.last_name[0].toUpperCase() + this.driver.last_name.slice(1);
       this.driverService.create(this.driver).then(
         _ => {
+          this.showAddPannel = false;
+          this.util.closeLoading();
           this.util.presentToast('Chofer asignado a su cuenta', true, 'bottom', 2100);
           this.driver = this.newDriver();
         }
@@ -104,5 +111,15 @@ export class DriversComponent {
       this.getDriverList();
     });
   }
+
+  showAdd(show: boolean) {
+    this.showAddPannel = show;
+    if (show) {
+      this.title = 'Registrar conductor';
+    } else {
+      this.title = 'Conductores disponibles';
+    }
+  }
+
 
 }

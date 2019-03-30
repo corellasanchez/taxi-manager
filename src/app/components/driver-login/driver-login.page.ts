@@ -48,23 +48,14 @@ export class DriverLoginPage implements AfterViewInit {
   }
 
   getDriver(ssn, password) {
-    // this.authService.anonimousLogin().then(
-    //   userData => {
         this.driverService.driverLogin(ssn, password).subscribe(result => {
-          if (result) {
+          if (result.length > 0) {
             this.storage.set('driver', JSON.stringify(result));
             this.util.navigate('driver-lobby', false);
           } else {
             this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
           }
         });
-    //   }
-    // ).catch(err => {
-    //   if (err) {
-    //     this.util.presentToast(`${err}`, true, 'bottom', 3100);
-    //   }
-    // });
-
   }
 
 forgotPassword() {
