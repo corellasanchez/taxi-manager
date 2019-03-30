@@ -36,6 +36,7 @@ export class LoginPage implements OnInit {
     this.menuCtrl.enable(false, 'start');
     this.menuCtrl.enable(false, 'end');
     this.splashScreen.hide();
+    this.util.closeLoading();
   }
 
   signin() {
@@ -44,6 +45,7 @@ export class LoginPage implements OnInit {
       this.util.openLoader();
       this.authServ.login(this.email, this.password).then(
         userData => {
+          console.log(userData);
           this.email = '';
           this.password = '';
           this.util.navigate('cars', false);
@@ -54,7 +56,7 @@ export class LoginPage implements OnInit {
 
         }
 
-      }).then(el => this.util.closeLoading());
+      });
     } else {
       this.util.presentToast('Ingrese su email y contraseña', true, 'bottom', 3100);
     }

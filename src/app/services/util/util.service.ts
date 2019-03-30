@@ -25,7 +25,12 @@ export class UtilService {
 
   getUserId() {
     this.fireAuth.auth.onAuthStateChanged(user => {
+      if (user) {
         this.userid.next(user.uid);
+      } else {
+        this.userid.next(null);
+      }
+
     });
   }
 

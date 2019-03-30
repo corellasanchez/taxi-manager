@@ -118,17 +118,14 @@ export class AuthenticationService {
         });
     }
 
-    public anonimousLogin(ssn: string, password: string): Promise<any> {
+    public anonimousLogin(): Promise<any> {
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise<any>((resolve, reject) => {
             this.fireAuth.auth.signInAnonymously()
                 .then(res => {
                     if (res) {
                         this.authInfo$.next(AuthenticationService.UNKNOWN_USER);
-                        this.driverService.driverLogin(ssn, password).subscribe(result => {
-                            this.util.setRol('driver');
-                            resolve(result);
-                        });
+                        resolve(res);
                     }
                 })
                 .catch(err => {

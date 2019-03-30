@@ -28,6 +28,8 @@ import { CarService } from './services/data-services/car.service';
 import { DriverService } from './services/data-services/driver.service';
 import { StorageService } from './services/firestore/filestorage.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
   entryComponents: [],
   imports: [BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.config),
     AngularFirestoreModule,

@@ -1,67 +1,73 @@
 
-import { Component, OnInit } from '@angular/core';
-import { MenuController, Platform, AlertController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Component,  AfterViewInit } from '@angular/core';
 import { UtilService } from '../../services/util/util.service';
 import { AuthenticationService } from '../../services/firestore/firebase-authentication.service';
 import { LoadingController } from '@ionic/angular';
-import { UserDataService } from '../../services/data-services/user-data.service';
 import { DriverService } from '../../services/data-services/driver.service';
+import { Storage } from '@ionic/storage';
+
 
 @Component({
   selector: 'app-driver-login',
   templateUrl: './driver-login.page.html',
   styleUrls: ['./driver-login.page.scss'],
 })
-export class DriverLoginPage implements OnInit {
+export class DriverLoginPage implements AfterViewInit {
 
   ssn = '';
   password = '';
   uid = '';
 
-  constructor(private platform: Platform, public loadingController: LoadingController,
-    public alertController: AlertController,
-    private splashScreen: SplashScreen,
+  constructor(public loadingController: LoadingController,
     public util: UtilService,
-    private menuCtrl: MenuController,
-    private authServ: AuthenticationService,
-    private userDataService: UserDataService,
-    private driverService: DriverService) {
+    private authService: AuthenticationService,
+    private driverService: DriverService,
+    private storage: Storage
+  ) {
   }
 
-  ngOnInit() {
-
-  }
-
-  ionViewDidEnter() {
-    this.menuCtrl.enable(false, 'start');
-    this.menuCtrl.enable(false, 'end');
-    this.splashScreen.hide();
-  }
-
-  signin() {
-    if (this.ssn !== '' && this.password !== '') {
+  signin(ssn: string, password: string) {
+    if (ssn !== '' && password !== '') {
       this.util.openLoader();
-      this.authServ.anonimousLogin(this.ssn, this.password).then(
-        userData => {
-          console.log(userData);
-          this.ssn = '';
-          this.password = '';
-          this.util.navigate('driver-lobby', false);
-        }
-      ).catch(err => {
-        if (err) {
-          this.util.presentToast(`${err}`, true, 'bottom', 3100);
-        }
-      }).then(el => this.util.closeLoading());
+
+      this.getDriver(ssn, password);
+
     } else {
       this.util.presentToast('Ingrese su cédula y contraseña', true, 'bottom', 3100);
     }
   }
 
+  ngAfterViewInit() {
+    // autologin
+    this.storage.get('driver').then((val) => {
+      if (val) {
+        const driver = JSON.parse(val)[0];
+        this.signin(driver.ssn, driver.password);
+      }
+    });
+  }
 
+  getDriver(ssn, password) {
+    // this.authService.anonimousLogin().then(
+    //   userData => {
+        this.driverService.driverLogin(ssn, password).subscribe(result => {
+          if (result) {
+            this.storage.set('driver', JSON.stringify(result));
+            this.util.navigate('driver-lobby', false);
+          } else {
+            this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
+          }
+        });
+    //   }
+    // ).catch(err => {
+    //   if (err) {
+    //     this.util.presentToast(`${err}`, true, 'bottom', 3100);
+    //   }
+    // });
 
-  async forgotPassword() {
+  }
+
+forgotPassword() {
     this.util.presentToast('Pregunta a tu administrador por tu contraseña.', true, 'bottom', 2100);
   }
 

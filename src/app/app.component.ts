@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/firestore/firebase-authentication.service';
 import { UtilService } from './services/util/util.service';
+import { Storage } from '@ionic/storage';
+import { MenuController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-root',
@@ -22,13 +24,25 @@ export class AppComponent {
     private util: UtilService,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private storage: Storage,
+    private menuCtrl: MenuController
   ) {
     this.initializeApp();
   }
+
+  ionViewDidEnter() {
+    this.menuCtrl.enable(true, 'start');
+    this.menuCtrl.enable(true, 'end');
+  }
+
   logout() {
+    this.menuCtrl.close();
+    this.util.openLoader();
     this.authService.logout().then(() => {
-      this.util.navigate('login', false);
+      this.storage.clear().then(result => {
+        this.util.navigate('login', false);
+      });
     });
   }
 

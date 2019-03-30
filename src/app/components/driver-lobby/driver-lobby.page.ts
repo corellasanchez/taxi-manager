@@ -47,6 +47,7 @@ export class DriverLobbyPage {
     this.menuCtrl.enable(true, 'start');
     this.menuCtrl.enable(true, 'end');
     this.content.scrollToTop(300);
+    this.util.closeLoading();
   }
 
   scroll() {

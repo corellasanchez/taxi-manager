@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GuardsService } from './guards/guards.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'cars', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   // { path: 'home', loadChildren: './components/home/home.module#HomePageModule' , canActivate: [GuardsService] },
   { path: 'signup', loadChildren: './components/signup/signup.module#SignupPageModule' },
   { path: 'login', loadChildren: './components/login/login.module#LoginPageModule' },
