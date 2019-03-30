@@ -94,7 +94,6 @@ export class AuthenticationService {
                 .then(res => {
                     if (res.user) {
                         this.authInfo$.next(new AuthInfo(res.user.uid));
-                        this.util.setRol('admin');
                         resolve(res.user);
                     }
                 })

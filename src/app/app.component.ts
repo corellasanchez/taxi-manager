@@ -40,9 +40,7 @@ export class AppComponent {
     this.menuCtrl.close();
     this.util.openLoader();
     this.authService.logout().then(() => {
-      this.storage.clear().then(result => {
         this.util.navigate('login', false);
-      });
     });
   }
 

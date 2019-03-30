@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/firestore/firebase-authent
 import { IfStmt } from '@angular/compiler';
 import { LoadingController } from '@ionic/angular';
 import { UserDataService } from '../../services/data-services/user-data.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginPage implements OnInit {
     public util: UtilService,
     private menuCtrl: MenuController,
     private authServ: AuthenticationService,
-    private userDataService: UserDataService) {
+    private userDataService: UserDataService,
+    private storage: Storage) {
   }
 
   ngOnInit() {
@@ -37,6 +39,17 @@ export class LoginPage implements OnInit {
     this.menuCtrl.enable(false, 'end');
     this.splashScreen.hide();
     this.util.closeLoading();
+    this.rememberCredentials();
+  }
+
+  rememberCredentials() {
+    this.storage.get('admin').then((val) => {
+      if (val) {
+        const admin = JSON.parse(val);
+        this.email = admin.email;
+        this.password = admin.password;
+      }
+    });
   }
 
   signin() {
@@ -45,17 +58,17 @@ export class LoginPage implements OnInit {
       this.util.openLoader();
       this.authServ.login(this.email, this.password).then(
         userData => {
-          console.log(userData);
-          this.email = '';
-          this.password = '';
-          this.util.navigate('cars', false);
+          if (userData) {
+            this.storage.set('admin', JSON.stringify({ email: this.email, password: this.password }));
+            this.util.navigate('cars', false);
+          } else {
+            this.util.presentToast('Error al ingresar', true, 'bottom', 3100);
+          }
         }
       ).catch(err => {
         if (err) {
           this.util.presentToast(`${err}`, true, 'bottom', 3100);
-
         }
-
       });
     } else {
       this.util.presentToast('Ingrese su email y contraseña', true, 'bottom', 3100);

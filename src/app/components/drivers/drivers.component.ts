@@ -106,9 +106,12 @@ export class DriversComponent {
 
   getUID() {
     this.util.userid.subscribe(data => {
-      this.uid = data;
-      console.log(this.uid);
-      this.getDriverList();
+      if (!data) {
+        this.util.navigate('login', false);
+      } else {
+        this.uid = data;
+        this.getDriverList();
+      }
     });
   }
 

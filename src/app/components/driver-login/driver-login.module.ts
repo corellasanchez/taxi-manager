@@ -5,6 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { DriverLoginPage } from './driver-login.page';
 
+import { NumberDirective } from '../../directives/number.directive';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -19,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DriverLoginPage]
+  declarations: [DriverLoginPage, NumberDirective]
 })
 export class DriverLoginPageModule {}

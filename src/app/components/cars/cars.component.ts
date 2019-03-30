@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Car } from '../../models/car.model';
 import { UUID } from 'angular2-uuid';
 import { CarService } from '../../services/data-services/car.service';
@@ -14,7 +14,7 @@ import * as moment from 'moment';
   templateUrl: './cars.component.html',
   styleUrls: ['./cars.component.scss'],
 })
-export class CarsComponent {
+export class CarsComponent implements OnInit {
   @ViewChild('content') content: IonContent;
   public carList: Array<Car>;
   public car: Car;
@@ -27,6 +27,7 @@ export class CarsComponent {
   years: Array<number>;
   private currentYear: number;
   title: string;
+  listSubscribed: boolean;
   customAlertOptions: any = {
     header: 'Filter',
   };
@@ -42,13 +43,16 @@ export class CarsComponent {
     this.setYears();
     this.showAddPannel = false;
     this.title = 'Vehículos Disponibles';
-    this.getUID();
+    this.listSubscribed = false;
   }
 
   ionViewDidEnter() {
     this.menuCtrl.enable(true, 'start');
     this.menuCtrl.enable(true, 'end');
     this.content.scrollToTop(300);
+  }
+  ngOnInit() {
+    this.getUID();
   }
 
   scroll() {
@@ -140,6 +144,7 @@ export class CarsComponent {
     this.car.color = this.colors[index];
   }
 
+
   setYears() {
     this.years = [];
     for (let index = this.currentYear - 30; index <= this.currentYear; index++) {
@@ -149,17 +154,25 @@ export class CarsComponent {
   }
 
   getCarList() {
-    this.util.openLoader();
-    this.carService.getCars(this.uid).subscribe(carList => {
-      this.carList = carList;
-      this.util.closeLoading();
-    });
+      this.util.openLoader();
+      this.carService.getCars(this.uid).subscribe(carList => {
+        this.carList = carList;
+        this.util.closeLoading();
+        this.listSubscribed = true;
+      });
+
+
   }
 
   getUID() {
     this.util.userid.subscribe(data => {
-      this.uid = data;
-      this.getCarList();
+      if (data) {
+        this.uid = data;
+        this.getCarList();
+      } else {
+        this.util.navigate('login', false);
+      }
+
     });
   }
 
