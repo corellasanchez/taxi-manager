@@ -4,9 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { DriverLoginPage } from './driver-login.page';
-
-import { NumberDirective } from '../../directives/number.directive';
-
+import { SharedModule } from '../../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -20,8 +18,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ],
-  declarations: [DriverLoginPage, NumberDirective]
+  declarations: [DriverLoginPage]
 })
 export class DriverLoginPageModule {}

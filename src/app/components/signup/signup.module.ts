@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SignupPage } from './signup.page';
 
-import { NumberDirective } from '../../directives/number.directive';
+import { SharedModule } from '../../shared/shared.module';
 
 
 const routes: Routes = [
@@ -22,8 +22,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule
   ],
-  declarations: [SignupPage, NumberDirective]
+  declarations: [SignupPage]
 })
-export class SignupPageModule {}
+export class SignupPageModule { }

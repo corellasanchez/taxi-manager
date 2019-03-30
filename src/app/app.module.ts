@@ -1,11 +1,3 @@
-/**
- * Ionic4 Firebase Starter Kit (https://store.enappd.com/product/firebase-starter-kitionic4-firebase-starter)
- *
- * Copyright © 2019-present Enappd. All rights reserved.
- *
- * This source code is licensed as per the terms found in the
- * LICENSE.md file in the root directory of this source tree.
- */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -29,8 +21,6 @@ import { DriverService } from './services/data-services/driver.service';
 import { StorageService } from './services/firestore/filestorage.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { IonicStorageModule } from '@ionic/storage';
-
-
 
 @NgModule({
   declarations: [AppComponent],

@@ -53,7 +53,8 @@ export class DriverLoginPage implements AfterViewInit {
     this.driverService.driverLogin(ssn, password).subscribe(result => {
       if (result.length > 0) {
         this.storage.set('driver', JSON.stringify(result));
-        this.util.navigate('driver-lobby', false);
+        // this.util.navigate('driver-lobby', false);
+        this.getAdmin(result);
       } else {
         this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
       }
@@ -62,6 +63,21 @@ export class DriverLoginPage implements AfterViewInit {
 
   forgotPassword() {
     this.util.presentToast('Pregunta a tu administrador por tu contraseña.', true, 'bottom', 2100);
+  }
+
+  getAdmin(user) {
+    if (user.length > 1) {
+      console.log(user);
+
+      for (let index = 0; index < user.length; index++) {
+        const element = user[index].admin_email;
+        console.log(element);
+      }
+
+    } else {
+
+    }
+
   }
 
 }

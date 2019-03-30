@@ -8,6 +8,7 @@ export class Driver {
     public percentage: number;
     public phone: string;
     public password: string;
+    public admin_email: string;
 
     constructor(
         id: string,
@@ -17,7 +18,9 @@ export class Driver {
         uid: string,
         percentage: number,
         phone: string,
-        password: string) {
+        password: string,
+        admin_email: string
+        ) {
         this.id = id;
         this.ssn = ssn;
         this.name = name;
@@ -26,5 +29,6 @@ export class Driver {
         this.percentage = percentage;
         this.phone = phone;
         this.password = password;
+        this.admin_email = admin_email;
     }
 }

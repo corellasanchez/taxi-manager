@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Driver } from '../../models/driver.model';
 import { UUID } from 'angular2-uuid';
 import { DriverService } from '../../services/data-services/driver.service';
@@ -8,6 +8,8 @@ import { MenuController, IonContent } from '@ionic/angular';
 import { FirestoreService } from '../../services/firestore/firestore.service';
 import * as moment from 'moment';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Storage } from '@ionic/storage';
+
 
 
 @Component({
@@ -15,7 +17,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   templateUrl: './drivers.component.html',
   styleUrls: ['./drivers.component.scss'],
 })
-export class DriversComponent {
+export class DriversComponent implements OnInit {
   @ViewChild('content') content: IonContent;
   public driverList: Array<Driver>;
   public driver: Driver;
@@ -25,6 +27,7 @@ export class DriversComponent {
   private percentages: Array<number>;
   showAddPannel: boolean;
   title: string;
+  admin: any;
 
   customAlertOptions: any = {
     header: 'Filter',
@@ -34,12 +37,25 @@ export class DriversComponent {
     private authService: AuthenticationService,
     private util: UtilService,
     private menuCtrl: MenuController,
-    private fireAuth: AngularFireAuth) {
+    private fireAuth: AngularFireAuth,
+    private storage: Storage) {
     this.percentages = Array(100).fill(0).map((x, i) => i);
     this.driver = this.newDriver();
-    this.getUID();
+    this.rememberCredentials();
     this.showAddPannel = false;
     this.title = 'Conductores disponibles';
+  }
+
+  ngOnInit() {
+    this.getUID();
+  }
+
+  rememberCredentials() {
+    this.storage.get('admin').then((val) => {
+      if (val) {
+        this.admin = JSON.parse(val);
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -62,6 +78,7 @@ export class DriversComponent {
       this.driver.uid = this.uid;
       this.driver.name = this.driver.name[0].toUpperCase() + this.driver.name.slice(1);
       this.driver.last_name = this.driver.last_name[0].toUpperCase() + this.driver.last_name.slice(1);
+      this.driver.admin_email = this.admin.email;
       this.driverService.create(this.driver).then(
         _ => {
           this.showAddPannel = false;
@@ -86,7 +103,8 @@ export class DriversComponent {
       uid: '',
       percentage: 30,
       phone: '',
-      password: ''
+      password: '',
+      admin_email: ''
     };
   }
 
@@ -123,6 +141,4 @@ export class DriversComponent {
       this.title = 'Conductores disponibles';
     }
   }
-
-
 }

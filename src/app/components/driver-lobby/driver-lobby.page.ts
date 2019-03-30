@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Car } from '../../models/car.model';
 import { UUID } from 'angular2-uuid';
 import { CarService } from '../../services/data-services/car.service';
@@ -14,22 +14,24 @@ import * as moment from 'moment';
   templateUrl: './driver-lobby.page.html',
   styleUrls: ['./driver-lobby.page.scss'],
 })
-export class DriverLobbyPage {
+export class DriverLobbyPage implements OnInit {
   @ViewChild('content') content: IonContent;
   public carList: Array<Car>;
   public car: Car;
   public isUpdate: boolean;
   public uid: string;
   public filtertag: any;
-  rol: string;
   carBrands: Array<string>;
   colors: Array<string>;
   color: number;
   years: Array<number>;
   private currentYear: number;
+  title: string;
+  listSubscribed: boolean;
   customAlertOptions: any = {
     header: 'Filter',
   };
+  showAddPannel: boolean;
   constructor(private carService: CarService,
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
@@ -39,15 +41,18 @@ export class DriverLobbyPage {
     this.setColors();
     this.car = this.newCar();
     this.setYears();
-    this.getUID();
-
+    this.showAddPannel = false;
+    this.title = 'Vehículos Disponibles';
+    this.listSubscribed = false;
   }
 
   ionViewDidEnter() {
     this.menuCtrl.enable(true, 'start');
     this.menuCtrl.enable(true, 'end');
     this.content.scrollToTop(300);
-    this.util.closeLoading();
+  }
+  ngOnInit() {
+    this.getUID();
   }
 
   scroll() {
@@ -59,9 +64,10 @@ export class DriverLobbyPage {
       this.car.uid = this.uid;
       this.car.id = this.car.id.toUpperCase();
       this.car.brand = this.car.brand.toUpperCase();
-      this.car.model =  this.car.model[0].toUpperCase() + this.car.model.slice(1);
+      this.car.model = this.car.model[0].toUpperCase() + this.car.model.slice(1);
       this.carService.create(this.car).then(
         _ => {
+          this.showAddPannel = false;
           this.util.presentToast('Vehículo Agregado', true, 'bottom', 2100);
           this.car = this.newCar();
         }
@@ -69,6 +75,17 @@ export class DriverLobbyPage {
       });
     } else {
       this.util.presentToast('Por favor revise los datos.', true, 'bottom', 2100);
+    }
+  }
+
+  showAdd(show: boolean) {
+    this.showAddPannel = show;
+    if (show) {
+      this.title = 'Registrar vehículo';
+
+    } else {
+      this.title = 'Vehículos disponibles';
+
     }
   }
 
@@ -127,6 +144,7 @@ export class DriverLobbyPage {
     this.car.color = this.colors[index];
   }
 
+
   setYears() {
     this.years = [];
     for (let index = this.currentYear - 30; index <= this.currentYear; index++) {
@@ -138,13 +156,22 @@ export class DriverLobbyPage {
   getCarList() {
       this.carService.getCars(this.uid).subscribe(carList => {
         this.carList = carList;
+        this.util.closeLoading();
+        this.listSubscribed = true;
       });
+
+
   }
 
   getUID() {
     this.util.userid.subscribe(data => {
-      this.uid = data;
-      this.getCarList();
+      if (data) {
+        this.uid = data;
+        this.getCarList();
+      } else {
+        this.util.navigate('login', false);
+      }
+
     });
   }
 
