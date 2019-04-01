@@ -4,7 +4,7 @@ export class Expense {
     public amount: string;
     public business_name: string;
     public car_plate: string;
-    public date: string;
+    public date: any;
     public description: string;
     public driver_id: string;
     public driver_name: string;
@@ -18,7 +18,7 @@ export class Expense {
         amount: string,
         business_name: string,
         car_plate: string,
-        date: string,
+        date: any,
         description: string,
         driver_id: string,
         driver_name: string,

@@ -43,13 +43,15 @@ export class LoginPage implements OnInit {
   }
 
   rememberCredentials() {
-    this.storage.get('admin').then((val) => {
+    this.storage.ready().then(ready => {
+    this.storage.get('admin_login').then((val) => {
       if (val) {
         const admin = JSON.parse(val);
         this.email = admin.email;
         this.password = admin.password;
       }
     });
+  });
   }
 
   signin() {
@@ -59,8 +61,13 @@ export class LoginPage implements OnInit {
       this.authServ.login(this.email, this.password).then(
         userData => {
           if (userData) {
-            this.storage.set('admin', JSON.stringify({ email: this.email, password: this.password }));
-            this.util.navigate('cars', false);
+            this.storage.ready().then(ready => {
+              this.storage.remove('admin_login').then(deleted => {
+                this.storage.set('admin_login', JSON.stringify({ email: this.email, password: this.password })).then(saved => {
+                  this.util.navigate('cars', false);
+                });
+              });
+            });
           } else {
             this.util.presentToast('Error al ingresar', true, 'bottom', 3100);
           }

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseDataService } from './base-data.service';
-import { Car } from '../../models/car.model';
+import { Expense } from '../../models/expense.model';
 import { FirestoreService, FirestoreQuery } from '../firestore/firestore.service';
 import { UtilService } from '../util/util.service';
 
 
 @Injectable()
-export class CarService extends BaseDataService<Car> {
+export class ExpenseService extends BaseDataService<Expense> {
     constructor(private firestore: FirestoreService, private util: UtilService) {
-        super('car');
+        super('expense');
     }
 
-    public getCars(uid: string): Observable<any> {
+    public getExpenses(uid: string): Observable<any> {
         let query: FirestoreQuery;
         query = {
         'field' : 'uid',
@@ -21,28 +21,23 @@ export class CarService extends BaseDataService<Car> {
         return this.firestore.runQuery(this.baseCollection, query );
     }
 
-    public getCarsOnce(uid: string) {
-        return this.firestore.store.collection<Car>('car',
-            ref => ref.where('uid', '==', uid)).get();
-    }
-
     public get(): Observable<any> {
-        return this.firestore.get<Car>(this.baseCollection);
+        return this.firestore.get<Expense>(this.baseCollection);
     }
 
-    public getOne(id: string): Observable<Car> {
-        return this.firestore.getOne<Car> (this.baseCollection, id);
+    public getOne(id: string): Observable<Expense> {
+        return this.firestore.getOne<Expense> (this.baseCollection, id);
     }
 
-    public update(data: Partial<Car>): Promise<void> {
-        return this.firestore.update<Car>(this.baseCollection, data.id, data);
+    public update(data: Partial<Expense>): Promise<void> {
+        return this.firestore.update<Expense>(this.baseCollection, data.id, data);
     }
 
     public delete(id: string): Promise<any> {
         return this.firestore.delete(this.baseCollection, id);
     }
 
-    public create(data: Car): Promise<void> {
+    public create(data: Expense): Promise<void> {
         return this.firestore.create(this.baseCollection, data);
     }
 }

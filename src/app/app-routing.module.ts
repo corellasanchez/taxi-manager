@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'driver-login', loadChildren: './components/driver-login/driver-login.module#DriverLoginPageModule' },
   { path: 'cars', loadChildren: './components/cars/cars.module#CarsComponentModule' },
   { path: 'drivers', loadChildren: './components/drivers/drivers.module#DriversComponentModule' },
-  { path: 'driver-lobby', loadChildren: './components/driver-lobby/driver-lobby.module#DriverLobbyComponentModule' }
+  { path: 'expenses', loadChildren: './components/expenses/expenses.module#ExpensesComponentModule' },
+
 ];
 
 @NgModule({
