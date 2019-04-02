@@ -4,6 +4,9 @@ import { ToastController, NavController, AlertController } from '@ionic/angular'
 import { BehaviorSubject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { LoadingController } from '@ionic/angular';
+import * as firebase from 'firebase/app';
+
+
 
 
 @Injectable({
@@ -32,6 +35,10 @@ export class UtilService {
       }
 
     });
+  }
+
+  timestamp() {
+    return firebase.firestore.Timestamp.now();
   }
 
   setRol(rol: string) {

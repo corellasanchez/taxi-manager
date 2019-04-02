@@ -19,49 +19,84 @@
     </ion-fab-button>
   </ion-fab>
 
-  <pre>{{driver | json}}</pre>
+  <!-- <pre>{{driver | json}}</pre>
   <pre>{{admin | json}}</pre>
-  <pre>{{car | json}}</pre>
-  <!-- <div class="form-container" [hidden]="!showAddPannel">
+  <pre>{{car | json}}</pre> -->
+
+  <ion-card [hidden]="showAddPannel">
+    <ion-card-header>
+      <ion-card-subtitle>Bienvenido </ion-card-subtitle>
+      <ion-card-title *ngIf="driver">{{driver.name}} {{driver.last_name}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+    <span *ngIf="admin"> Hoy conduces el carro placa: <strong>{{car.id}}</strong> <br> para: <strong>{{admin.name}} {{admin.last_name}}</strong></span>
+    </ion-card-content>
+  </ion-card>
+
+<div class="form-container" [hidden]="!showAddPannel">
 
     <form>
 
-      <ion-item margin-bottom>
-        <ion-label position="stacked"> <strong class="align">* Placa : </strong></ion-label>
-        <ion-input (ionFocus)="scroll()" [(ngModel)]="car.id" name="id" placeholder="Placa del vehículo"
-          clear-input="true" maxlength="15" appUppercase name="id"></ion-input>
-      </ion-item>
+      <!-- 
+        id: string,
+      amount: string,
+      business_name: string,
+      car_plate: string,
+      date: any,
+      description: string,
+      driver_id: string,
+      driver_name: string,
+      invoice_number: string,
+      notes: string,
+      quantity: string,
+      type: string 
+    -->
 
-      <ion-item margin-bottom>
-        <ion-label position="stacked">* Marca
-        </ion-label>
-        <ion-select okText="Seleccionar" cancelText="Cerrar" name="brand" (ionFocus)="scroll()" [(ngModel)]="car.brand">
-          <ion-select-option *ngFor="let brand of carBrands" [value]="brand">{{brand}}</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">Nombre del Comercio: </strong></ion-label>
+      <ion-input  [(ngModel)]="expense.business_name" name="business_name"
+        clear-input="true" maxlength="150" ></ion-input>
+    </ion-item>
 
-      <ion-item margin-bottom>
-        <ion-label position="stacked"> * Modelo:</ion-label>
-        <ion-input [(ngModel)]="car.model" name="model" placeholder="Modelo del vehículo" clear-input="true" id="model"
-          appUppercase></ion-input>
-      </ion-item>
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">Número de factura: </strong></ion-label>
+      <ion-input  [(ngModel)]="expense.invoice_number" name="invoice_number" 
+        clear-input="true" maxlength="40" appNumberOnly> </ion-input>
+    </ion-item>
 
-      <ion-item margin-bottom>
-        <ion-label position="stacked"> Año</ion-label>
-        <ion-select placeholder="Año" okText="Seleccionar" cancelText="Cerrar" name="year" [(ngModel)]="car.year">
-          <ion-select-option *ngFor="let year of years" [value]="year">{{year}}</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">* Monto: </strong></ion-label>
+      <ion-input  [(ngModel)]="expense.amount" name="amount" placeholder="Total de la factura"
+        clear-input="true" maxlength="15" appNumberOnly> </ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked"> <strong class="align">
-            <div class="color-square" [ngStyle]="{'background-color': car.color }"></div> Color:
-          </strong>
-        </ion-label>
-        <ion-range min="0" max="16" step="1" snaps="true" [(ngModel)]="color" name="color"
-          (ionChange)=changeColor(color)></ion-range>
-      </ion-item>
-      <br>
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">* Cantidad: </strong></ion-label>
+      <ion-input type="number"  [(ngModel)]="expense.quantity" name="quantity" placeholder="Unidades, Litros, Metros, Kilos,"
+       ></ion-input>
+    </ion-item>
+
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">Descripción: </strong></ion-label>
+      <ion-input  [(ngModel)]="expense.description" name="description" placeholder="Descripción de la compra"
+        clear-input="true" maxlength="150" ></ion-input>
+    </ion-item>
+
+    <ion-item margin-bottom>
+      <ion-label position="stacked">Categoria
+      </ion-label>
+      <ion-select okText="Seleccionar" cancelText="Cerrar" name="type" [(ngModel)]="expense.type">
+        <ion-select-option *ngFor="let type of expenseTypes" [value]="type">{{type}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item margin-bottom>
+      <ion-label position="stacked"> <strong class="align">Observaciones : </strong></ion-label>
+      <ion-input  [(ngModel)]="expense.notes" name="notes" 
+        clear-input="true" maxlength="150" ></ion-input>
+    </ion-item>
+
+
 
       <ion-grid>
         <ion-row>
@@ -79,7 +114,7 @@
     </form>
   </div>
   <br>
-
+  <!-- 
   <div class="form-container" [hidden]="showAddPannel">
     <ion-text color="danger" *ngIf="!carList?.length > 0">
       <h2>No tienes vehículos disponibles. </h2>

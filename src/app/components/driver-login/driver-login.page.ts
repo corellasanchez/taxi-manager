@@ -156,7 +156,6 @@ export class DriverLoginPage implements AfterViewInit {
         availableCars.push(doc.data());
       });
 
-      console.log(availableCars);
       if (availableCars.length === 0) {
         this.util.presentToast('Su administrador no tiene autos disponibles', true, 'bottom', 3100);
         return;
@@ -190,3 +189,44 @@ export class DriverLoginPage implements AfterViewInit {
     });
   }
 }
+
+
+/**
+ *
+ *
+ * Driver
+ {
+  "admin_email": "corellasanchez@hotmail.com",
+  "id": "c9cfb23b-f7b2-55a6-dca8-43e64eb39f2b",
+  "last_name": "Apelo",
+  "name": "Rope",
+  "password": "123456",
+  "percentage": 30,
+  "phone": "23442234234",
+  "ssn": "12345",
+  "uid": "U1KujWainaPsgkoCE8EftABIg2s2"
+}
+
+Admin
+{
+  "email": "corellasanchez@hotmail.com",
+  "id": "U1KujWainaPsgkoCE8EftABIg2s2",
+  "last_name": "Perto",
+  "name": "Roberto",
+  "phone": "77611628"
+}
+
+Car
+{
+  "brand": "TOYOTA",
+  "color": "#000000",
+  "id": "ASD-098",
+  "model": "TERCEL",
+  "uid": "U1KujWainaPsgkoCE8EftABIg2s2",
+  "year": 2019
+}
+
+
+ *
+ *
+ */

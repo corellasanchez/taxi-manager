@@ -91,14 +91,14 @@ export class ExpensesComponent implements OnInit {
       amount: '',
       business_name: '',
       car_plate: '',
-      date: moment().toDate(),
+      date:  this.util.timestamp(),
       description: '',
       driver_id: '',
       driver_name: '',
       invoice_number: '',
       notes: '',
-      quantity: '',
-      type: ''
+      quantity: '1',
+      type: 'Gasolina'
     };
   }
 
@@ -127,6 +127,7 @@ export class ExpensesComponent implements OnInit {
         'Productos de limpieza',
         'Gastos Médicos',
         'Comisión para el conductor',
+        'Comida',
         'Otros'
       ];
   }
@@ -156,12 +157,10 @@ export class ExpensesComponent implements OnInit {
 
   getAdminInfo() {
     if (!this.admin) {
-      console.log(this.admin);
       this.userService.getOne(this.driver.uid).subscribe(admin => {
         this.storage.ready().then(ready => {
           this.storage.remove('admin_info').then(deleted => {
             this.storage.set('admin_info', JSON.stringify(admin)).then(saved => {
-              console.log(admin);
               this.admin = admin;
             });
           });
