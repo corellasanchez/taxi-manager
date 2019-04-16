@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title align-title="center">
       {{title}}
     </ion-title>
   </ion-toolbar>
@@ -29,16 +29,17 @@
       <ion-card-title *ngIf="driver">{{driver.name}} {{driver.last_name}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-    <span *ngIf="admin"> Hoy conduces el carro placa: <strong>{{car.id}}</strong> <br> para: <strong>{{admin.name}} {{admin.last_name}}</strong></span>
+      <span *ngIf="admin"> Hoy conduces el carro placa: <strong>{{car.id}}</strong> <br> para: <strong>{{admin.name}}
+          {{admin.last_name}}</strong></span>
     </ion-card-content>
   </ion-card>
 
-<div class="form-container" [hidden]="!showAddPannel">
+  <div class="form-container" [hidden]="!showAddPannel">
 
     <form>
 
       <!-- 
-        id: string,
+      id: string,
       amount: string,
       business_name: string,
       car_plate: string,
@@ -52,61 +53,57 @@
       type: string 
     -->
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">Nombre del Comercio: </strong></ion-label>
-      <ion-input  [(ngModel)]="expense.business_name" name="business_name"
-        clear-input="true" maxlength="150" ></ion-input>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked">Categoria
+        </ion-label>
+        <ion-select okText="Seleccionar" cancelText="Cerrar" name="type" [(ngModel)]="expense.type">
+          <ion-select-option *ngFor="let type of expenseTypes" [value]="type">{{type}}</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">Número de factura: </strong></ion-label>
-      <ion-input  [(ngModel)]="expense.invoice_number" name="invoice_number" 
-        clear-input="true" maxlength="40" appNumberOnly> </ion-input>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">* Monto: </strong></ion-label>
+        <ion-input [(ngModel)]="expense.amount" name="amount" placeholder="Total de la factura" clear-input="true"
+          maxlength="15" appNumberOnly> </ion-input>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">* Monto: </strong></ion-label>
-      <ion-input  [(ngModel)]="expense.amount" name="amount" placeholder="Total de la factura"
-        clear-input="true" maxlength="15" appNumberOnly> </ion-input>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">* Cantidad: </strong><small>Litros, metros, unidades,
+            kilos</small></ion-label>
+        <ion-input type="number" [(ngModel)]="expense.quantity" name="quantity"></ion-input>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">* Cantidad: </strong></ion-label>
-      <ion-input type="number"  [(ngModel)]="expense.quantity" name="quantity" placeholder="Unidades, Litros, Metros, Kilos,"
-       ></ion-input>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">Número de factura: </strong></ion-label>
+        <ion-input [(ngModel)]="expense.invoice_number" name="invoice_number" clear-input="true" maxlength="40"
+          appNumberOnly> </ion-input>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">Descripción: </strong></ion-label>
-      <ion-input  [(ngModel)]="expense.description" name="description" placeholder="Descripción de la compra"
-        clear-input="true" maxlength="150" ></ion-input>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">Nombre del Comercio: </strong></ion-label>
+        <ion-input [(ngModel)]="expense.business_name" name="business_name" clear-input="true" maxlength="150">
+        </ion-input>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked">Categoria
-      </ion-label>
-      <ion-select okText="Seleccionar" cancelText="Cerrar" name="type" [(ngModel)]="expense.type">
-        <ion-select-option *ngFor="let type of expenseTypes" [value]="type">{{type}}</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">Descripción: </strong></ion-label>
+        <ion-input [(ngModel)]="expense.description" name="description" clear-input="true" maxlength="150"></ion-input>
+      </ion-item>
 
-    <ion-item margin-bottom>
-      <ion-label position="stacked"> <strong class="align">Observaciones : </strong></ion-label>
-      <ion-input  [(ngModel)]="expense.notes" name="notes" 
-        clear-input="true" maxlength="150" ></ion-input>
-    </ion-item>
-
-
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">Observaciones : </strong></ion-label>
+        <ion-input [(ngModel)]="expense.notes" name="notes" clear-input="true" maxlength="150"></ion-input>
+      </ion-item>
 
       <ion-grid>
         <ion-row>
           <ion-col>
             <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
-
           </ion-col>
           <ion-col>
-            <ion-button color="success" (click)=" addCar()" expand="block">Agregar</ion-button>
-
+            <ion-button color="success" [disabled]="!expense.amount || !expense.quantity" (click)="addExpense()"
+              expand="block">Agregar
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -114,27 +111,80 @@
     </form>
   </div>
   <br>
-  <!-- 
+
   <div class="form-container" [hidden]="showAddPannel">
-    <ion-text color="danger" *ngIf="!carList?.length > 0">
-      <h2>No tienes vehículos disponibles. </h2>
+    <ion-text color="danger" *ngIf="!expenseList?.length > 0">
+      <h2>No gastos registrados hoy. </h2>
     </ion-text>
   </div>
+  <ion-card *ngFor="let i of expenseList" [hidden]="showAddPannel">
 
-  <ion-card *ngFor="let i of carList" [hidden]="showAddPannel">
     <ion-item>
-      <div class="small-color" [ngStyle]="{'background-color': i.color }"></div>
-      <ion-card-title>{{i.id}}</ion-card-title>
-      <ion-icon color="danger"   slot="end" (click)="deleteCar(i.id)"  name="trash"></ion-icon>
+      <ion-card-title>{{i.car_plate}}</ion-card-title>
+      <ion-icon color="danger" slot="end" (click)="deleteExpense(i.id, i.invoice_number)" name="trash"></ion-icon>
     </ion-item>
 
-
     <ion-card-content>
-      <ion-item lines="none">
+
+      <ion-item lines="none" *ngIf="i.date">
         <ion-label>
-          <h3> {{i.brand}} - {{i.model}}</h3>
+          <h3>{{i.date.toDate() | date:"medium"}}</h3>
         </ion-label>
       </ion-item>
+
+      <ion-item lines="none" *ngIf="i.invoice_number">
+        <ion-label>
+          <h3># {{i.invoice_number}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.type">
+        <ion-label>
+          <h3>{{i.type}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.description">
+        <p>{{i.description}}</p>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.notes">
+        <p>{{i.notes}}</p>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.type">
+        <ion-label>
+          <h3>Cantidad: {{i.quantity}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.amount">
+        <ion-label>
+          <h3>Total: {{i.amount}}</h3>
+        </ion-label>
+      </ion-item>
+
+
+
     </ion-card-content>
-  </ion-card> -->
+  </ion-card>
 </ion-content>
+
+<!-- {
+  "amount": "5000",
+  "business_name": "",
+  "car_plate": "ASD-098",
+  "date": {
+    "seconds": 1554684689,
+    "nanoseconds": 500000000
+  },
+  "description": "",
+  "driver_id": "c9cfb23b-f7b2-55a6-dca8-43e64eb39f2b",
+  "driver_name": "Rope Apelo",
+  "id": "4db0a23e-72cc-0195-875b-4d5ab266a097",
+  "invoice_number": "",
+  "notes": "",
+  "owner_id": "U1KujWainaPsgkoCE8EftABIg2s2",
+  "quantity": "1",
+  "type": "Gasolina"
+} -->

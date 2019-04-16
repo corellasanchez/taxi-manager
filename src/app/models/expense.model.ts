@@ -12,6 +12,7 @@ export class Expense {
     public notes: string;
     public quantity: string;
     public type: string;
+    public owner_id: string;
 
     constructor(
         id: string,
@@ -25,7 +26,8 @@ export class Expense {
         invoice_number: string,
         notes: string,
         quantity: string,
-        type: string) {
+        type: string,
+        owner_id: string) {
         this.id = id;
         this.amount = amount;
         this.business_name = business_name;
@@ -38,6 +40,7 @@ export class Expense {
         this.notes = notes;
         this.quantity = quantity;
         this.type = type;
+        this.owner_id = owner_id;
     }
 }
 

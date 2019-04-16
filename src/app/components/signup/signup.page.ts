@@ -7,8 +7,7 @@ import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.page.html',
-  styleUrls: ['./signup.page.scss'],
+  templateUrl: './signup.page.html'
 })
 export class SignupPage implements OnInit {
 

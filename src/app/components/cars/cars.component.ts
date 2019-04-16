@@ -11,8 +11,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-cars',
-  templateUrl: './cars.component.html',
-  styleUrls: ['./cars.component.scss'],
+  templateUrl: './cars.component.html'
 })
 export class CarsComponent implements OnInit {
   @ViewChild('content') content: IonContent;
@@ -32,6 +31,8 @@ export class CarsComponent implements OnInit {
     header: 'Filter',
   };
   showAddPannel: boolean;
+  carSubscription: any;
+
   constructor(private carService: CarService,
     private firestoreServ: FirestoreService,
     private authService: AuthenticationService,
@@ -154,13 +155,11 @@ export class CarsComponent implements OnInit {
   }
 
   getCarList() {
-      this.carService.getCars(this.uid).subscribe(carList => {
-        this.carList = carList;
-        this.util.closeLoading();
-        this.listSubscribed = true;
-      });
-
-
+    this.carSubscription = this.carService.getCars(this.uid).subscribe(carList => {
+      this.carList = carList;
+      this.util.closeLoading();
+      this.listSubscribed = true;
+    });
   }
 
   getUID() {

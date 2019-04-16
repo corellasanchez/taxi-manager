@@ -11,9 +11,9 @@ import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  templateUrl: './login.page.html'
 })
+
 export class LoginPage implements OnInit {
 
   email = '';
@@ -31,15 +31,14 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.util.closeLoading();
+    this.rememberCredentials();
   }
 
   ionViewDidEnter() {
     this.menuCtrl.enable(false, 'start');
     this.menuCtrl.enable(false, 'end');
     this.splashScreen.hide();
-    this.util.closeLoading();
-    this.rememberCredentials();
   }
 
   rememberCredentials() {

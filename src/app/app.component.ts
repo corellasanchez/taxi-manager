@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -10,10 +10,8 @@ import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app-component.scss']
-})
-export class AppComponent {
+  templateUrl: 'app.component.html'})
+export class AppComponent implements OnDestroy {
 
   public appMenu = [];
 
@@ -50,10 +48,11 @@ export class AppComponent {
         this.appMenu = [
           { title: 'Vehículos', url: '/cars', icon: 'car' },
           { title: 'Conductores', url: '/drivers', icon: 'contacts' },
+          { title: 'Registrar Gasto', url: '/expenses', icon: 'paper' }
         ];
       } else {
         this.appMenu = [
-          { title: 'Registrar Gasto', url: '/cars', icon: 'paper' },
+          { title: 'Registrar Gasto', url: '/expenses', icon: 'paper' },
           { title: 'Cierre de turno', url: '/drivers', icon: 'speedometer' },
         ];
       }
@@ -67,4 +66,9 @@ export class AppComponent {
       this.getRol();
     });
   }
+
+  ngOnDestroy() {
+    this.authService.authInfo$.unsubscribe();
+  }
+
 }

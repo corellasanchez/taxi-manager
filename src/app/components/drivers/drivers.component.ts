@@ -14,8 +14,7 @@ import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-drivers',
-  templateUrl: './drivers.component.html',
-  styleUrls: ['./drivers.component.scss'],
+  templateUrl: './drivers.component.html'
 })
 export class DriversComponent implements OnInit {
   @ViewChild('content') content: IonContent;

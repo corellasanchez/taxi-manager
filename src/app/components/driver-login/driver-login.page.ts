@@ -1,5 +1,5 @@
 
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { UtilService } from '../../services/util/util.service';
 import { AuthenticationService } from '../../services/firestore/firebase-authentication.service';
 import { LoadingController, AlertController } from '@ionic/angular';
@@ -11,14 +11,14 @@ import { CarService } from '../../services/data-services/car.service';
 
 @Component({
   selector: 'app-driver-login',
-  templateUrl: './driver-login.page.html',
-  styleUrls: ['./driver-login.page.scss'],
+  templateUrl: './driver-login.page.html'
 })
-export class DriverLoginPage implements AfterViewInit {
+export class DriverLoginPage implements AfterViewInit, OnDestroy {
 
   ssn = '';
   password = '';
   uid = '';
+  driverSubscription: any;
 
   constructor(public loadingController: LoadingController,
     public util: UtilService,
@@ -54,7 +54,7 @@ export class DriverLoginPage implements AfterViewInit {
 
   getDriver(ssn, password) {
     this.util.openLoader();
-    this.driverService.driverLogin(ssn, password).subscribe(result => {
+    this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(result => {
       if (result.length > 0) {
         this.storage.ready().then(ready => {
           this.storage.remove('driver_login').then(deleted => {
@@ -188,6 +188,14 @@ export class DriverLoginPage implements AfterViewInit {
       });
     });
   }
+
+  ngOnDestroy() {
+    if (this.driverSubscription) {
+      this.driverSubscription.unsubscribe();
+    }
+
+  }
+
 }
 
 

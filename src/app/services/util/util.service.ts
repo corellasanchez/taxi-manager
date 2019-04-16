@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
-
+import { AngularFireDatabase } from '@angular/fire/database';
 
 
 
@@ -22,7 +22,8 @@ export class UtilService {
     private router: Router,
     private toastController: ToastController,
     private nav: NavController,
-    public alertController: AlertController) {
+    public alertController: AlertController,
+    public db: AngularFireDatabase) {
     this.getUserId();
   }
 
@@ -38,7 +39,24 @@ export class UtilService {
   }
 
   timestamp() {
-    return firebase.firestore.Timestamp.now();
+    return  firebase.firestore.Timestamp.now();
+  }
+
+ timestampFormat( date: Date) {
+  return firebase.firestore.Timestamp.fromDate(date);
+ }
+
+
+  connectionState(uid: string ) {
+    const userStatusDatabaseRef = this.db.database.ref('/status/' + uid);
+    const connectedRef = this.db.database.ref('.info/connected');
+    connectedRef.on('value', function(snap) {
+      if (snap.val() === true) {
+        alert('connected');
+      } else {
+        alert('not connected');
+      }
+    });
   }
 
   setRol(rol: string) {

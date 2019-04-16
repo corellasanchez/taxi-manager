@@ -1,5 +1,6 @@
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
@@ -32,7 +33,9 @@ import { UserDataService } from './services/data-services/user-data.service';
     AngularFireModule.initializeApp(environment.config),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule],
+    AngularFireStorageModule,
+    AngularFireDatabaseModule
+    ],
   providers: [
     StatusBar,
     SplashScreen,
@@ -44,6 +47,7 @@ import { UserDataService } from './services/data-services/user-data.service';
     AuthenticationService,
     FirestoreService,
     StorageService,
+    AngularFireDatabase,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
   bootstrap: [AppComponent]

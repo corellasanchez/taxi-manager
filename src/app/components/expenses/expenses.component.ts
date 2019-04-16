@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MenuController, IonContent } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -12,8 +13,7 @@ import { UtilService } from '../../services/util/util.service';
 
 @Component({
   selector: 'app-expenses',
-  templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.scss'],
+  templateUrl: './expenses.component.html'
 })
 export class ExpensesComponent implements OnInit {
   @ViewChild('content') content: IonContent;
@@ -38,7 +38,7 @@ export class ExpensesComponent implements OnInit {
     this.setExpenseTypes();
     this.expense = this.newExpense();
     this.showAddPannel = false;
-    this.title = 'Gastos registrados hoy';
+    this.title = 'Gastos registados hoy';
   }
 
   ionViewDidEnter() {
@@ -53,24 +53,30 @@ export class ExpensesComponent implements OnInit {
   scroll() {
     this.content.scrollToTop(300);
   }
+  // id: string,
+  // amount: string,
+  // business_name: string,
+  // car_plate: string,
+  // date: any,
+  // description: string,
+  // driver_id: string,
+  // driver_name: string,
+  // invoice_number: string,
+  // notes: string,
+  // quantity: string,
+  // type: string
 
   addExpense() {
-    // if (this.expense.id.trim().length > 0 && this.expense.model.trim().length > 0) {
-    //   this.expense.uid = this.uid;
-    //   this.expense.id = this.expense.id.toUpperCase();
-    //   this.expense.brand = this.expense.brand.toUpperCase();
-    //   this.expense.model = this.expense.model[0].toUpperCase() + this.expense.model.slice(1);
-    //   this.expenseService.create(this.expense).then(
-    //     _ => {
-    //       this.showAddPannel = false;
-    //       this.util.presentToast('Vehículo Agregado', true, 'bottom', 2100);
-    //       this.expense = this.newExpense();
-    //     }
-    //   ).catch(err => {
-    //   });
-    // } else {
-    //   this.util.presentToast('Por favor revise los datos.', true, 'bottom', 2100);
-    // }
+
+    this.setExpenseValues();
+      this.expenseService.create(this.expense).then(
+        _ => {
+          this.showAddPannel = false;
+          this.util.presentToast('Gasto agregado con éxito', true, 'bottom', 2100);
+          this.expense = this.newExpense();
+        }
+      ).catch(err => {
+      });
   }
 
   showAdd(show: boolean) {
@@ -84,28 +90,36 @@ export class ExpensesComponent implements OnInit {
     }
   }
 
-
   newExpense() {
     return {
-      id: null,
+      id: UUID.UUID(),
       amount: '',
       business_name: '',
       car_plate: '',
-      date:  this.util.timestamp(),
+      date: null,
       description: '',
       driver_id: '',
       driver_name: '',
       invoice_number: '',
       notes: '',
       quantity: '1',
-      type: 'Gasolina'
+      type: 'Gasolina',
+      owner_id: ''
     };
   }
+  setExpenseValues() {
+    this.expense.car_plate = this.car.id;
+    this.expense.driver_id = this.driver.id;
+    this.expense.driver_name = this.driver.name + ' ' + this.driver.last_name;
+    this.expense.owner_id = this.uid;
+    this.expense.date = this.util.timestamp();
+    console.log(this.expense);
+  }
 
-  deleteExpense(id) {
-    this.util.removeConform(id).then(res => {
+  deleteExpense(id, expenseNumber) {
+    this.util.removeConform(id, expenseNumber).then(res => {
       if (res === 'ok') {
-        this.expenseService.delete(id).then(success => this.util.presentToast('Vehículo eliminado', null, null, 3000));
+        this.expenseService.delete(id).then(success => this.util.presentToast('Gasto Eliminado', null, null, 3000));
       }
     });
   }
@@ -162,6 +176,8 @@ export class ExpensesComponent implements OnInit {
           this.storage.remove('admin_info').then(deleted => {
             this.storage.set('admin_info', JSON.stringify(admin)).then(saved => {
               this.admin = admin;
+              this.uid = admin.id;
+              this.getExpenseList();
             });
           });
         });
@@ -171,9 +187,8 @@ export class ExpensesComponent implements OnInit {
 
 
   getExpenseList() {
-    this.expenseService.getExpenses(this.uid).subscribe(expenseList => {
-      this.expenseList = expenseList;
-      this.util.closeLoading();
+    this.expenseService.getDriverDayExpenses(this.driver.id, this.uid).subscribe(data => {
+      this.expenseList = data;
     });
   }
 
@@ -183,7 +198,6 @@ export class ExpensesComponent implements OnInit {
       if (!this.uid && !this.driver) {
         if (data) {
           this.uid = data;
-          this.getExpenseList();
         } else {
           // is a driver
           this.getDriverInfo();
