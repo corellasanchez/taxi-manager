@@ -10,11 +10,12 @@ import { Expense } from '../../models/expense.model';
 import { UserDataService } from '../../services/data-services/user-data.service';
 import { UtilService } from '../../services/util/util.service';
 
+
 @Component({
-  selector: 'app-expenses',
-  templateUrl: './expenses.component.html'
+  selector: 'app-admin-expenses',
+  templateUrl: './admin_expenses.component.html'
 })
-export class ExpensesComponent implements OnInit {
+export class AdminExpensesComponent implements OnInit {
   @ViewChild('content') content: IonContent;
   public expenseList: Array<Expense>;
   public expense: Expense;
@@ -38,7 +39,7 @@ export class ExpensesComponent implements OnInit {
     this.setExpenseTypes();
     this.expense = this.newExpense();
     this.showAddPannel = false;
-    this.title = 'Mis gastos de hoy';
+    this.title = 'Gastos del día';
   }
 
   ionViewDidEnter() {
@@ -53,18 +54,30 @@ export class ExpensesComponent implements OnInit {
   scroll() {
     this.content.scrollToTop(300);
   }
+  // id: string,
+  // amount: string,
+  // business_name: string,
+  // car_plate: string,
+  // date: any,
+  // description: string,
+  // driver_id: string,
+  // driver_name: string,
+  // invoice_number: string,
+  // notes: string,
+  // quantity: string,
+  // type: string
 
   addExpense() {
 
     this.setExpenseValues();
-    this.expenseService.create(this.expense).then(
-      _ => {
-        this.showAddPannel = false;
-        this.util.presentToast('Gasto agregado con éxito', true, 'bottom', 2100);
-        this.expense = this.newExpense();
-      }
-    ).catch(err => {
-    });
+      this.expenseService.create(this.expense).then(
+        _ => {
+          this.showAddPannel = false;
+          this.util.presentToast('Gasto agregado con éxito', true, 'bottom', 2100);
+          this.expense = this.newExpense();
+        }
+      ).catch(err => {
+      });
   }
 
   showAdd(show: boolean) {
@@ -73,7 +86,7 @@ export class ExpensesComponent implements OnInit {
       this.title = 'Registrar un gasto';
 
     } else {
-      this.title = 'Gastos de hoy';
+      this.title = 'Gastos del día';
 
     }
   }
@@ -96,9 +109,6 @@ export class ExpensesComponent implements OnInit {
     };
   }
   setExpenseValues() {
-    this.expense.car_plate = this.car.id;
-    this.expense.driver_id = this.driver.id;
-    this.expense.driver_name = this.driver.name + ' ' + this.driver.last_name;
     this.expense.owner_id = this.uid;
     this.expense.date = this.util.timestamp();
     console.log(this.expense);
@@ -134,53 +144,25 @@ export class ExpensesComponent implements OnInit {
       ];
   }
 
-  getCarInfo() {
-    this.car = {};
-    this.storage.ready().then(ready => {
-      this.storage.get('car').then((val) => {
-        if (val) {
-          this.car = JSON.parse(val);
-        }
-      });
-    });
-  }
 
-  getDriverInfo() {
-    this.driver = {};
-    this.storage.ready().then(ready => {
-      this.storage.get('driver_info').then((val) => {
-        if (val) {
-          this.driver = JSON.parse(val);
-          this.getAdminInfo();
-        }
-      });
-    });
-  }
-
-  getAdminInfo() {
-    if (!this.admin) {
-      this.userService.getOne(this.driver.uid).subscribe(admin => {
-        this.storage.ready().then(ready => {
-          this.storage.remove('admin_info').then(deleted => {
-            this.storage.set('admin_info', JSON.stringify(admin)).then(saved => {
-              this.admin = admin;
-              this.uid = admin.id;
-              this.getExpenseList();
-            });
-          });
-        });
-      });
-    }
-  }
 
   getExpenseList() {
-    this.expenseService.getDriverDayExpenses(this.driver.id, this.uid).subscribe(data => {
+    this.expenseService.getAllDayExpenses(this.uid).subscribe(data => {
       this.expenseList = data;
     });
   }
 
   getUID() {
-    this.getDriverInfo();
-    this.getCarInfo();
+    this.util.userid.subscribe(data => {
+
+      if (!this.uid) {
+        if (data) {
+          this.uid = data;
+          this.getExpenseList();
+          console.log(this.uid);
+        }
+      }
+    });
   }
+
 }

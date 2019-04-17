@@ -48,7 +48,7 @@ export class AppComponent implements OnDestroy {
         this.appMenu = [
           { title: 'Vehículos', url: '/cars', icon: 'car' },
           { title: 'Conductores', url: '/drivers', icon: 'contacts' },
-          { title: 'Registrar Gasto', url: '/expenses', icon: 'paper' }
+          { title: 'Registrar Gasto', url: '/admin_expenses', icon: 'paper' }
         ];
       } else {
         this.appMenu = [

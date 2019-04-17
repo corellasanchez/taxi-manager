@@ -54,5 +54,16 @@ export class ExpenseService extends BaseDataService<Expense> {
                 .where('driver_id', '==', driver_id)
         ).valueChanges();
     }
+
+    public getAllDayExpenses(uid): Observable<any> {
+
+        const start = moment().startOf('day').toDate(); // set to 12:00 am today
+        const end = moment().endOf('day').toDate(); // set to 23:59 pm today
+        return this.firestore.store.collection<Expense>('expenses',
+            ref => ref.where('date', '>', this.util.timestampFormat(start))
+                .where('date', '<', this.util.timestampFormat(end))
+                .where('owner_id', '==', uid)
+        ).valueChanges();
+    }
 }
 
