@@ -22,6 +22,7 @@ import { DriverService } from './services/data-services/driver.service';
 import { environment } from 'src/environments/environment';
 import { ExpenseService } from './services/data-services/expense.service';
 import { UserDataService } from './services/data-services/user-data.service';
+import { IncomeService } from './services/data-services/income.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,6 +49,7 @@ import { UserDataService } from './services/data-services/user-data.service';
     FirestoreService,
     StorageService,
     AngularFireDatabase,
+    IncomeService,
     { provide: FirestoreSettingsToken, useValue: {} }
   ],
   bootstrap: [AppComponent]

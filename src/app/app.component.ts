@@ -48,12 +48,12 @@ export class AppComponent implements OnDestroy {
         this.appMenu = [
           { title: 'Vehículos', url: '/cars', icon: 'car' },
           { title: 'Conductores', url: '/drivers', icon: 'contacts' },
-          { title: 'Registrar Gasto', url: '/admin_expenses', icon: 'paper' }
+          { title: 'Gastos del día', url: '/admin_expenses', icon: 'paper' }
         ];
       } else {
         this.appMenu = [
           { title: 'Registrar Gasto', url: '/expenses', icon: 'paper' },
-          { title: 'Cierre de turno', url: '/drivers', icon: 'speedometer' },
+          { title: 'Cierre de turno', url: '/income', icon: 'speedometer' },
         ];
       }
     });

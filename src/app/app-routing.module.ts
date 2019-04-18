@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'drivers', loadChildren: './components/drivers/drivers.module#DriversComponentModule' },
   { path: 'expenses', loadChildren: './components/expenses/expenses.module#ExpensesComponentModule' },
   { path: 'admin_expenses', loadChildren: './components/admin_expenses/admin_expenses.module#AdminExpensesComponentModule' },
-
+  { path: 'income', loadChildren: './components/income/income.module#IncomeComponentModule' }
 ];
 
 @NgModule({

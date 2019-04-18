@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title align-title="center">
+      {{title}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding #content>
+
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" [hidden]='showAddPannel'>
+    <ion-fab-button color="success" (click)=showAdd(true)>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <pre>{{income | json}}</pre>
+  <div class="form-container" [hidden]="!showAddPannel">
+
+    <form>
+      <ion-item>
+        <ion-label position="stacked">Fecha Inicial</ion-label>
+        <ion-datetime name="end_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
+          placeholder="Seleccione la fecha inicial" [(ngModel)]="start_date"
+          month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+          placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR"
+          cancel-text="CANCELAR" ></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Fecha Final</ion-label>
+        <ion-datetime name="end_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
+          placeholder="Seleccione la fecha final" [(ngModel)]="end_date"
+          month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+          placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR"
+          cancel-text="CANCELAR"></ion-datetime>
+      </ion-item>
+
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">* Total recaudado: </strong></ion-label>
+        <ion-input [(ngModel)]="income.amount" name="amount" placeholder="Total recaudado en el turno" clear-input="true"
+          maxlength="15" type="number"> </ion-input>
+      </ion-item>
+
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">* Kilometraje Inicial: </strong></ion-label>
+        <ion-input type="number" [(ngModel)]="income.initial_mileage" name="initial_mileage"></ion-input>
+      </ion-item>
+
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">* Kilometraje Final: </strong></ion-label>
+        <ion-input type="number" [(ngModel)]="income.final_mileage" name="initial_mileage"></ion-input>
+      </ion-item>
+
+      <ion-item margin-bottom>
+        <ion-label position="stacked"> <strong class="align">Observaciones : </strong></ion-label>
+        <ion-input [(ngModel)]="income.notes" name="notes" clear-input="true" maxlength="150"></ion-input>
+      </ion-item>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="success" [disabled]="!income.amount || !income.initial_mileage || !income.final_mileage" (click)="addIncome()"
+              expand="block">Agregar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <br>
+    </form>
+  </div>
+  <br>
+
+  <div class="form-container" [hidden]="showAddPannel">
+    <ion-text color="danger" *ngIf="!expenseList?.length > 0">
+      <h2>No gastos registrados hoy. </h2>
+    </ion-text>
+  </div>
+  <ion-card *ngFor="let i of expenseList" [hidden]="showAddPannel">
+
+    <ion-item>
+      <ion-card-title>{{i.car_plate}}</ion-card-title>
+      <ion-icon color="danger" slot="end" (click)="deleteExpense(i.id, i.invoice_number)" name="trash"></ion-icon>
+    </ion-item>
+
+    <ion-card-content>
+
+      <ion-item lines="none" *ngIf="i.date">
+        <ion-label>
+          <h3>{{i.date.toDate() | date:"medium"}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.invoice_number">
+        <ion-label>
+          <h3># {{i.invoice_number}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.business_name">
+        <ion-label>
+          <h3>{{i.business_name}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.type">
+        <ion-label>
+          <h3>{{i.type}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.description">
+        <p>{{i.description}}</p>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.notes">
+        <p>{{i.notes}}</p>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.type">
+        <ion-label>
+          <h3>Cantidad: {{i.quantity}}</h3>
+        </ion-label>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="i.amount">
+        <ion-label>
+          <h3>Total: {{i.amount}}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -46,6 +46,10 @@ export class UtilService {
   return firebase.firestore.Timestamp.fromDate(date);
  }
 
+ timestampFromMillis( millis: number) {
+  return firebase.firestore.Timestamp.fromMillis(millis);
+ }
+
 
   connectionState(uid: string ) {
     const userStatusDatabaseRef = this.db.database.ref('/status/' + uid);
