@@ -9,7 +9,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content padding #content>
 
   <!-- fab placed to the bottom end -->
@@ -19,42 +18,44 @@
     </ion-fab-button>
   </ion-fab>
 
-  <pre>{{income | json}}</pre>
+  <!-- <pre>{{income | json}}</pre> -->
   <div class="form-container" [hidden]="!showAddPannel">
 
     <form>
-      <ion-item>
-        <ion-label position="stacked">Fecha Inicial</ion-label>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"><strong class="align">Inicio de turno</strong></ion-label>
         <ion-datetime name="end_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
           placeholder="Seleccione la fecha inicial" [(ngModel)]="start_date"
           month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
           placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR"
-          cancel-text="CANCELAR" ></ion-datetime>
+          cancel-text="CANCELAR" (ionChange)="calculateTotalHours()"></ion-datetime>
       </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Fecha Final</ion-label>
+      <ion-item margin-bottom>
+        <ion-label position="stacked"><strong class="align">Fin de turno</strong></ion-label>
         <ion-datetime name="end_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
           placeholder="Seleccione la fecha final" [(ngModel)]="end_date"
           month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
           placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR"
-          cancel-text="CANCELAR"></ion-datetime>
+          cancel-text="CANCELAR" (ionChange)="calculateTotalHours()"></ion-datetime>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">* Total recaudado: </strong></ion-label>
-        <ion-input [(ngModel)]="income.amount" name="amount" placeholder="Total recaudado en el turno" clear-input="true"
-          maxlength="15" type="number"> </ion-input>
+        <ion-input [(ngModel)]="income.amount" name="amount" clear-input="true" maxlength="15" type="number"
+          (ionChange)="calculatePercentageExpense()"> </ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">* Kilometraje Inicial: </strong></ion-label>
-        <ion-input type="number" [(ngModel)]="income.initial_mileage" name="initial_mileage"></ion-input>
+        <ion-input type="number" [(ngModel)]="income.initial_mileage" name="initial_mileage"
+          (ionChange)="calculateTotalMillage()"></ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">* Kilometraje Final: </strong></ion-label>
-        <ion-input type="number" [(ngModel)]="income.final_mileage" name="initial_mileage"></ion-input>
+        <ion-input type="number" [(ngModel)]="income.final_mileage" name="initial_mileage"
+          (ionChange)="calculateTotalMillage()"></ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
@@ -62,14 +63,52 @@
         <ion-input [(ngModel)]="income.notes" name="notes" clear-input="true" maxlength="150"></ion-input>
       </ion-item>
 
+      <ion-item>
+        <ion-text>
+          <h4>Resumen </h4>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text color="danger" *ngIf="total_hours <= 0">
+          Rango de fechas incorrecto
+        </ion-text>
+        <ion-text *ngIf="total_hours > 0">
+          Horas trabajadas: <strong>{{total_hours}}</strong>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-text color="danger" *ngIf="total_millage <= 0">
+          El kilometraje no es correcto
+        </ion-text>
+        <ion-text *ngIf="total_millage > 0">
+          Kilometros recorridos: <strong>{{total_millage}}</strong>
+        </ion-text>
+      </ion-item>
+
+      <ion-item *ngIf="income.amount > 0">
+        <ion-text>
+          Total recaudado: <strong>₡ {{income.amount}}</strong>
+        </ion-text>
+      </ion-item>
+
+      <ion-item *ngIf="this.driverShiftPercentage > 0">
+        <ion-text>
+          Porcentaje para el conductor {{driver.percentage}}%: <strong
+            color="success">₡ {{driverShiftPercentage}}</strong>
+        </ion-text>
+      </ion-item>
+
       <ion-grid>
         <ion-row>
           <ion-col>
+            <br><br>
             <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
           </ion-col>
           <ion-col>
-            <ion-button color="success" [disabled]="!income.amount || !income.initial_mileage || !income.final_mileage" (click)="addIncome()"
-              expand="block">Agregar
+            <ion-button color="success" [disabled]="!income.amount || total_millage <= 0 || total_hours <= 0 "
+              (click)="addIncome()" expand="block">Agregar
             </ion-button>
           </ion-col>
         </ion-row>

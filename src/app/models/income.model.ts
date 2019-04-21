@@ -12,7 +12,9 @@ export class Income {
     public notes: string;
     public type: string;
     public owner_id: string;
-
+    public worked_hours: string;
+    public total_milage: string;
+    public work_shift_percent: string;
     constructor(
          id: string,
          amount: string,
@@ -25,7 +27,10 @@ export class Income {
          driver_name: string,
          notes: string,
          type: string,
-         owner_id: string) {
+         owner_id: string,
+         worked_hours: string,
+         total_milage: string,
+         work_shift_percent: string) {
         this.id = id;
         this.amount = amount;
         this.car_plate = car_plate;
@@ -38,6 +43,9 @@ export class Income {
         this.notes = notes;
         this.type = type;
         this.owner_id = owner_id;
+        this.worked_hours = worked_hours;
+        this.total_milage =  total_milage;
+        this.work_shift_percent = work_shift_percent;
     }
 }
 

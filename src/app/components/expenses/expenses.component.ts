@@ -95,6 +95,7 @@ export class ExpensesComponent implements OnInit {
       owner_id: ''
     };
   }
+
   setExpenseValues() {
     this.expense.car_plate = this.car.id;
     this.expense.driver_id = this.driver.id;
@@ -128,7 +129,7 @@ export class ExpensesComponent implements OnInit {
         'Poliza',
         'Productos de limpieza',
         'Gastos Médicos',
-        'Comisión para el conductor',
+        'Comision para el conductor',
         'Comida',
         'Otros'
       ];
