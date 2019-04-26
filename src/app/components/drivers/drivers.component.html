@@ -44,18 +44,23 @@
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Contraseña : </ion-label>
-        <ion-input [(ngModel)]="driver.password" name="password" clear-input="true" placeholder="Más de 6 caracteres.">
+        <ion-input [(ngModel)]="driver.password" name="password" clear-input="true">
+
         </ion-input>
+
       </ion-item>
+      <ion-text color="danger" *ngIf="driver.password && driver.password.length <= 5">
+        <small>La constraseña debe tener 6 o más
+          caracteres</small>
+      </ion-text>
+      <br>
       
       <ion-item margin-bottom>
-
         <ion-label position="stacked">Porcentaje para el chofer {{driver.percentage}}%</ion-label>
         <ion-select okText="Seleccionar" cancelText="Cerrar" name="porcentaje" [(ngModel)]="driver.percentage">
           <ion-select-option *ngFor="let percentage of percentages" [value]="percentage">{{percentage}}
           </ion-select-option>
         </ion-select>
-
       </ion-item>
       <small> Elija 0% si el chofer trabaja por salario</small>
       <br> <br>

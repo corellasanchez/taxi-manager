@@ -9,7 +9,6 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content padding #content>
 
   <!-- fab placed to the bottom end -->
@@ -37,21 +36,6 @@
   <div class="form-container" [hidden]="!showAddPannel">
 
     <form>
-
-      <!-- 
-      id: string,
-      amount: string,
-      business_name: string,
-      car_plate: string,
-      date: any,
-      description: string,
-      driver_id: string,
-      driver_name: string,
-      invoice_number: string,
-      notes: string,
-      quantity: string,
-      type: string 
-    -->
 
       <ion-item margin-bottom>
         <ion-label position="stacked">Categoria
@@ -119,12 +103,12 @@
   </div>
   <ion-card *ngFor="let i of expenseList" [hidden]="showAddPannel">
 
-    <ion-item>
+    <ion-item [hidden]="i.type === 'Comision para el conductor'">
       <ion-card-title>{{i.car_plate}}</ion-card-title>
       <ion-icon color="danger" slot="end" (click)="deleteExpense(i.id, i.invoice_number)" name="trash"></ion-icon>
     </ion-item>
 
-    <ion-card-content>
+    <ion-card-content [hidden]="i.type === 'Comision para el conductor'">
 
       <ion-item lines="none" *ngIf="i.date">
         <ion-label>
@@ -170,27 +154,6 @@
         </ion-label>
       </ion-item>
 
-
-
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-<!-- {
-  "amount": "5000",
-  "business_name": "",
-  "car_plate": "ASD-098",
-  "date": {
-    "seconds": 1554684689,
-    "nanoseconds": 500000000
-  },
-  "description": "",
-  "driver_id": "c9cfb23b-f7b2-55a6-dca8-43e64eb39f2b",
-  "driver_name": "Rope Apelo",
-  "id": "4db0a23e-72cc-0195-875b-4d5ab266a097",
-  "invoice_number": "",
-  "notes": "",
-  "owner_id": "U1KujWainaPsgkoCE8EftABIg2s2",
-  "quantity": "1",
-  "type": "Gasolina"
-} -->

@@ -44,14 +44,14 @@ export class IncomeService extends BaseDataService<Income> {
     }
 
     public getDriverDayIncomes(driver_id, uid): Observable<any> {
-
         const start = moment().startOf('day').toDate(); // set to 12:00 am today
         const end = moment().endOf('day').toDate(); // set to 23:59 pm today
-        console.log(this.util.timestampFormat(start), this.util.timestampFormat(end), driver_id, uid);
-        return this.firestore.store.collection<Income>('Incomes',
-            ref => ref.where('date', '>', this.util.timestampFormat(start))
-                .where('date', '<', this.util.timestampFormat(end))
+        console.log( 'income', this.util.timestampFormat(start), this.util.timestampFormat(end), driver_id, uid);
+        return this.firestore.store.collection<Income>('income',
+            ref => ref.where('start_date', '>', this.util.timestampFormat(start))
+                .where('start_date', '<', this.util.timestampFormat(end))
                 .where('driver_id', '==', driver_id)
+                .where('owner_id', '==', uid)
         ).valueChanges();
     }
 
@@ -59,7 +59,7 @@ export class IncomeService extends BaseDataService<Income> {
 
         const start = moment().startOf('day').toDate(); // set to 12:00 am today
         const end = moment().endOf('day').toDate(); // set to 23:59 pm today
-        return this.firestore.store.collection<Income>('Incomes',
+        return this.firestore.store.collection<Income>('income',
             ref => ref.where('date', '>', this.util.timestampFormat(start))
                 .where('date', '<', this.util.timestampFormat(end))
                 .where('owner_id', '==', uid)

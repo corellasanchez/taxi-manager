@@ -50,7 +50,7 @@ export class DriversComponent implements OnInit {
   }
 
   rememberCredentials() {
-    this.storage.get('admin').then((val) => {
+    this.storage.get('admin_login').then((val) => {
       if (val) {
         this.admin = JSON.parse(val);
       }
@@ -108,7 +108,7 @@ export class DriversComponent implements OnInit {
   }
 
   deleteDriver(id, ssn) {
-    this.util.removeConform(id, ssn).then(res => {
+    this.util.removeConfirm(id, ssn).then(res => {
       if (res === 'ok') {
         this.driverService.delete(id).then(success => this.util.presentToast('Chofer eliminado', null, null, 3000));
       }

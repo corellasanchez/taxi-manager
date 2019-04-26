@@ -106,7 +106,7 @@ export class ExpensesComponent implements OnInit {
   }
 
   deleteExpense(id, expenseNumber) {
-    this.util.removeConform(id, expenseNumber).then(res => {
+    this.util.removeConfirm(id, expenseNumber).then(res => {
       if (res === 'ok') {
         this.expenseService.delete(id).then(success => this.util.presentToast('Gasto Eliminado', null, null, 3000));
       }

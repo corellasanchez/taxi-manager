@@ -66,79 +66,6 @@ export class IncomeComponent implements OnInit {
     this.content.scrollToTop(300);
   }
 
-  calculateTotalHours() {
-    const initial_date = moment(this.start_date);
-    const end_date = moment(this.end_date);
-    const difference = moment.duration(end_date.diff(initial_date));
-    this.total_hours = Number(difference.asHours()).toFixed(1);
-    const decimal = this.total_hours - Math.floor(this.total_hours);
-    if (decimal === 0) {
-      this.total_hours = Number(difference.asHours()).toFixed();
-    }
-  }
-
-  calculateTotalMillage() {
-    this.total_millage = Number(this.income.final_mileage) - Number(this.income.initial_mileage);
-  }
-
-  addIncome() {
-    this.addDriverPercentExpense();
-    this.setIncomeValues();
-    this.incomeService.create(this.income).then(
-      _ => {
-        this.calculatePercentageExpense();
-        this.showAddPannel = false;
-        this.util.presentToast('Cierre registrado con éxito', true, 'bottom', 2100);
-        this.income = this.newIncome();
-      }
-    ).catch(err => {
-    });
-  }
-
-  addDriverPercentExpense() {
-    console.log('Expense values');
-    if (this.driverShiftPercentage > 0) {
-      this.setExpenseValues();
-      this.expenseService.create(this.expense).then(
-        _ => {
-          this.util.presentToast('Comisión para el conductor anadida con éxito', true, 'bottom', 2100);
-          this.expense = this.newExpense();
-        }
-      ).catch(err => {
-      });
-    }
-  }
-
-  setExpenseValues() {
-    this.expense.amount = this.driverShiftPercentage;
-    this.expense.car_plate = this.car.id;
-    this.expense.driver_id = this.driver.id;
-    this.expense.driver_name = this.driver.name + ' ' + this.driver.last_name;
-    this.expense.owner_id = this.uid;
-    this.expense.date = this.util.timestamp();
-    this.expense.description = this.driver.percentage + '%' + ' de comisión de ₡' + this.income.amount;
-    console.log(this.expense);
-  }
-
-  calculatePercentageExpense() {
-    if (this.driver.percentage > 0 && Number(this.income.amount) > 0) {
-      this.driverShiftPercentage = Number(this.income.amount) * Number(this.driver.percentage) / 100;
-      this.driverShiftPercentage = this.driverShiftPercentage.toFixed();
-    } else {
-      this.driverShiftPercentage = 0;
-    }
-  }
-
-  showAdd(show: boolean) {
-    this.showAddPannel = show;
-    if (show) {
-      this.title = 'Registrar cierre';
-
-    } else {
-      this.title = 'Cierre de turno';
-    }
-  }
-
   newIncome() {
     this.total_hours = 0;
     this.total_millage = 0;
@@ -161,7 +88,8 @@ export class IncomeComponent implements OnInit {
       owner_id: '',
       worked_hours: '',
       total_milage: '',
-      work_shift_percent: ''
+      work_shift_percent: '',
+      expense_id: ''
     };
   }
 
@@ -183,6 +111,95 @@ export class IncomeComponent implements OnInit {
     };
   }
 
+  getIncomeList() {
+    this.incomeService.getDriverDayIncomes(this.driver.id, this.uid).subscribe(data => {
+      this.incomeList = data;
+    });
+  }
+
+  getUID() {
+    this.getDriverInfo();
+    this.getCarInfo();
+  }
+
+  calculateTotalHours() {
+    const initial_date = moment(this.start_date);
+    const end_date = moment(this.end_date);
+    const difference = moment.duration(end_date.diff(initial_date));
+    this.total_hours = Number(difference.asHours()).toFixed(1);
+    const decimal = this.total_hours - Math.floor(this.total_hours);
+    if (decimal === 0) {
+      this.total_hours = Number(difference.asHours()).toFixed();
+    }
+  }
+
+  calculateTotalMillage() {
+    this.total_millage = Number(this.income.final_mileage) - Number(this.income.initial_mileage);
+  }
+
+  addIncome() {
+    this.addDriverPercentExpense();
+  }
+
+  addDriverPercentExpense() {
+     this.calculatePercentageExpense();
+    if (this.driverShiftPercentage > 0) {
+      this.setExpenseValues();
+      this.expenseService.create(this.expense).then(
+        _ => {
+          this.util.presentToast('Comisión para el conductor anadida con éxito', true, 'bottom', 2100);
+          this.saveIncome();
+        }
+      )
+      .catch(err => {
+      });
+    } else {
+      this.saveIncome();
+    }
+  }
+
+  saveIncome() {
+    this.setIncomeValues();
+    this.incomeService.create(this.income).then(
+      _ => {
+        this.showAddPannel = false;
+        this.util.presentToast('Cierre registrado con éxito', true, 'bottom', 2100);
+        this.income = this.newIncome();
+        this.expense = this.newExpense();
+      }
+    ).catch(err => {
+    });
+  }
+
+  setExpenseValues() {
+    this.expense.amount = this.driverShiftPercentage;
+    this.expense.car_plate = this.car.id;
+    this.expense.driver_id = this.driver.id;
+    this.expense.driver_name = this.driver.name + ' ' + this.driver.last_name;
+    this.expense.owner_id = this.uid;
+    this.expense.date = this.util.timestamp();
+    this.expense.description = this.driver.percentage + '%' + ' de comisión de ₡' + this.income.amount;
+  }
+
+  calculatePercentageExpense() {
+    if (this.driver.percentage > 0 && Number(this.income.amount) > 0) {
+      this.driverShiftPercentage = Number(this.income.amount) * Number(this.driver.percentage) / 100;
+      this.driverShiftPercentage = this.driverShiftPercentage.toFixed();
+    } else {
+      this.driverShiftPercentage = 0;
+    }
+  }
+
+  showAdd(show: boolean) {
+    this.showAddPannel = show;
+    if (show) {
+      this.title = 'Registrar cierre';
+
+    } else {
+      this.title = 'Cierre de turno';
+    }
+  }
+
   setIncomeValues() {
     this.income.car_plate = this.car.id;
     this.income.driver_id = this.driver.id;
@@ -193,16 +210,20 @@ export class IncomeComponent implements OnInit {
     this.income.worked_hours = this.total_hours;
     this.income.total_milage = this.total_millage;
     this.income.work_shift_percent = this.driverShiftPercentage;
+    this.income.expense_id = this.expense.id;
   }
 
   getDateFormat(date: string) {
     return moment(this.start_date);
   }
 
-  deleteIncome(id, incomeNumber) {
-    this.util.removeConform(id, incomeNumber).then(res => {
+  deleteIncome(income: any) {
+    this.util.removeConfirm(income.id, 'Cierre por un monto de ' + income.amount).then(res => {
       if (res === 'ok') {
-        this.incomeService.delete(id).then(success => this.util.presentToast('Gasto Eliminado', null, null, 3000));
+        if (income.work_shift_percent > 0 && income.expense_id) {
+          this.expenseService.delete(income.expense_id);
+        }
+        this.incomeService.delete(income.id).then(success => this.util.presentToast('Cierre anulado', null, null, 3000));
       }
     });
   }
@@ -244,16 +265,5 @@ export class IncomeComponent implements OnInit {
         });
       });
     }
-  }
-
-  getIncomeList() {
-    // this.incomeService.getDriverDayIncome(this.driver.id, this.uid).subscribe(data => {
-    //   this.incomeList = data;
-    // });
-  }
-
-  getUID() {
-    this.getDriverInfo();
-    this.getCarInfo();
   }
 }

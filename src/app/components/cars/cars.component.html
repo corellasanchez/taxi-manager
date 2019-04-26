@@ -88,7 +88,7 @@
   </div>
 
   <ion-card *ngFor="let i of carList" [hidden]="showAddPannel">
-    <ion-item>
+    <ion-item  >
       <div class="small-color" [ngStyle]="{'background-color': i.color }"></div>
       <ion-card-title>{{i.id}}</ion-card-title>
       <ion-icon color="danger"   slot="end" (click)="deleteCar(i.id)"  name="trash"></ion-icon>
@@ -103,4 +103,5 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

@@ -68,9 +68,9 @@ export class CarsComponent implements OnInit {
       this.car.model = this.car.model[0].toUpperCase() + this.car.model.slice(1);
       this.carService.create(this.car).then(
         _ => {
-          this.showAddPannel = false;
           this.util.presentToast('Vehículo Agregado', true, 'bottom', 2100);
           this.car = this.newCar();
+          this.showAddPannel = false;
         }
       ).catch(err => {
       });
@@ -107,7 +107,7 @@ export class CarsComponent implements OnInit {
   }
 
   deleteCar(id) {
-    this.util.removeConform(id).then(res => {
+    this.util.removeConfirm(id).then(res => {
       if (res === 'ok') {
         this.carService.delete(id).then(success => this.util.presentToast('Vehículo eliminado', null, null, 3000));
       }

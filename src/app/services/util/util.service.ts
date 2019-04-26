@@ -94,7 +94,7 @@ export class UtilService {
   }
 
 
-  removeConform(id?: string, showId?: string): Promise<any> {
+  removeConfirm(id?: string, showId?: string): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
         header: 'Confirmar!',
