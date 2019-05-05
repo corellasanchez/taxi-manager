@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title align-title="center">
+      {{title}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding #content>
+
+
+  <div class="form-container" [hidden]="tab === 'month'">
+    <ion-card><br>
+        <ion-card-subtitle color="primary">  <strong>Comisiones de la semana</strong></ion-card-subtitle>
+      
+      <ion-card-content>
+          <ion-card-title > ₡ {{totalWeekCommissions}}</ion-card-title>
+  
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <canvas #weekBarCanvas></canvas>
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-text color="primary" class="ion-text-center">
+      <strong> Detalle de las comisiones</strong>
+    </ion-text>
+
+    <!-- List of Text Items -->
+    <ion-list *ngFor="let i of weekCommissions">
+      <ion-item>
+        <ion-grid>
+
+          <ion-row>
+            <ion-col>
+              <ion-text>
+                <strong>{{i.date.toDate() | date:"EEE d 'de' MMMM y"}} {{i.date.toDate() | date:"h:mm a"}} </strong>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="7">
+              <small> <strong>{{i.car_plate}}</strong> - {{i.description}} </small>
+            </ion-col>
+            <ion-col size="5" align-self-end class="ion-text-end">
+              <!-- <ion-badge>₡{{i.amount}}</ion-badge> -->
+              <ion-text color="primary">
+                ₡{{i.amount}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+  <div class="form-container" [hidden]="tab === 'week'">
+      <ion-card><br>
+          <ion-card-subtitle color="primary">  <strong>Comisiones del mes</strong></ion-card-subtitle>
+        
+        <ion-card-content>
+            <ion-card-title > ₡ {{totalMonthCommissions}}</ion-card-title>
+        </ion-card-content>
+      </ion-card>
+  
+      <ion-card>
+        <ion-card-content>
+          <canvas #monthBarCanvas></canvas>
+        </ion-card-content>
+      </ion-card>
+  
+  
+      <ion-text color="primary" class="ion-text-center">
+        <strong> Detalle de las comisiones</strong>
+      </ion-text>
+  
+      <!-- List of Text Items -->
+      <ion-list *ngFor="let i of monthCommissions">
+        <ion-item>
+          <ion-grid>
+  
+            <ion-row>
+              <ion-col>
+                <ion-text>
+                  <strong>{{i.date.toDate() | date:"EEE d 'de' MMMM y"}} {{i.date.toDate() | date:"h:mm a"}} </strong>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+  
+            <ion-row>
+              <ion-col size="7">
+                <small> <strong>{{i.car_plate}}</strong> - {{i.description}} </small>
+              </ion-col>
+              <ion-col size="5" align-self-end class="ion-text-end">
+                <!-- <ion-badge>₡{{i.amount}}</ion-badge> -->
+                <ion-text color="primary">
+                  ₡{{i.amount}}
+                </ion-text>
+              </ion-col>
+            </ion-row>
+  
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+</ion-content>
+
+
+<ion-tab-bar slot="bottom">
+
+  <ion-tab-button color="success" (click)="showReport('week')">
+    <ion-icon name="list"></ion-icon>
+    <ion-label>SEMANA</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="showReport('month')">
+    <ion-icon name="calendar"></ion-icon>
+    <ion-label>MES</ion-label>
+  </ion-tab-button>
+
+</ion-tab-bar>

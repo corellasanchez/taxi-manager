@@ -147,7 +147,7 @@ export class IncomeComponent implements OnInit {
       this.setExpenseValues();
       this.expenseService.create(this.expense).then(
         _ => {
-          this.util.presentToast('Comisión para el conductor anadida con éxito', true, 'bottom', 2100);
+          // this.util.presentToast('Comisión para el conductor anadida con éxito', true, 'bottom', 2100);
           this.saveIncome();
         }
       )
@@ -177,7 +177,7 @@ export class IncomeComponent implements OnInit {
     this.expense.driver_id = this.driver.id;
     this.expense.driver_name = this.driver.name + ' ' + this.driver.last_name;
     this.expense.owner_id = this.uid;
-    this.expense.date = this.util.timestamp();
+    this.expense.date = this.util.timestampFromMillis(Number(moment(this.start_date).format('x')));
     this.expense.description = this.driver.percentage + '%' + ' de comisión de ₡' + this.income.amount;
   }
 

@@ -54,6 +54,7 @@ export class AppComponent implements OnDestroy {
         this.appMenu = [
           { title: 'Registrar Gasto', url: '/expenses', icon: 'paper' },
           { title: 'Cierre de turno', url: '/income', icon: 'speedometer' },
+          { title: 'Comisiones', url: '/driver_reports', icon: 'calendar' },
         ];
       }
     });

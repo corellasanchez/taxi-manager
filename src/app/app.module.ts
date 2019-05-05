@@ -36,7 +36,7 @@ import { IncomeService } from './services/data-services/income.service';
     AngularFireAuthModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule
-    ],
+],
   providers: [
     StatusBar,
     SplashScreen,

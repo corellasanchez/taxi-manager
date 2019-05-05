@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
 import { GuardsService } from './guards/guards.service';
-
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   // { path: 'home', loadChildren: './components/home/home.module#HomePageModule' , canActivate: [GuardsService] },
@@ -12,7 +11,8 @@ const routes: Routes = [
   { path: 'drivers', loadChildren: './components/drivers/drivers.module#DriversComponentModule' },
   { path: 'expenses', loadChildren: './components/expenses/expenses.module#ExpensesComponentModule' },
   { path: 'admin_expenses', loadChildren: './components/admin_expenses/admin_expenses.module#AdminExpensesComponentModule' },
-  { path: 'income', loadChildren: './components/income/income.module#IncomeComponentModule' }
+  { path: 'income', loadChildren: './components/income/income.module#IncomeComponentModule' },
+  { path: 'driver_reports', loadChildren: './components/driver_reports/driver_reports.module#DriverReportsComponentModule' }
 ];
 
 @NgModule({

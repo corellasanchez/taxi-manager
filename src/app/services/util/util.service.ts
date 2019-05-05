@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { LoadingController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Chart } from 'chart.js';
 
 
 
@@ -35,6 +36,29 @@ export class UtilService {
         this.userid.next(null);
       }
 
+    });
+  }
+
+  buildBarChart(label: string, element: any, labels: Array<string>, values: Array<number>) {
+    element = new Chart(element.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: label,
+          data: values,
+          backgroundColor: 'rgba(0,128,255, 0.7)'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
     });
   }
 
