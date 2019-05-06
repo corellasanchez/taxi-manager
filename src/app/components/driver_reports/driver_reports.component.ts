@@ -10,7 +10,6 @@ import { ExpenseService } from '../../services/data-services/expense.service';
 import { Expense } from '../../models/expense.model';
 import { UserDataService } from '../../services/data-services/user-data.service';
 import { UtilService } from '../../services/util/util.service';
-import { type } from 'os';
 
 @Component({
   selector: 'app-driver-reports',

@@ -19,28 +19,18 @@
     </ion-fab-button>
   </ion-fab>
 
-  <!-- <pre>{{driver | json}}</pre>
-  <pre>{{admin | json}}</pre>
-  <pre>{{car | json}}</pre> -->
-
   <div class="form-container" [hidden]="!showAddPannel">
 
     <form>
 
-      <!-- 
-      id: string,
-      amount: string,
-      business_name: string,
-      car_plate: string,
-      date: any,
-      description: string,
-      driver_id: string,
-      driver_name: string,
-      invoice_number: string,
-      notes: string,
-      quantity: string,
-      type: string 
-    -->
+      <ion-item margin-bottom>
+        <ion-label position="stacked"><strong class="align">Fecha de la factura</strong></ion-label>
+        <ion-datetime name="expense_date" displayFormat="D MMM YYYY" picker-format="DD/MMM/YYYY"
+          placeholder="Seleccione la fecha de la factura" [(ngModel)]="expense_date"
+          month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+          placeholder="seleccione fecha inicial" done-text="SELECCIONAR" min="{{current_year}}" cancel-text="CANCELAR">
+        </ion-datetime>
+      </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked">Categoria
@@ -120,7 +110,7 @@
 
       <ion-item lines="none" *ngIf="i.driver_name">
         <ion-label>
-            <h3><strong>{{i.driver_name}}</strong></h3>
+          <h3><strong>{{i.driver_name}}</strong></h3>
         </ion-label>
       </ion-item>
 

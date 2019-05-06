@@ -28,7 +28,8 @@
       <ion-card-title *ngIf="driver">{{driver.name}} {{driver.last_name}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <span *ngIf="admin"> Hoy conduces el carro placa: <strong>{{car.id}}</strong> <br> para: <strong>{{admin.name}}
+      <span *ngIf="admin"> Hoy conduces el carro placa: <br><strong>{{car.id}}</strong> <br> para:
+        <strong>{{admin.name}}
           {{admin.last_name}}</strong></span>
     </ion-card-content>
   </ion-card>
@@ -38,7 +39,16 @@
     <form>
 
       <ion-item margin-bottom>
-        <ion-label position="stacked">Categoria
+        <ion-label position="stacked"><strong class="align">Fecha de la factura</strong></ion-label>
+        <ion-datetime name="expense_date" displayFormat="D MMM YYYY" picker-format="DD/MMM/YYYY"
+          placeholder="Seleccione la fecha de la factura" [(ngModel)]="expense_date"
+          month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+          placeholder="seleccione fecha inicial" done-text="SELECCIONAR" min="{{current_year}}" cancel-text="CANCELAR">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item margin-bottom>
+        <ion-label position="stacked"><strong>Categoría</strong>
         </ion-label>
         <ion-select okText="Seleccionar" cancelText="Cerrar" name="type" [(ngModel)]="expense.type">
           <ion-select-option *ngFor="let type of expenseTypes" [value]="type">{{type}}</ion-select-option>
@@ -156,5 +166,5 @@
 
     </ion-card-content>
   </ion-card>
-  
+
 </ion-content>

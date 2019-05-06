@@ -36,6 +36,7 @@ export class IncomeComponent implements OnInit {
   total_hours: any;
   total_millage: any;
   driverShiftPercentage: any;
+  min_year: any;
 
   constructor(
     private incomeService: IncomeService,
@@ -50,6 +51,7 @@ export class IncomeComponent implements OnInit {
     this.calculateTotalMillage();
     this.showAddPannel = false;
     this.title = 'Cierre de turno';
+    this.min_year = new Date().getFullYear() - 1;
   }
 
   ionViewDidEnter() {

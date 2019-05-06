@@ -28,6 +28,8 @@ export class AdminExpensesComponent implements OnInit {
   admin: any;
   car: any;
   isAdmin: boolean;
+  expense_date: any;
+  current_year: any;
 
   constructor(
     private expenseService: ExpenseService,
@@ -40,6 +42,7 @@ export class AdminExpensesComponent implements OnInit {
     this.expense = this.newExpense();
     this.showAddPannel = false;
     this.title = 'Gastos del día';
+    this.current_year = new Date().getFullYear();
   }
 
   ionViewDidEnter() {
@@ -92,6 +95,8 @@ export class AdminExpensesComponent implements OnInit {
   }
 
   newExpense() {
+    const currentDate = new Date().toISOString();
+    this.expense_date = currentDate;
     return {
       id: UUID.UUID(),
       amount: '',
@@ -110,8 +115,7 @@ export class AdminExpensesComponent implements OnInit {
   }
   setExpenseValues() {
     this.expense.owner_id = this.uid;
-    this.expense.date = this.util.timestamp();
-    console.log(this.expense);
+    this.expense.date =  this.util.timestampFromMillis(Number(moment(this.expense_date).format('x')));
   }
 
   deleteExpense(id, expenseNumber) {
