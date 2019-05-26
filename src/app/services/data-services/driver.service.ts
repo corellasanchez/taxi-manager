@@ -47,5 +47,10 @@ export class DriverService extends BaseDataService<Driver> {
             ref => ref.where('ssn', '==', ssn)
                 .where('password', '==', password)).valueChanges();
     }
+
+    public getDriversOnce(uid: string) {
+      return this.firestore.store.collection<Driver>('driver',
+      ref => ref.where('uid', '==', uid)).get();
+    }
 }
 

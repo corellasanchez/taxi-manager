@@ -68,7 +68,7 @@ export class DriversComponent implements OnInit {
   }
 
   addDriver() {
-    this.util.openLoader();
+    this.util.showLoader();
     if (this.driver.id &&
       this.driver.name.trim().length > 0 &&
       this.driver.password !== '' &&
@@ -81,7 +81,7 @@ export class DriversComponent implements OnInit {
       this.driverService.create(this.driver).then(
         _ => {
           this.showAddPannel = false;
-          this.util.closeLoading();
+          this.util.hideLoader();
           this.util.presentToast('Chofer asignado a su cuenta', true, 'bottom', 2100);
           this.driver = this.newDriver();
         }

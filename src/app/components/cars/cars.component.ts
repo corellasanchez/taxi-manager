@@ -155,10 +155,11 @@ export class CarsComponent implements OnInit {
   }
 
   getCarList() {
+    this.util.showLoader();
     this.carSubscription = this.carService.getCars(this.uid).subscribe(carList => {
       this.carList = carList;
-      this.util.closeLoading();
       this.listSubscribed = true;
+      this.util.hideLoader();
     });
   }
 

@@ -16,6 +16,7 @@ import { Chart } from 'chart.js';
 export class UtilService {
   userid: BehaviorSubject<string> = new BehaviorSubject<string>('');
   rol: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  loaderToShow: any;
 
   constructor(
     public loadingController: LoadingController,
@@ -39,8 +40,9 @@ export class UtilService {
     });
   }
 
-  buildBarChart(label: string, element: any, labels: Array<string>, values: Array<number>) {
-    element = new Chart(element.nativeElement, {
+  buildBarChart(name: string, label: string, element: any, labels: Array<string>, values: Array<number>) {
+  element.el.innerHTML = '<canvas #' + name + '></canvas>';
+    const chart = new Chart(element.el.childNodes[0], {
       type: 'bar',
       data: {
         labels: labels,
@@ -60,25 +62,26 @@ export class UtilService {
         }
       }
     });
+
   }
 
   timestamp() {
-    return  firebase.firestore.Timestamp.now();
+    return firebase.firestore.Timestamp.now();
   }
 
- timestampFormat( date: Date) {
-  return firebase.firestore.Timestamp.fromDate(date);
- }
+  timestampFormat(date: Date) {
+    return firebase.firestore.Timestamp.fromDate(date);
+  }
 
- timestampFromMillis( millis: number) {
-  return firebase.firestore.Timestamp.fromMillis(millis);
- }
+  timestampFromMillis(millis: number) {
+    return firebase.firestore.Timestamp.fromMillis(millis);
+  }
 
 
-  connectionState(uid: string ) {
+  connectionState(uid: string) {
     const userStatusDatabaseRef = this.db.database.ref('/status/' + uid);
     const connectedRef = this.db.database.ref('.info/connected');
-    connectedRef.on('value', function(snap) {
+    connectedRef.on('value', function (snap) {
       if (snap.val() === true) {
         alert('connected');
       } else {
@@ -146,15 +149,24 @@ export class UtilService {
     });
   }
 
-  async openLoader() {
-    const loading = await this.loadingController.create({
-      message: 'Cargando ...',
-      duration: 2000
+  public showLoader() {
+    this.loaderToShow = this.loadingController.create({
+      message: 'Cargando ...'
+    }).then((res) => {
+      res.present();
+
+      res.onDidDismiss().then((dis) => {
+        this.loaderToShow = {};
+      });
     });
-    await loading.present();
   }
-  async closeLoading() {
-    return await this.loadingController.dismiss();
+
+  public hideLoader() {
+  try {
+    this.loadingController.dismiss();
+  } catch (error) {
+    console.log(error);
+  }
   }
 
   getLocalUrl(_imagePath): Promise<{ url: string, nativeUrl: string }> {

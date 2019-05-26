@@ -31,8 +31,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.util.closeLoading();
-    this.rememberCredentials();
+        this.rememberCredentials();
   }
 
   ionViewDidEnter() {
@@ -56,9 +55,10 @@ export class LoginPage implements OnInit {
   signin() {
 
     if (this.util.validateEmail(this.email) && this.password !== '') {
-      this.util.openLoader();
+      this.util.showLoader();
       this.authServ.login(this.email, this.password).then(
         userData => {
+          this.util.hideLoader();
           if (userData) {
             this.storage.ready().then(ready => {
               this.storage.remove('admin_login').then(deleted => {
@@ -73,10 +73,12 @@ export class LoginPage implements OnInit {
         }
       ).catch(err => {
         if (err) {
+          this.util.hideLoader();
           this.util.presentToast(`${err}`, true, 'bottom', 3100);
         }
       });
     } else {
+      this.util.hideLoader();
       this.util.presentToast('Ingrese su email y contraseña', true, 'bottom', 3100);
     }
   }

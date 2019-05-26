@@ -55,43 +55,44 @@ export class ExpenseService extends BaseDataService<Expense> {
     ).valueChanges();
   }
 
-  public getDriverCommission(driver_id: string, uid, type: string): Observable<any> {
-    let start: any;
-    let end: any;
+  // public getDriverCommission(driver_id: string, uid, type: string): Observable<any> {
+  //   let start: any;
+  //   let end: any;
 
-    if (type === 'week') {
-      start = moment().startOf('week').toDate(); // set to 12:00 am today
-      end = moment().endOf('week').toDate(); // set to 23:59 pm today
-    } else { // month
-      start = moment().startOf('month').toDate(); // set to 12:00 am today
-      end = moment().endOf('month').toDate(); // set to 23:59 pm today
-    }
-    console.log(start, end, driver_id, uid);
-    return this.firestore.store.collection<Expense>('expenses',
-      ref => ref.where('date', '>', this.util.timestampFormat(start))
-        .where('date', '<', this.util.timestampFormat(end))
-        .where('driver_id', '==', driver_id)
-        .where('type', '==', 'Comision para el conductor')
-        .where('owner_id', '==', uid)
-    ).valueChanges();
-  }
+  //   if (type === 'week') {
+  //     start = moment().startOf('week').toDate(); // set to 12:00 am today
+  //     end = moment().endOf('week').toDate(); // set to 23:59 pm today
+  //   } else { // month
+  //     start = moment().startOf('month').toDate(); // set to 12:00 am today
+  //     end = moment().endOf('month').toDate(); // set to 23:59 pm today
+  //   }
+  //   console.log(start, end, driver_id, uid);
+  //   return this.firestore.store.collection<Expense>('expenses',
+  //     ref => ref.where('date', '>', this.util.timestampFormat(start))
+  //       .where('date', '<', this.util.timestampFormat(end))
+  //       .where('driver_id', '==', driver_id)
+  //       .where('type', '==', 'Comision para el conductor')
+  //       .where('owner_id', '==', uid)
+  //   ).valueChanges();
+  // }
 
-  public getDriverMonthCommission(driver_id: string, uid): Observable<any> {
-    let start: any;
-    let end: any;
 
-    // month
-    start = moment().startOf('month').toDate(); // set to 12:00 am today
-    end = moment().endOf('month').toDate(); // set to 23:59 pm today
+  // public getDriverMonthCommission(driver_id: string, uid): Observable<any> {
+  //   let start: any;
+  //   let end: any;
 
-    return this.firestore.store.collection<Expense>('expenses',
-      ref => ref.where('date', '>', this.util.timestampFormat(start))
-        .where('date', '<', this.util.timestampFormat(end))
-        .where('driver_id', '==', driver_id)
-        .where('type', '==', 'Comision para el conductor')
-        .where('owner_id', '==', uid)
-    ).valueChanges();
-  }
+  //   // month
+  //   start = moment().startOf('month').toDate(); // set to 12:00 am today
+  //   end = moment().endOf('month').toDate(); // set to 23:59 pm today
+
+  //   return this.firestore.store.collection<Expense>('expenses',
+  //     ref => ref.where('date', '>', this.util.timestampFormat(start))
+  //       .where('date', '<', this.util.timestampFormat(end))
+  //       .where('driver_id', '==', driver_id)
+  //       .where('type', '==', 'Comision para el conductor')
+  //       .where('owner_id', '==', uid)
+  //   ).valueChanges();
+  // }
 
   public getAllDayExpenses(uid): Observable<any> {
 
@@ -103,5 +104,46 @@ export class ExpenseService extends BaseDataService<Expense> {
         .where('owner_id', '==', uid)
     ).valueChanges();
   }
+
+
+  // public getDriversWeeklyCommission(uid): Observable<any> {
+  //   let start: any;
+  //   let end: any;
+
+  //     start = moment().startOf('week').toDate(); // set to 12:00 am today
+  //     end = moment().endOf('week').toDate(); // set to 23:59 pm today
+  //     console.log(start, end, uid);
+
+  //   return this.firestore.store.collection<Expense>('expenses',
+  //     ref => ref.where('date', '>', this.util.timestampFormat(start))
+  //       .where('date', '<', this.util.timestampFormat(end))
+  //       .where('type', '==', 'Comision para el conductor')
+  //       .where('owner_id', '==', uid)
+  //   ).valueChanges();
+  // }
+
+
+
+public getDriverCommissionsOnce(driver_id: string, uid, type: string): Observable<any> {
+  let start: any;
+  let end: any;
+
+  if (type === 'week') {
+    start = moment().startOf('week').toDate(); // set to 12:00 am today
+    end = moment().endOf('week').toDate(); // set to 23:59 pm today
+  } else { // month
+    start = moment().startOf('month').toDate(); // set to 12:00 am today
+    end = moment().endOf('month').toDate(); // set to 23:59 pm today
+  }
+  console.log(start, end, driver_id, uid);
+  return this.firestore.store.collection<Expense>('expenses',
+    ref => ref.where('date', '>', this.util.timestampFormat(start))
+      .where('date', '<', this.util.timestampFormat(end))
+      .where('driver_id', '==', driver_id)
+      .where('type', '==', 'Comision para el conductor')
+      .where('owner_id', '==', uid)
+  ).get();
 }
 
+
+}

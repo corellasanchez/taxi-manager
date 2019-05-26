@@ -53,7 +53,7 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   }
 
   getDriver(ssn, password) {
-    this.util.openLoader();
+    this.util.showLoader();
     this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(result => {
       if (result.length > 0) {
         this.storage.ready().then(ready => {
@@ -62,7 +62,7 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
             });
           });
         });
-        this.util.closeLoading();
+        this.util.hideLoader();
         this.getAdmin(result);
       } else {
         this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);

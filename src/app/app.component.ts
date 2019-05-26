@@ -36,7 +36,6 @@ export class AppComponent implements OnDestroy {
 
   logout() {
     this.menuCtrl.close();
-    this.util.openLoader();
     this.authService.logout().then(() => {
         this.util.navigate('login', false);
     });
@@ -48,7 +47,8 @@ export class AppComponent implements OnDestroy {
         this.appMenu = [
           { title: 'Vehículos', url: '/cars', icon: 'car' },
           { title: 'Conductores', url: '/drivers', icon: 'contacts' },
-          { title: 'Gastos del día', url: '/admin_expenses', icon: 'paper' }
+          { title: 'Gastos del día', url: '/admin_expenses', icon: 'paper' },
+          { title: 'Comisiones', url: '/admin_commissions_report', icon: 'paper' }
         ];
       } else {
         this.appMenu = [
