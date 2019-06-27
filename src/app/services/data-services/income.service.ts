@@ -65,5 +65,36 @@ export class IncomeService extends BaseDataService<Income> {
                 .where('owner_id', '==', uid)
         ).valueChanges();
     }
+
+    public getIncomeOfPeriodOnce(uid, type: string, start_date?: any , end_date?: any ): Observable<any> {
+      let start: any;
+      let end: any;
+
+      switch (type) {
+        case 'week':
+          start = this.util.timestampFormat(moment().startOf('week').toDate()); // set to 12:00 am today
+          end = this.util.timestampFormat(moment().endOf('week').toDate()); // set to 23:59 pm today
+          break;
+        case 'month':
+            console.log( uid , moment().startOf('month').toDate() , moment().endOf('month').toDate());
+
+          start = this.util.timestampFormat(moment().startOf('month').toDate()); // set to 12:00 am today
+          end = this.util.timestampFormat(moment().endOf('month').toDate()); // set to 23:59 pm today
+          break;
+        case 'range':
+          start = this.util.timestampFromMillis(Number(moment(start_date).format('x')));
+          end = this.util.timestampFromMillis(Number(moment(end_date).format('x')));
+          break;
+        default:
+          break;
+      }
+
+      return this.firestore.store.collection<Income>('income',
+        ref => ref.where('start_date', '>', start)
+          .where('start_date', '<', end)
+          .where('owner_id', '==', uid)
+      ).get();
+    }
+
 }
 

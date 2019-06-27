@@ -13,8 +13,14 @@ const routes: Routes = [
   { path: 'admin_expenses', loadChildren: './components/admin_expenses/admin_expenses.module#AdminExpensesComponentModule' },
   { path: 'income', loadChildren: './components/income/income.module#IncomeComponentModule' },
   { path: 'driver_reports', loadChildren: './components/driver_reports/driver_reports.module#DriverReportsComponentModule' },
-  { path: 'admin_commissions_report',
-    loadChildren: './components/admin_commission_report/admin_commission_report.module#AdminCommissionReportsModule' }
+  {
+    path: 'admin_commissions_report',
+    loadChildren: './components/admin_commission_report/admin_commission_report.module#AdminCommissionReportsModule'
+  },
+  {
+    path: 'admin_net_income_report',
+    loadChildren: './components/admin_net_income_report/admin_net_income_report.module#AdminNetIncomeReportsModule'
+  }
 ];
 
 @NgModule({

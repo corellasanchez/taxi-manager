@@ -40,8 +40,49 @@ export class UtilService {
     });
   }
 
-  buildBarChart(name: string, label: string, element: any, labels: Array<string>, values: Array<number>) {
-  element.el.innerHTML = '<canvas #' + name + '></canvas>';
+  buildPieBarChart(name: string, label: string, element: any, labels: Array<string>, datasets: Array<any>) {
+    element.el.innerHTML = '<canvas #' + name + '></canvas>';
+    const chart = new Chart(element.el.childNodes[0], {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        title: {
+          display: false,
+          text: label
+        }
+      }
+  });
+  }
+
+  buildGroupedBarChart(name: string, label: string, element: any, labels: Array<string>, datasets: Array<any>) {
+    element.el.innerHTML = '<canvas #' + name + '></canvas>';
+    const chart = new Chart(element.el.childNodes[0], {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        title: {
+          display: false,
+          text: label
+        }
+      }
+  });
+  }
+
+  buildBarChart(name: string, label: string, element: any, labels: Array<string>, values: Array<number>, colors?: Array<string>) {
+    element.el.innerHTML = '<canvas #' + name + '></canvas>';
+    let backgroundColors: any;
+    if (colors) {
+      backgroundColors = colors;
+    } else {
+      backgroundColors = 'rgba(0,128,255, 0.7)';
+    }
+
     const chart = new Chart(element.el.childNodes[0], {
       type: 'bar',
       data: {
@@ -49,7 +90,7 @@ export class UtilService {
         datasets: [{
           label: label,
           data: values,
-          backgroundColor: 'rgba(0,128,255, 0.7)'
+          backgroundColor: backgroundColors
         }]
       },
       options: {
@@ -162,11 +203,11 @@ export class UtilService {
   }
 
   public hideLoader() {
-  try {
-    this.loadingController.dismiss();
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+      this.loadingController.dismiss();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   getLocalUrl(_imagePath): Promise<{ url: string, nativeUrl: string }> {

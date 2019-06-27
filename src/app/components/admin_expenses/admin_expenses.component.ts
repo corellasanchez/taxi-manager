@@ -163,7 +163,6 @@ export class AdminExpensesComponent implements OnInit {
         if (data) {
           this.uid = data;
           this.getExpenseList();
-          console.log(this.uid);
         }
       }
     });

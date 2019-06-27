@@ -18,6 +18,7 @@ export class AdminCommissionReportsComponent implements OnInit {
   @ViewChild('content') content: IonContent;
   @ViewChild('weekBarCanvas') weekBarCanvas;
   @ViewChild('monthBarCanvas') monthBarCanvas;
+  @ViewChild('rangeBarCanvas') rangeBarCanvas;
 
   public weekCommissions: Array<Expense>;
   public expense: Expense;
@@ -40,6 +41,10 @@ export class AdminCommissionReportsComponent implements OnInit {
   totalMonthCommissions: number;
   weekSubscription: boolean;
   monthSubscription: boolean;
+  totalRangeCommissions: number;
+  rangeCommissions: any;
+  start_date: any;
+  end_date: any;
 
   constructor(
     private expenseService: ExpenseService,
@@ -134,9 +139,50 @@ export class AdminCommissionReportsComponent implements OnInit {
 
       const labels = weeksOfMonth.map(i => i.week);
       const values = weeksOfMonth.map(i => i.total);
-      this.util.buildBarChart('monthBarCanvas' , 'Comisión por semana', this.monthBarCanvas, labels, values);
+      this.util.buildBarChart('monthBarCanvas', 'Comisión por semana', this.monthBarCanvas, labels, values);
       this.util.hideLoader();
     });
+
+  }
+
+  getRangeCommissions() {
+    this.totalRangeCommissions = 0;
+    this.rangeCommissions = [];
+
+    console.log(this.driver.id);
+
+    if (this.start_date && this.end_date) {
+      this.util.showLoader();
+      this.expenseService.getDriverCommissionsOnce(
+        this.driver.id,
+        this.uid,
+        'range',
+        this.start_date,
+        this.end_date).subscribe(data => {
+
+          data.docs.map(doc => {
+            this.rangeCommissions.push(doc.data());
+          });
+
+          const monthsOfYear = [];
+          this.weekCommissions.map(monthOfYear => {
+            const monthName = this.datePipe.transform(new Date(monthOfYear.date.seconds * 1000), 'MMMM');
+            console.log('M', monthName);
+            const monthElement = monthsOfYear.find(x => x.month === monthName);
+            if (!monthElement) {
+              monthsOfYear.push({ month: monthName, total: Number(monthOfYear.amount) });
+            } else {
+              monthElement.total += Number(monthOfYear.amount);
+            }
+            this.totalRangeCommissions += Number(monthOfYear.amount);
+          });
+          this.barCharLabels = monthsOfYear.map(month => month.month);
+          this.barCharValues = monthsOfYear.map(month => month.total);
+          this.util.buildBarChart('rangeBarCanvas', 'Comisión por mes', this.rangeBarCanvas, this.barCharLabels, this.barCharValues);
+          this.util.hideLoader();
+        });
+
+    }
 
   }
 
@@ -165,22 +211,25 @@ export class AdminCommissionReportsComponent implements OnInit {
     });
   }
 
-  changeDriver() {
-    if (this.driver) {
-      if (this.tab === 'month') {
-        this.getMonthCommissions();
-      } else {
-        this.getWeekCommissions();
-      }
+  showReport(type?: string) {
+    if (type) {
+      this.tab = type;
     }
-  }
-
-  showReport(type: string) {
-    this.tab = type;
-    if (type === 'month') {
-      this.getMonthCommissions();
-    } else {
-      this.getWeekCommissions();
+    console.log(this.tab);
+    if (this.driver) {
+      switch (this.tab) {
+        case 'month':
+          this.getMonthCommissions();
+          break;
+        case 'week':
+          this.getWeekCommissions();
+          break;
+        case 'range':
+          this.getRangeCommissions();
+          break;
+        default:
+          break;
+      }
     }
   }
 }

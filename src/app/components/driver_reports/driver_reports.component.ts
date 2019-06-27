@@ -93,7 +93,7 @@ export class DriverReportsComponent implements OnInit {
   }
 
   getAdminInfo() {
-    this.util.showLoader();
+
     if (!this.admin) {
       this.userService.getOne(this.driver.uid).subscribe(admin => {
         this.storage.ready().then(ready => {
@@ -110,30 +110,32 @@ export class DriverReportsComponent implements OnInit {
   }
 
   getWeekCommissions() {
+    this.util.showLoader();
+    this.expenseService.getDriverCommissionsOnce(this.driver.id, this.uid, 'week').subscribe(data => {
+      this.totalWeekCommissions = 0;
 
-      this.expenseService.getDriverCommissionsOnce(this.driver.id, this.uid, 'week').subscribe(data => {
-        this.totalWeekCommissions = 0;
-
-        this.weekCommissions = [];
-        data.docs.map(doc => {
-          this.weekCommissions.push(doc.data());
-        });
-
-        const DaysOfWeek = [];
-        this.weekCommissions.map(dayOfWeek => {
-          const dayName = this.datePipe.transform(new Date(dayOfWeek.date.seconds * 1000), 'EEE');
-          const dayElement = DaysOfWeek.find(x => x.day === dayName);
-          if (!dayElement) {
-            DaysOfWeek.push({ day: dayName, total: Number(dayOfWeek.amount) });
-          } else {
-            dayElement.total += Number(dayOfWeek.amount);
-          }
-          this.totalWeekCommissions += Number(dayOfWeek.amount);
-        });
-        this.barCharLabels = DaysOfWeek.map(day => day.day);
-        this.barCharValues = DaysOfWeek.map(day => day.total);
-        this.util.buildBarChart('Comisión por día', this.weekBarCanvas, this.barCharLabels, this.barCharValues);
+      this.weekCommissions = [];
+      data.docs.map(doc => {
+        this.weekCommissions.push(doc.data());
       });
+
+      const DaysOfWeek = [];
+      this.weekCommissions.map(dayOfWeek => {
+        const dayName = this.datePipe.transform(new Date(dayOfWeek.date.seconds * 1000), 'EEE');
+        const dayElement = DaysOfWeek.find(x => x.day === dayName);
+        if (!dayElement) {
+          DaysOfWeek.push({ day: dayName, total: Number(dayOfWeek.amount) });
+        } else {
+          dayElement.total += Number(dayOfWeek.amount);
+        }
+        this.totalWeekCommissions += Number(dayOfWeek.amount);
+      });
+      this.util.hideLoader();
+      this.barCharLabels = DaysOfWeek.map(day => day.day);
+      this.barCharValues = DaysOfWeek.map(day => day.total);
+      this.util.buildBarChart('weekBar', 'Comisión por día', this.weekBarCanvas, this.barCharLabels, this.barCharValues);
+    });
+
   }
 
   getMonthCommissions() {
@@ -160,7 +162,7 @@ export class DriverReportsComponent implements OnInit {
 
       const labels = weeksOfMonth.map(i => i.week);
       const values = weeksOfMonth.map(i => i.total);
-      this.util.buildBarChart('Comisión por semana', this.monthBarCanvas, labels, values);
+      this.util.buildBarChart('monthBar', 'Comisión por semana', this.monthBarCanvas, labels, values);
     });
   }
 
@@ -170,7 +172,7 @@ export class DriverReportsComponent implements OnInit {
 
   showReport(type: string) {
     this.tab = type;
-    if (type === 'month' ) {
+    if (type === 'month') {
       this.getMonthCommissions();
     } else {
       this.getWeekCommissions();

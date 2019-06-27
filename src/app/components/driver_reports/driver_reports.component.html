@@ -11,7 +11,6 @@
 
 <ion-content padding #content>
 
-
   <div class="form-container" [hidden]="tab === 'month'">
     <ion-card><br>
         <ion-card-subtitle color="primary">  <strong>Comisiones de la semana</strong></ion-card-subtitle>
@@ -23,8 +22,7 @@
     </ion-card>
 
     <ion-card>
-      <ion-card-content>
-        <canvas #weekBarCanvas></canvas>
+      <ion-card-content #weekBarCanvas>
       </ion-card-content>
     </ion-card>
 
@@ -74,8 +72,7 @@
       </ion-card>
   
       <ion-card>
-        <ion-card-content>
-          <canvas #monthBarCanvas></canvas>
+        <ion-card-content #monthBarCanvas>
         </ion-card-content>
       </ion-card>
   
@@ -127,5 +124,5 @@
     <ion-icon name="calendar"></ion-icon>
     <ion-label>MES</ion-label>
   </ion-tab-button>
-
+  
 </ion-tab-bar>

@@ -53,6 +53,9 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   }
 
   getDriver(ssn, password) {
+    this.authService.logout().then(() => {
+      console.log('Cerrando session administrativa');
+    });
     this.util.showLoader();
     this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(result => {
       if (result.length > 0) {

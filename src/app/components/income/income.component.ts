@@ -37,6 +37,7 @@ export class IncomeComponent implements OnInit {
   total_millage: any;
   driverShiftPercentage: any;
   min_year: any;
+  min_date: any;
 
   constructor(
     private incomeService: IncomeService,
@@ -58,6 +59,7 @@ export class IncomeComponent implements OnInit {
     this.menuCtrl.enable(true, 'start');
     this.menuCtrl.enable(true, 'end');
     this.content.scrollToTop(300);
+    this.getMinDate();
   }
 
   ngOnInit() {
@@ -268,4 +270,9 @@ export class IncomeComponent implements OnInit {
       });
     }
   }
+
+  getMinDate() {
+    this.min_date = moment().subtract(1, 'day').format('YYYY-MM-DD') ;
+  }
+
 }

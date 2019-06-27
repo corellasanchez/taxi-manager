@@ -48,7 +48,8 @@ export class AppComponent implements OnDestroy {
           { title: 'Vehículos', url: '/cars', icon: 'car' },
           { title: 'Conductores', url: '/drivers', icon: 'contacts' },
           { title: 'Gastos del día', url: '/admin_expenses', icon: 'paper' },
-          { title: 'Comisiones', url: '/admin_commissions_report', icon: 'paper' }
+          { title: 'Comisiones', url: '/admin_commissions_report', icon: 'paper' },
+          { title: 'Ingreso Neto', url: '/admin_net_income_report', icon: 'cash' }
         ];
       } else {
         this.appMenu = [
