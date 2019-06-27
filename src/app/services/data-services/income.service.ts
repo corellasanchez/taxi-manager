@@ -46,7 +46,6 @@ export class IncomeService extends BaseDataService<Income> {
     public getDriverDayIncomes(driver_id, uid): Observable<any> {
         const start = moment().startOf('day').toDate(); // set to 12:00 am today
         const end = moment().endOf('day').toDate(); // set to 23:59 pm today
-        console.log( 'income', this.util.timestampFormat(start), this.util.timestampFormat(end), driver_id, uid);
         return this.firestore.store.collection<Income>('income',
             ref => ref.where('start_date', '>', this.util.timestampFormat(start))
                 .where('start_date', '<', this.util.timestampFormat(end))
@@ -76,8 +75,6 @@ export class IncomeService extends BaseDataService<Income> {
           end = this.util.timestampFormat(moment().endOf('week').toDate()); // set to 23:59 pm today
           break;
         case 'month':
-            console.log( uid , moment().startOf('month').toDate() , moment().endOf('month').toDate());
-
           start = this.util.timestampFormat(moment().startOf('month').toDate()); // set to 12:00 am today
           end = this.util.timestampFormat(moment().endOf('month').toDate()); // set to 23:59 pm today
           break;

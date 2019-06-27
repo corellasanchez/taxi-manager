@@ -38,11 +38,14 @@ export class AdminNetIncomeComponent implements OnInit {
   pieChartData: any;
   totalWeekExpenses: number;
   totalMonthIncome: number;
+  totalRangeIncome: number;
   totalMonthNetIncome: number;
   barCharLabels = [];
   barCharValues = [];
   monthExpenses: any;
   monthIncomes: any;
+  rangeIncomes: any;
+  totalRangeNetIncome: number;
   totalMonthExpenses: number;
   weekSubscription: boolean;
   monthSubscription: boolean;
@@ -123,51 +126,65 @@ export class AdminNetIncomeComponent implements OnInit {
         }
       ];
 
-      this.totalMonthNetIncome =  this.totalMonthIncome - this.totalMonthExpenses;
+      this.totalMonthNetIncome = this.totalMonthIncome - this.totalMonthExpenses;
       this.util.buildGroupedBarChart('monthBarCanvas', 'Ingreso neto mensual', this.monthBarCanvas, labels, datasets);
     });
   }
 
 
-  getRangeExpenses() {
-    // this.totalRangeExpenses = 0;
-    // this.rangeExpenses = [];
+  getRangeNetIncome() {
+    this.totalRangeNetIncome = 0;
+    this.totalRangeExpenses = 0;
+    this.totalRangeIncome = 0;
+    this.rangeExpenses = [];
+    this.rangeIncomes = [];
 
-    // console.log(this.driver.id);
+    if (this.start_date && this.end_date) {
 
-    // if (this.start_date && this.end_date) {
-    //   this.util.showLoader();
-    //   this.expenseService.getDriverExpensesOnce(
-    //     this.driver.id,
-    //     this.uid,
-    //     'range',
-    //     this.start_date,
-    //     this.end_date).subscribe(data => {
+      this.expenseService.getExpensesOfPeriodOnce(
+        this.uid,
+        'range',
+        this.start_date,
+        this.end_date
+      ).subscribe(data => {
+        data.docs.map(doc => {
+          this.rangeExpenses.push(doc.data());
+        });
+        this.rangeExpenses.map(expense => {
+          this.totalRangeExpenses += Number(expense.amount);
+        });
+      });
+      this.incomeService.getIncomeOfPeriodOnce(
+        this.uid,
+        'range',
+        this.start_date,
+        this.end_date
+      ).subscribe(data => {
+        data.docs.map(doc => {
+          this.rangeIncomes.push(doc.data());
+        });
 
-    //       data.docs.map(doc => {
-    //         this.rangeExpenses.push(doc.data());
-    //       });
+        this.rangeIncomes.map(income => {
+          this.totalRangeIncome += Number(income.amount);
+        });
+        const labels = ['Datos del periodo' ];
+        const datasets = [
+          {
+            label: 'Gastos',
+            backgroundColor: '#f53d3d',
+            data: [this.totalRangeExpenses]
+          }, {
+            label: 'Ingreso Bruto',
+            backgroundColor: '#488aff',
+            data: [this.totalRangeIncome]
+          }
+        ];
 
-    //       const monthsOfYear = [];
-    //       this.weekExpenses.map(monthOfYear => {
-    //         const monthName = this.datePipe.transform(new Date(monthOfYear.date.seconds * 1000), 'MMMM');
-    //         console.log('M', monthName);
-    //         const monthElement = monthsOfYear.find(x => x.month === monthName);
-    //         if (!monthElement) {
-    //           monthsOfYear.push({ month: monthName, total: Number(monthOfYear.amount) });
-    //         } else {
-    //           monthElement.total += Number(monthOfYear.amount);
-    //         }
-    //         this.totalRangeExpenses += Number(monthOfYear.amount);
-    //       });
-    //       this.barCharLabels = monthsOfYear.map(month => month.month);
-    //       this.barCharValues = monthsOfYear.map(month => month.total);
-    //       this.util.buildBarChart('rangeBarCanvas', 'Comisión por mes', this.rangeBarCanvas, this.barCharLabels, this.barCharValues);
-    //       this.util.hideLoader();
-    //     });
+        this.totalRangeNetIncome = this.totalRangeIncome - this.totalRangeExpenses;
+        this.util.buildGroupedBarChart('rangeBarCanvas', 'Ingreso neto mensual', this.rangeBarCanvas, labels, datasets);
 
-    //  }
-
+      });
+    }
   }
 
   getUID() {
@@ -175,6 +192,7 @@ export class AdminNetIncomeComponent implements OnInit {
       if (!this.uid) {
         if (data) {
           this.uid = data;
+          this.getMonthNetIncome();
         }
       }
     });
@@ -191,7 +209,7 @@ export class AdminNetIncomeComponent implements OnInit {
         this.getMonthNetIncome();
         break;
       case 'range':
-        this.getRangeExpenses();
+        this.getRangeNetIncome();
         break;
       default:
         break;

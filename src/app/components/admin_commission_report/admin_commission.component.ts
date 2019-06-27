@@ -149,8 +149,6 @@ export class AdminCommissionReportsComponent implements OnInit {
     this.totalRangeCommissions = 0;
     this.rangeCommissions = [];
 
-    console.log(this.driver.id);
-
     if (this.start_date && this.end_date) {
       this.util.showLoader();
       this.expenseService.getDriverCommissionsOnce(
@@ -167,7 +165,6 @@ export class AdminCommissionReportsComponent implements OnInit {
           const monthsOfYear = [];
           this.weekCommissions.map(monthOfYear => {
             const monthName = this.datePipe.transform(new Date(monthOfYear.date.seconds * 1000), 'MMMM');
-            console.log('M', monthName);
             const monthElement = monthsOfYear.find(x => x.month === monthName);
             if (!monthElement) {
               monthsOfYear.push({ month: monthName, total: Number(monthOfYear.amount) });
@@ -215,7 +212,6 @@ export class AdminCommissionReportsComponent implements OnInit {
     if (type) {
       this.tab = type;
     }
-    console.log(this.tab);
     if (this.driver) {
       switch (this.tab) {
         case 'month':

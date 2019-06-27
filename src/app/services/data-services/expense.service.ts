@@ -46,7 +46,6 @@ export class ExpenseService extends BaseDataService<Expense> {
 
     const start = moment().startOf('day').toDate(); // set to 12:00 am today
     const end = moment().endOf('day').toDate(); // set to 23:59 pm today
-    console.log(this.util.timestampFormat(start), this.util.timestampFormat(end), driver_id, uid);
     return this.firestore.store.collection<Expense>('expenses',
       ref => ref.where('date', '>', this.util.timestampFormat(start))
         .where('date', '<', this.util.timestampFormat(end))
