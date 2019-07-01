@@ -1,6 +1,6 @@
 {
-  "appId": "com.taximanage.taximanager",
-  "appName": "taxi-manager",
+  "appId": "com.velenger.csr",
+  "appName": "Control Sobre Ruedas",
   "bundledWebRuntime": false,
   "webDir": "www"
 }
