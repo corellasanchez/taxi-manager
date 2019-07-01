@@ -40,21 +40,24 @@ export class UtilService {
     });
   }
 
-  buildPieBarChart(name: string, label: string, element: any, labels: Array<string>, datasets: Array<any>) {
+  buildPieBarChart(
+    name: string,
+    label: string,
+    element: any,
+    labels: Array<string>,
+    pieValues: Array<number>,
+    colors: Array<string>) {
     element.el.innerHTML = '<canvas #' + name + '></canvas>';
     const chart = new Chart(element.el.childNodes[0], {
       type: 'pie',
       data: {
         labels: labels,
-        datasets: datasets
-      },
-      options: {
-        title: {
-          display: false,
-          text: label
-        }
+        datasets: [{
+          backgroundColor: colors,
+          data: pieValues
+        }]
       }
-  });
+    });
   }
 
   buildGroupedBarChart(name: string, label: string, element: any, labels: Array<string>, datasets: Array<any>) {
@@ -71,7 +74,7 @@ export class UtilService {
           text: label
         }
       }
-  });
+    });
   }
 
   buildBarChart(name: string, label: string, element: any, labels: Array<string>, values: Array<number>, colors?: Array<string>) {

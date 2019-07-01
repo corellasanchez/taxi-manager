@@ -68,6 +68,7 @@ export class LoginPage implements OnInit {
               });
             });
           } else {
+            this.util.hideLoader();
             this.util.presentToast('Error al ingresar', true, 'bottom', 3100);
           }
         }

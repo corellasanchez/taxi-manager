@@ -20,6 +20,10 @@ const routes: Routes = [
   {
     path: 'admin_net_income_report',
     loadChildren: './components/admin_net_income_report/admin_net_income_report.module#AdminNetIncomeReportsModule'
+  },
+  {
+    path: 'admin_expense_detail',
+    loadChildren: './components/admin_expense_detail/admin_expense_detail.module#AdminExpenseDetailModule'
   }
 ];
 

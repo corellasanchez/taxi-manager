@@ -1,0 +1,230 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="undefined" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title align-title="center">
+      {{title}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding #content>
+
+  <div class="form-container" *ngIf="tab === 'month'">
+
+    <ion-card><br>
+      <ion-card-subtitle color="danger"> <strong>Gastos Totales</strong></ion-card-subtitle>
+      <ion-card-content>
+        <ion-card-title color="danger"> ₡ {{totalMonthExpenses}}</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content #monthBarCanvas >
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text color="dark" class="ion-text-center">
+      <strong> Detalle de los gastos</strong>
+    </ion-text>
+
+    <!-- List of Text Items -->
+    <ion-list *ngFor="let i of monthExpenses">
+      <ion-item>
+        <ion-grid>
+
+          <ion-row>
+            <ion-col>
+              <ion-text>
+                <strong>{{i.date.toDate() | date:"EEE d 'de' MMMM y"}} {{i.date.toDate() | date:"h:mm a"}} </strong>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.invoice_number">
+            <ion-col>
+              <ion-text>
+                #Fact. {{i.invoice_number}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.business_name">
+            <ion-col>
+              <ion-text>
+                {{i.business_name}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.driver_name">
+            <ion-col>
+              <ion-text>
+                {{i.car_plate}} - {{i.driver_name}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.description">
+            <ion-col>
+              <ion-text>
+                {{i.description}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.notes">
+            <ion-col>
+              <ion-text>
+                <small> <strong>** {{i.notes}}</strong></small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="7">
+              <ion-text color="danger">
+                <small><strong>{{i.type}}</strong></small>
+                <small *ngIf="i.quantity > 1"> <strong> &nbsp; {{i.quantity}}</strong> </small>
+                <small *ngIf="i.type === 'Gasolina'"> <strong> L</strong> </small>
+              </ion-text>
+            </ion-col>
+            <ion-col size="5" align-self-end class="ion-text-end">
+              <!-- <ion-badge>₡{{i.amount}}</ion-badge> -->
+              <ion-text color="danger">
+                ₡{{i.amount}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div class="form-container" *ngIf="tab === 'range'">
+
+    <ion-item margin-bottom>
+      <ion-label position="stacked"><strong class="align">Fecha de Inicio</strong></ion-label>
+      <ion-datetime name="start_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
+        placeholder="Seleccione la fecha inicial" [(ngModel)]="start_date"
+        month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+        placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR" cancel-text="CANCELAR"
+        (ionChange)="showReport()"></ion-datetime>
+    </ion-item>
+
+    <ion-item margin-bottom>
+      <ion-label position="stacked"><strong class="align">Fecha Final</strong></ion-label>
+      <ion-datetime name="end_date" displayFormat="D MMM YYYY h:mm a" picker-format="DD/MMM/YYYY HH:mm"
+        placeholder="Seleccione la fecha final" [(ngModel)]="end_date"
+        month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
+        placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR" cancel-text="CANCELAR"
+        (ionChange)="showReport()"></ion-datetime>
+    </ion-item><br>
+
+   
+    <ion-card><br>
+      <ion-card-subtitle color="danger"> <strong>Gastos del periodo</strong></ion-card-subtitle>
+      <ion-card-content>
+        <ion-card-title color="danger"> ₡ {{totalRangeExpenses}}</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content #monthBarCanvas >
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text color="dark" class="ion-text-center">
+      <strong> Detalle de los gastos</strong>
+    </ion-text>
+
+    <!-- List of Text Items -->
+    <ion-list *ngFor="let i of rangeExpenses">
+      <ion-item>
+        <ion-grid>
+
+          <ion-row>
+            <ion-col>
+              <ion-text>
+                <strong>{{i.date.toDate() | date:"EEE d 'de' MMMM y"}} {{i.date.toDate() | date:"h:mm a"}} </strong>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.invoice_number">
+            <ion-col>
+              <ion-text>
+                #Fact. {{i.invoice_number}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.business_name">
+            <ion-col>
+              <ion-text>
+                {{i.business_name}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.driver_name">
+            <ion-col>
+              <ion-text>
+                {{i.car_plate}} - {{i.driver_name}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.description">
+            <ion-col>
+              <ion-text>
+                {{i.description}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="i.notes">
+            <ion-col>
+              <ion-text>
+                <small> <strong>** {{i.notes}}</strong></small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="7">
+              <ion-text color="danger">
+                <small><strong>{{i.type}}</strong></small>
+                <small *ngIf="i.quantity > 1"> <strong> &nbsp; {{i.quantity}}</strong> </small>
+                <small *ngIf="i.type === 'Gasolina'"> <strong> L</strong> </small>
+              </ion-text>
+            </ion-col>
+            <ion-col size="5" align-self-end class="ion-text-end">
+              <!-- <ion-badge>₡{{i.amount}}</ion-badge> -->
+              <ion-text color="danger">
+                ₡{{i.amount}}
+              </ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>
+
+<ion-tab-bar slot="bottom">
+
+  <ion-tab-button (click)="showReport('month')">
+    <ion-icon name="calendar"></ion-icon>
+    <ion-label>MES</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button (click)="showReport('range')">
+    <ion-icon name="book"></ion-icon>
+    <ion-label>RANGO</ion-label>
+  </ion-tab-button>
+
+</ion-tab-bar>
