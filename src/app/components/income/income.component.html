@@ -87,7 +87,7 @@
         </ion-text>
       </ion-item>
 
-      <ion-item *ngIf="income.amount > 0">
+      <ion-item *ngIf="income.amount">
         <ion-text>
           Total recaudado: <strong>₡ {{income.amount}}</strong>
         </ion-text>
@@ -119,7 +119,7 @@
   <br>
 
   <div class="form-container" [hidden]="showAddPannel">
-    <ion-text color="danger" *ngIf="!incomeList?.length > 0">
+    <ion-text color="danger" *ngIf="!incomeList?.length">
       <h2>No tienes cierres hoy. </h2>
     </ion-text>
   </div>
