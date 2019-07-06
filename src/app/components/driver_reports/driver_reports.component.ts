@@ -110,7 +110,7 @@ export class DriverReportsComponent implements OnInit {
   }
 
   getWeekCommissions() {
-    this.util.showLoader();
+    
     this.expenseService.getDriverCommissionsOnce(this.driver.id, this.uid, 'week').subscribe(data => {
       this.totalWeekCommissions = 0;
 
@@ -130,7 +130,7 @@ export class DriverReportsComponent implements OnInit {
         }
         this.totalWeekCommissions += Number(dayOfWeek.amount);
       });
-      this.util.hideLoader();
+      
       this.barCharLabels = DaysOfWeek.map(day => day.day);
       this.barCharValues = DaysOfWeek.map(day => day.total);
       this.util.buildBarChart('weekBar', 'Comisión por día', this.weekBarCanvas, this.barCharLabels, this.barCharValues);

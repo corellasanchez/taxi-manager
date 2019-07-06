@@ -29,7 +29,6 @@ export class SignupPage implements OnInit {
   }
 
   signup() {
-    this.util.showLoader();
     if (this.user.name !== '' &&
       this.user.last_name !== '' &&
       this.user.email !== '' &&
@@ -37,13 +36,11 @@ export class SignupPage implements OnInit {
       this.util.validateEmail(this.user.email)) {
       this.authServ.createAccount(this.user).then(
         userData => {
-          this.util.hideLoader();
           this.util.presentToast('Gracias por preferirnos.', true, 'bottom', 2100);
           this.util.navigate('cars', false);
         }
       ).catch(err => {
         if (err) {
-          this.util.hideLoader();
           switch (err) {
             case 'creation failed Error: Password should be at least 6 characters': {
               this.util.presentToast('La contraseña debe tener al menos 6 letras o números', true, 'bottom', 5100);
@@ -61,7 +58,6 @@ export class SignupPage implements OnInit {
         }
       });
     } else {
-      this.util.hideLoader();
       this.util.presentToast('Revise sus datos.', true, 'bottom', 2100);
     }
   }

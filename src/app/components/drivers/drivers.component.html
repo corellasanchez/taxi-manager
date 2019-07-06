@@ -17,11 +17,12 @@
     </ion-fab-button>
   </ion-fab>
 
+
   <div class="form-container" [hidden]='!showAddPannel'>
     <form>
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Cédula de identidad : </ion-label>
-        <ion-input type="text" [(ngModel)]="driver.ssn" name="ssn" clear-input="true" maxlength="15" appNumberOnly>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="driver.ssn" name="ssn" clear-input="true" maxlength="15">
         </ion-input>
       </ion-item>
 
@@ -38,7 +39,7 @@
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Teléfono Célular : </ion-label>
-        <ion-input [(ngModel)]="driver.phone" name="phone" clear-input="true" maxlength="15" type="text" appNumberOnly>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="driver.phone" name="phone" clear-input="true" maxlength="15">
         </ion-input>
       </ion-item>
 
@@ -80,7 +81,7 @@
   <br>
 
   <div class="form-container" [hidden]='showAddPannel'>
-    <ion-text color="danger" *ngIf="!driverList?.length > 0">
+    <ion-text color="danger" *ngIf="!driverList?.length">
       <h2>No tienes Conductores disponibles. </h2>
     </ion-text>
   </div>

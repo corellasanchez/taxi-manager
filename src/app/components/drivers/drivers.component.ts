@@ -23,7 +23,7 @@ export class DriversComponent implements OnInit {
   public isUpdate: boolean;
   public uid: string;
   public filtertag: any;
-  private percentages: Array<number>;
+  public percentages: Array<number>;
   showAddPannel: boolean;
   title: string;
   admin: any;
@@ -68,7 +68,6 @@ export class DriversComponent implements OnInit {
   }
 
   addDriver() {
-    this.util.showLoader();
     if (this.driver.id &&
       this.driver.name.trim().length > 0 &&
       this.driver.password !== '' &&
@@ -81,7 +80,6 @@ export class DriversComponent implements OnInit {
       this.driverService.create(this.driver).then(
         _ => {
           this.showAddPannel = false;
-          this.util.hideLoader();
           this.util.presentToast('Chofer asignado a su cuenta', true, 'bottom', 2100);
           this.driver = this.newDriver();
         }

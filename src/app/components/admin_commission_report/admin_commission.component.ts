@@ -87,7 +87,7 @@ export class AdminCommissionReportsComponent implements OnInit {
   }
 
   getWeekCommissions() {
-    this.util.showLoader();
+    
     this.expenseService.getDriverCommissionsOnce(this.driver.id, this.uid, 'week').subscribe(data => {
       this.totalWeekCommissions = 0;
       this.weekSubscription = true;
@@ -111,13 +111,13 @@ export class AdminCommissionReportsComponent implements OnInit {
       this.barCharLabels = DaysOfWeek.map(day => day.day);
       this.barCharValues = DaysOfWeek.map(day => day.total);
       this.util.buildBarChart('weekBarCanvas', 'Comisión por día', this.weekBarCanvas, this.barCharLabels, this.barCharValues);
-      this.util.hideLoader();
+      
     });
 
   }
 
   getMonthCommissions() {
-    this.util.showLoader();
+    
     this.expenseService.getDriverCommissionsOnce(this.driver.id, this.uid, 'month').subscribe(data => {
       this.monthSubscription = true;
       this.totalMonthCommissions = 0;
@@ -140,7 +140,7 @@ export class AdminCommissionReportsComponent implements OnInit {
       const labels = weeksOfMonth.map(i => i.week);
       const values = weeksOfMonth.map(i => i.total);
       this.util.buildBarChart('monthBarCanvas', 'Comisión por semana', this.monthBarCanvas, labels, values);
-      this.util.hideLoader();
+      
     });
 
   }
@@ -150,7 +150,7 @@ export class AdminCommissionReportsComponent implements OnInit {
     this.rangeCommissions = [];
 
     if (this.start_date && this.end_date) {
-      this.util.showLoader();
+      
       this.expenseService.getDriverCommissionsOnce(
         this.driver.id,
         this.uid,
@@ -176,7 +176,7 @@ export class AdminCommissionReportsComponent implements OnInit {
           this.barCharLabels = monthsOfYear.map(month => month.month);
           this.barCharValues = monthsOfYear.map(month => month.total);
           this.util.buildBarChart('rangeBarCanvas', 'Comisión por mes', this.rangeBarCanvas, this.barCharLabels, this.barCharValues);
-          this.util.hideLoader();
+          
         });
 
     }

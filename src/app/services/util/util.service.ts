@@ -208,6 +208,7 @@ export class UtilService {
   public hideLoader() {
     try {
       this.loadingController.dismiss();
+      this.loaderToShow = {};
     } catch (error) {
       console.log(error);
     }

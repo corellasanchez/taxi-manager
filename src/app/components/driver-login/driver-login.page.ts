@@ -43,6 +43,9 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   }
 
   rememberCredentials() {
+    this.authService.logout().then(() => {
+      console.log('Cerrando session administrativa');
+    });
     this.storage.get('driver_login').then((val) => {
       if (val) {
         const driver = JSON.parse(val);
@@ -53,24 +56,21 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   }
 
   getDriver(ssn, password) {
-    this.authService.logout().then(() => {
-      console.log('Cerrando session administrativa');
-    });
-    this.util.showLoader();
-    this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(result => {
-      if (result.length > 0) {
-        this.storage.ready().then(ready => {
-          this.storage.remove('driver_login').then(deleted => {
-            this.storage.set('driver_login', JSON.stringify({ ssn: ssn, password: password })).then(saved => {
+    this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(
+      result => {
+        if (result.length > 0) {
+          this.storage.ready().then(ready => {
+            this.storage.remove('driver_login').then(deleted => {
+              this.storage.set('driver_login', JSON.stringify({ ssn: ssn, password: password })).then(saved => {
+              });
             });
           });
-        });
-        this.util.hideLoader();
-        this.getAdmin(result);
-      } else {
-        this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
+          this.getAdmin(result);
+        } else {
+          this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
+        }
       }
-    });
+    );
   }
 
   forgotPassword() {

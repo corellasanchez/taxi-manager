@@ -5,7 +5,7 @@
   "homepage": "https://velenger.com",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ionic serve --lab --devapp",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

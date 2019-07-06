@@ -23,8 +23,8 @@
         </ion-row>
         <ion-row>
         <ion-col>
-           <ion-input [(ngModel)]="user.phone" name="phone" placeholder="Teléfono Célular" class="input"
-            clear-input="true" maxlength="15" type="text" appNumberOnly></ion-input>
+           <ion-input type="number" pattern="[0-9]*" [(ngModel)]="user.phone" name="phone" placeholder="Teléfono Célular" class="input"
+            clear-input="true" maxlength="15"></ion-input>
         </ion-col>
       </ion-row>
         <ion-row>
@@ -40,7 +40,8 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-button expand="block" fill="outline" color="undefined" (click)="util.navigate('login')"
+            <ion-button expand="block" fill="outline"
+             color="undefined" (click)="util.navigate('login')"
               class="btn-color"><strong>Ya tienes cuenta? Ingresa</strong></ion-button>
           </ion-col>
         </ion-row>

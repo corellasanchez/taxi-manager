@@ -57,20 +57,19 @@
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">* Monto: </strong></ion-label>
-        <ion-input [(ngModel)]="expense.amount" name="amount" placeholder="Total de la factura" clear-input="true"
-          maxlength="15" appNumberOnly> </ion-input>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="expense.amount" name="amount" placeholder="Total de la factura" clear-input="true"
+          maxlength="15"> </ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">* Cantidad: </strong><small>Litros, metros, unidades,
             kilos</small></ion-label>
-        <ion-input type="number" [(ngModel)]="expense.quantity" name="quantity"></ion-input>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="expense.quantity" name="quantity"></ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
         <ion-label position="stacked"> <strong class="align">Número de factura: </strong></ion-label>
-        <ion-input [(ngModel)]="expense.invoice_number" name="invoice_number" clear-input="true" maxlength="40"
-          appNumberOnly> </ion-input>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="expense.invoice_number" name="invoice_number" clear-input="true" maxlength="40"> </ion-input>
       </ion-item>
 
       <ion-item margin-bottom>
@@ -107,7 +106,7 @@
   <br>
 
   <div class="form-container" [hidden]="showAddPannel">
-    <ion-text color="danger" *ngIf="!expenseList?.length > 0">
+    <ion-text color="danger" *ngIf="!expenseList?.length">
       <h2>No gastos registrados hoy. </h2>
     </ion-text>
   </div>
