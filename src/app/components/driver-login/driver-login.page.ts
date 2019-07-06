@@ -19,6 +19,7 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   password = '';
   uid = '';
   driverSubscription: any;
+  loading: boolean;
 
   constructor(public loadingController: LoadingController,
     public util: UtilService,
@@ -28,11 +29,12 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
     public alertController: AlertController,
     private carService: CarService
   ) {
+    this.loading = false;
   }
 
   signin(ssn: string, password: string) {
-    if (ssn !== '' && password !== '') {
-      this.getDriver(ssn, password);
+    if (ssn && password && ssn.toString() !== '' && password !== '') {
+      this.getDriver(ssn.toString(), password);
     } else {
       this.util.presentToast('Ingrese su cédula y contraseña', true, 'bottom', 3100);
     }
@@ -56,17 +58,20 @@ export class DriverLoginPage implements AfterViewInit, OnDestroy {
   }
 
   getDriver(ssn, password) {
-    this.driverSubscription = this.driverService.driverLogin(ssn, password).subscribe(
+    this.loading = true;
+    this.driverSubscription = this.driverService.driverLogin(ssn.toString(), password).subscribe(
       result => {
         if (result.length > 0) {
           this.storage.ready().then(ready => {
+            this.loading = false;
             this.storage.remove('driver_login').then(deleted => {
-              this.storage.set('driver_login', JSON.stringify({ ssn: ssn, password: password })).then(saved => {
+              this.storage.set('driver_login', JSON.stringify({ ssn: ssn.toString(), password: password })).then(saved => {
               });
             });
           });
           this.getAdmin(result);
         } else {
+          this.loading = false;
           this.util.presentToast('Cédula o contraseña inválidas', true, 'bottom', 3100);
         }
       }

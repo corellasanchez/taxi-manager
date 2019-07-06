@@ -27,7 +27,7 @@
         <ion-row>
           <ion-col>
             <ion-button expand="block" (click)="signin(ssn, password)" color="undefined" class="btn-transition"><strong
-                class="white">Ingresar</strong></ion-button>
+                class="white">Ingresar &nbsp; </strong> <ion-spinner name="dots" *ngIf="loading"></ion-spinner></ion-button>
           </ion-col>
         </ion-row>
         <div class="line"></div>

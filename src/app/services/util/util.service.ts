@@ -258,4 +258,18 @@ export class UtilService {
       });
     });
   }
+
+  isNumber(numberField: number) {
+    if (numberField) {
+      if (numberField.toString().replace(/\D+/g, '').length === numberField.toString().length) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+    return numberField.toString().replace(/\D+/g, '');
+  }
 }

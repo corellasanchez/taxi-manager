@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { Driver } from '../../models/driver.model';
 import { UUID } from 'angular2-uuid';
 import { DriverService } from '../../services/data-services/driver.service';
@@ -16,7 +16,7 @@ import { Storage } from '@ionic/storage';
   selector: 'app-drivers',
   templateUrl: './drivers.component.html'
 })
-export class DriversComponent implements OnInit {
+export class DriversComponent implements AfterViewInit {
   @ViewChild('content') content: IonContent;
   public driverList: Array<Driver>;
   public driver: Driver;
@@ -27,6 +27,8 @@ export class DriversComponent implements OnInit {
   showAddPannel: boolean;
   title: string;
   admin: any;
+  ssn: number;
+  phone: number;
 
   customAlertOptions: any = {
     header: 'Filter',
@@ -45,9 +47,10 @@ export class DriversComponent implements OnInit {
     this.title = 'Conductores disponibles';
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.getUID();
   }
+
 
   rememberCredentials() {
     this.storage.get('admin_login').then((val) => {
@@ -60,7 +63,6 @@ export class DriversComponent implements OnInit {
   ionViewDidEnter() {
     this.menuCtrl.enable(true, 'start');
     this.menuCtrl.enable(true, 'end');
-    this.content.scrollToTop(300);
   }
 
   scroll() {
@@ -71,12 +73,22 @@ export class DriversComponent implements OnInit {
     if (this.driver.id &&
       this.driver.name.trim().length > 0 &&
       this.driver.password !== '' &&
-      this.driver.password.length >= 6
+      this.driver.password.length >= 6 &&
+      this.util.isNumber(this.ssn)
     ) {
+      if (this.phone) {
+        if (this.util.isNumber(this.phone)) {
+          this.driver.phone = this.phone.toString();
+        } else {
+          this.util.presentToast('Por favor revise los datos.', true, 'bottom', 2100);
+          return;
+        }
+      }
       this.driver.uid = this.uid;
       this.driver.name = this.driver.name[0].toUpperCase() + this.driver.name.slice(1);
       this.driver.last_name = this.driver.last_name[0].toUpperCase() + this.driver.last_name.slice(1);
       this.driver.admin_email = this.admin.email;
+      this.driver.ssn = this.ssn.toString();
       this.driverService.create(this.driver).then(
         _ => {
           this.showAddPannel = false;
@@ -92,6 +104,7 @@ export class DriversComponent implements OnInit {
   }
 
   newDriver() {
+    this.ssn = null;
     return {
       id: UUID.UUID(),
       ssn: '',
@@ -121,11 +134,11 @@ export class DriversComponent implements OnInit {
 
   getUID() {
     this.util.userid.subscribe(data => {
-      if (!data) {
-        this.util.navigate('login', false);
-      } else {
+      if (data) {
         this.uid = data;
         this.getDriverList();
+      } else {
+        this.util.navigate('login', false);
       }
     });
   }

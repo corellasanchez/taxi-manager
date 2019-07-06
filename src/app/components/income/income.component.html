@@ -28,7 +28,7 @@
           placeholder="Seleccione la fecha inicial" [(ngModel)]="start_date"
           month-short-names="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Set, Oct, Nov, Dic"
           placeholder="seleccione fecha inicial" minuteValues="0,15,30,45" done-text="SELECCIONAR"
-          cancel-text="CANCELAR" (ionChange)="calculateTotalHours()"  min="{{min_date}}"></ion-datetime>
+          cancel-text="CANCELAR" (ionChange)="calculateTotalHours()" min="{{min_date}}"></ion-datetime>
       </ion-item>
 
       <ion-item margin-bottom>
@@ -101,7 +101,7 @@
       </ion-item>
 
       <ion-grid>
-          <br><br>
+        <br><br>
         <ion-row>
           <ion-col>
             <ion-button color="light" (click)="showAdd(false)" expand="block">Regresar</ion-button>
@@ -123,7 +123,6 @@
       <h2>No tienes cierres hoy. </h2>
     </ion-text>
   </div>
-
   <ion-card *ngFor="let i of incomeList" [hidden]="showAddPannel">
     <ion-item>
       <ion-card-title>{{i.car_plate}}</ion-card-title>

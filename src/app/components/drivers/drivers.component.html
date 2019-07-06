@@ -22,10 +22,10 @@
     <form>
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Cédula de identidad : </ion-label>
-        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="driver.ssn" name="ssn" clear-input="true" maxlength="15">
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="ssn" name="ssn" clear-input="true" maxlength="15">
         </ion-input>
       </ion-item>
-
+   
       <ion-item margin-bottom>
         <ion-label position="stacked"> * Nombre : </ion-label>
         <ion-input [(ngModel)]="driver.name" name="name" clear-input="true"></ion-input>
@@ -38,8 +38,9 @@
       </ion-item>
 
       <ion-item margin-bottom>
-        <ion-label position="stacked"> * Teléfono Célular : </ion-label>
-        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="driver.phone" name="phone" clear-input="true" maxlength="15">
+        <ion-label position="stacked"> Teléfono Célular : </ion-label>
+        <ion-input type="number" pattern="[0-9]*" [(ngModel)]="phone" name="phone" clear-input="true"
+          maxlength="15">
         </ion-input>
       </ion-item>
 
@@ -55,7 +56,7 @@
           caracteres</small>
       </ion-text>
       <br>
-      
+
       <ion-item margin-bottom>
         <ion-label position="stacked">Porcentaje para el chofer {{driver.percentage}}%</ion-label>
         <ion-select okText="Seleccionar" cancelText="Cerrar" name="porcentaje" [(ngModel)]="driver.percentage">
@@ -86,32 +87,34 @@
     </ion-text>
   </div>
 
-  <ion-card *ngFor="let i of driverList" [hidden]='showAddPannel'>
-    <ion-item>
-      <ion-card-subtitle>{{i.name}} {{i.last_name}}</ion-card-subtitle>
-      <ion-icon color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)" name="trash"></ion-icon>
-    </ion-item>
-    <ion-card-content>
+  <div *ngIf="driverList?.length">
+    <ion-card *ngFor="let i of driverList" [hidden]='showAddPannel'>
       <ion-item>
-        <ion-label>
-          <h3>Cédula: {{i.ssn}}</h3>
-        </ion-label>
+        <ion-card-subtitle>{{i.name}} {{i.last_name}}</ion-card-subtitle>
+        <ion-icon color="danger" slot="end" (click)="deleteDriver(i.id, i.ssn)" name="trash"></ion-icon>
       </ion-item>
-      <ion-item>
-        <ion-label>
-          <h3>Teléfono: {{i.phone}} %</h3>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>
-          <h3>Porcentaje: {{i.percentage}} %</h3>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>
-          <h3>Contraseña: {{i.password}} </h3>
-        </ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-label>
+            <h3>Cédula: {{i.ssn}}</h3>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h3>Teléfono: {{i.phone}} </h3>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h3>Porcentaje: {{i.percentage}} %</h3>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h3>Contraseña: {{i.password}} </h3>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

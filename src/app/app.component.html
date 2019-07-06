@@ -10,7 +10,7 @@
       <ion-content class="app-back">
         <ion-list no-padding class="list-padd" no-margin>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appMenu">
-            <ion-item [routerLink]="[p.url]" detail>
+            <ion-item [routerLink]="p.url" routerDirection="forward">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
                 {{ p.title }}
